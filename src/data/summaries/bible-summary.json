@@ -1,0 +1,222 @@
+{
+  "title": "The Bible at a glance",
+  "intro": "The Bible begins with God creating the heaven and the earth and ends with a new heaven and earth, where God dwells with his people. Across its histories, laws, songs, wisdom, prophecies, Gospels, and letters, it reveals his holiness, human sin, his mercy and judgment, and salvation through Jesus Christ.",
+  "testaments": [
+    {
+      "id": "old-testament",
+      "name": "Old Testament",
+      "subtitle": "Creation, covenant, judgment, and promised restoration",
+      "parts": [
+        {
+          "text": "God creates mankind in his image, but Adam and Eve disobey him, bringing judgment and exclusion from Eden. Violence and corruption spread; God sends the flood while preserving Noah and his family. After the nations are scattered, the LORD calls Abraham, promising him descendants, a land, and blessing reaching all families of the earth. The promises continue through Isaac and Jacob, whose family becomes the people of Israel.",
+          "references": [
+            {
+              "book": "Genesis",
+              "chapter": 3,
+              "start": 1,
+              "end": 24
+            },
+            {
+              "book": "Genesis",
+              "chapter": 12,
+              "start": 1,
+              "end": 3
+            },
+            {
+              "book": "Genesis",
+              "chapter": 35,
+              "start": 9,
+              "end": 12
+            }
+          ]
+        },
+        {
+          "text": "The LORD delivers Israel from bondage in Egypt, establishes his covenant with them at Sinai, and gives laws governing worship and daily life. Sacrifices, priesthood, and the tabernacle order their approach to the holy God who dwells among them. After wilderness unbelief and judgment, Israel enters the promised land. Repeated rebellion and deliverance under the judges lead into the history of the kings. God promises to establish David’s house and kingdom, and Solomon builds the temple. The kingdom later divides, and persistent unfaithfulness brings conquest and captivity. A remnant returns to rebuild the temple and Jerusalem and renew obedience to God’s law.",
+          "references": [
+            {
+              "book": "Exodus",
+              "chapter": 19,
+              "start": 3,
+              "end": 6
+            },
+            {
+              "book": "2 Samuel",
+              "chapter": 7,
+              "start": 12,
+              "end": 16
+            },
+            {
+              "book": "2 Chronicles",
+              "chapter": 36,
+              "start": 14,
+              "end": 23
+            }
+          ]
+        },
+        {
+          "text": "Within this history, the books of poetry and wisdom give voice to worship, grief, repentance, love, and the search for understanding. Job confronts suffering and the limits of human explanations; Psalms teaches prayer and praise; Proverbs calls for wisdom rooted in the fear of the LORD. Ecclesiastes examines life’s limits and the duty to fear God, while Song of Solomon expresses love and mutual delight.",
+          "references": [
+            {
+              "book": "Job",
+              "chapter": 42,
+              "start": 1,
+              "end": 6
+            },
+            {
+              "book": "Psalms",
+              "chapter": 23,
+              "start": 1,
+              "end": 6
+            },
+            {
+              "book": "Proverbs",
+              "chapter": 1,
+              "start": 1,
+              "end": 7
+            },
+            {
+              "book": "Ecclesiastes",
+              "chapter": 12,
+              "start": 13,
+              "end": 14
+            }
+          ]
+        },
+        {
+          "text": "The prophets expose idolatry, injustice, and empty worship, calling Israel and the nations to answer to God. Alongside judgment, they promise forgiveness, gathering, and restoration. They speak of a righteous ruler from David’s line, the servant who bears others’ iniquities, and a new covenant. The Old Testament closes with a call to remember God’s law and the promise of a messenger before the LORD’s coming day.",
+          "references": [
+            {
+              "book": "Isaiah",
+              "chapter": 53,
+              "start": 4,
+              "end": 12
+            },
+            {
+              "book": "Jeremiah",
+              "chapter": 31,
+              "start": 31,
+              "end": 34
+            },
+            {
+              "book": "Malachi",
+              "chapter": 4,
+              "start": 1,
+              "end": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "new-testament",
+      "name": "New Testament",
+      "subtitle": "Jesus Christ, the gospel, and the hope of his coming",
+      "parts": [
+        {
+          "text": "The Gospels present Jesus as the Christ, the Son of God, with Matthew, Mark, Luke, and John bearing witness to his life and works. Born of a virgin, he announces God’s kingdom, calls disciples, teaches with authority, heals the sick, forgives sins, and confronts hypocrisy. His words and works call people to repentance and faith. Though rejected and crucified, he rises from the dead. His suffering and resurrection fulfil the Scriptures, and he commissions his followers to bear witness and preach repentance and remission of sins among all nations.",
+          "references": [
+            {
+              "book": "Matthew",
+              "chapter": 1,
+              "start": 18,
+              "end": 23
+            },
+            {
+              "book": "John",
+              "chapter": 20,
+              "start": 30,
+              "end": 31
+            },
+            {
+              "book": "Luke",
+              "chapter": 24,
+              "start": 44,
+              "end": 49
+            }
+          ]
+        },
+        {
+          "text": "Acts records Jesus’ ascension, the coming of the Holy Ghost at Pentecost, and the spread of the gospel from Jerusalem. Believers form communities of teaching, fellowship, prayer, and practical care while facing persecution and internal difficulties. The message reaches Samaritans and Gentiles as well as Jews. Peter’s ministry and Paul’s journeys show God opening the way for people of many nations to receive the word. Acts ends with Paul in Rome, still preaching and teaching concerning the Lord Jesus Christ.",
+          "references": [
+            {
+              "book": "Acts",
+              "chapter": 1,
+              "start": 8,
+              "end": 11
+            },
+            {
+              "book": "Acts",
+              "chapter": 2,
+              "start": 41,
+              "end": 47
+            },
+            {
+              "book": "Acts",
+              "chapter": 28,
+              "start": 30,
+              "end": 31
+            }
+          ]
+        },
+        {
+          "text": "The letters explain Christ’s saving work and instruct believers in faith and life. All have sinned; justification and reconciliation come through Jesus Christ, who died for our sins and rose again. Salvation is God’s gift by grace through faith, not a ground for boasting, and believers are created in Christ for good works. Jews and Gentiles are reconciled to God in one body. Teaching about the Holy Ghost, holiness, love, church order, family life, generosity, and endurance addresses real needs and failures. Warnings against false teaching and apostasy accompany assurance, encouragement, and the call to remain faithful.",
+          "references": [
+            {
+              "book": "1 Corinthians",
+              "chapter": 15,
+              "start": 1,
+              "end": 4
+            },
+            {
+              "book": "Ephesians",
+              "chapter": 2,
+              "start": 8,
+              "end": 22
+            },
+            {
+              "book": "Titus",
+              "chapter": 2,
+              "start": 11,
+              "end": 14
+            }
+          ]
+        },
+        {
+          "text": "The hope of Christ’s coming includes the resurrection of the dead and everlasting life with the Lord. Revelation calls the churches to faithfulness and portrays judgment on evil, Christ’s victory, and the saints reigning with him for a thousand years. Satan’s final defeat and the judgment of the dead precede a new heaven and earth and the holy city. God dwells with his people, death and sorrow are removed, and his servants see his face. The Bible closes with the promise of Jesus’ coming and a prayer for him to come.",
+          "references": [
+            {
+              "book": "1 Thessalonians",
+              "chapter": 4,
+              "start": 13,
+              "end": 18
+            },
+            {
+              "book": "Revelation",
+              "chapter": 20,
+              "start": 1,
+              "end": 15
+            },
+            {
+              "book": "Revelation",
+              "chapter": 21,
+              "start": 1,
+              "end": 4
+            },
+            {
+              "book": "Revelation",
+              "chapter": 22,
+              "start": 1,
+              "end": 5
+            },
+            {
+              "book": "Revelation",
+              "chapter": 22,
+              "start": 20,
+              "end": 21
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

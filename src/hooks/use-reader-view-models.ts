@@ -40,6 +40,7 @@ type UseStudyToolsViewModelParams = {
   accordionValue: string[];
   onAccordionValueChange: (value: string[]) => void;
   infoCounts: StudyInfoCounts;
+  summaryProps: StudyToolInput<"summaryProps">;
   crossRefsProps: StudyToolInput<"crossRefsProps">;
   concordanceProps: StudyToolInput<"concordanceProps">;
   webstersProps: StudyToolInput<"webstersProps">;
@@ -63,6 +64,7 @@ export function useStudyToolsViewModel({
   accordionValue,
   onAccordionValueChange,
   infoCounts,
+  summaryProps,
   crossRefsProps,
   concordanceProps,
   webstersProps,
@@ -108,6 +110,7 @@ export function useStudyToolsViewModel({
   }, [onAccordionValueChange]);
 
   const sharedStudyToolsProps: ReaderStudyToolsContentProps = {
+    summaryProps: { ...summaryProps, isOpen: accordionValue.includes("summary") },
     timelineProps: { ...timelineProps, isOpen: accordionValue.includes("timeline") },
     crossRefsProps: {
       hasInfo: sidebarState.hasCrossRefsInfo,

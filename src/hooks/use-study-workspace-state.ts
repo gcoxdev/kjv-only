@@ -4,6 +4,7 @@ import type { StudyWorkspaceTab, StudyWorkspaceTool } from "@/types/reader";
 
 const STUDY_WORKSPACE_TABS: StudyWorkspaceTab[] = ["home", "tools", "topics", "notes", "bookmarks", "search", "progress"];
 const STUDY_WORKSPACE_TOOLS: StudyWorkspaceTool[] = [
+  "summary",
   "cross-refs",
   "concordance",
   "topics",

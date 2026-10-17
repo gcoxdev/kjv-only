@@ -1,0 +1,469 @@
+{
+  "book": "1 Chronicles",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "From Adam to the peoples descended from Abraham",
+      "parts": [
+        {
+          "start": 1,
+          "end": 27,
+          "text": "The genealogies begin with Adam and trace the line to Noah, then list the descendants of Shem, Ham, and Japheth. These names connect the families of Israel with the wider peoples of the earth. Nimrod, the division in Peleg’s days, and the line from Shem to Abraham receive particular notice."
+        },
+        {
+          "start": 28,
+          "end": 54,
+          "text": "Abraham’s descendants are traced through Ishmael, Keturah’s sons, and Isaac. The account then lists Esau’s family, the descendants of Seir, and the kings who ruled Edom before any king ruled Israel. It closes with the dukes of Edom, recording the families and rulers associated with Israel’s neighbours."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "Judah’s families and the ancestry of David",
+      "parts": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "After naming Israel’s twelve sons, the genealogy concentrates on Judah. It recalls Er’s wickedness, Tamar’s sons, and Achar’s transgression concerning the accursed thing. The line through Hezron and Ram leads to Boaz, Obed, Jesse, and David. David’s brothers and sisters are named, together with the family connections of Joab, Abishai, Asahel, and Amasa."
+        },
+        {
+          "start": 18,
+          "end": 55,
+          "text": "Further branches trace the descendants of Caleb, Hezron, and Jerahmeel. Family lines include Sheshan’s descendants through his daughter and his Egyptian servant Jarha. The closing lists connect Judah’s families with towns, settlements, and groups of scribes, preserving relationships beyond the royal line."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "David’s sons and the royal line",
+      "parts": [
+        {
+          "start": 1,
+          "end": 9,
+          "text": "David’s sons are listed according to their births in Hebron and Jerusalem, with their mothers identified where stated. The record includes Amnon, Absalom, Adonijah, Nathan, and Solomon, as well as their brothers and Tamar their sister. It distinguishes these children from the sons of David’s concubines and records the length of his reign in each city."
+        },
+        {
+          "start": 10,
+          "end": 24,
+          "text": "The genealogy follows Solomon’s descendants through the kings of Judah to Josiah and his sons. It continues through Jeconiah and later generations, including Zerubbabel and his family. The chapter preserves the succession and family branches of David’s house beyond the reigns of its kings."
+        }
+      ]
+    },
+    {
+      "chapter": 4,
+      "title": "Judah and Simeon: families, prayer, and settlements",
+      "parts": [
+        {
+          "start": 1,
+          "end": 23,
+          "text": "Further genealogies of Judah connect families with their towns and occupations, including craftsmen, linen workers, and potters in the king’s service. Jabez receives special notice as more honourable than his brothers. He asks the God of Israel for blessing, enlarged territory, God’s presence, and protection from evil; God grants his request."
+        },
+        {
+          "start": 24,
+          "end": 43,
+          "text": "The chapter then records Simeon’s descendants and settlements, noting that their families did not multiply like Judah’s. Named leaders seek pasture for growing flocks. In Hezekiah’s days they take new territory, and another company defeats surviving Amalekites in mount Seir and settles there. The records link family descent with changes in habitation."
+        }
+      ]
+    },
+    {
+      "chapter": 5,
+      "title": "The eastern tribes: trust, victory, and captivity",
+      "parts": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "Reuben loses the birthright because he defiled his father’s bed. The birthright passes to Joseph’s sons, while the chief ruler comes from Judah. The genealogies and dwelling places of Reuben and Gad are recorded, including the eastern territories where their livestock and households increase."
+        },
+        {
+          "start": 18,
+          "end": 26,
+          "text": "Reuben, Gad, and half Manasseh defeat the Hagarites and their allies after crying to God and trusting him in battle. They gain captives, animals, and land. Yet these tribes later turn to the gods of the peoples around them. God stirs up the Assyrian rulers, who carry them away into captivity. Their earlier deliverance is contrasted with their subsequent unfaithfulness."
+        }
+      ]
+    },
+    {
+      "chapter": 6,
+      "title": "Levi’s families, worship, and allotted cities",
+      "parts": [
+        {
+          "start": 1,
+          "end": 47,
+          "text": "Levi’s descendants are traced through Gershon, Kohath, and Merari, with the priestly line running through Aaron and Eleazar to Jehozadak, who goes into captivity. Other family branches include Samuel and his sons. Heman, Asaph, and Ethan are identified with their ancestry as leaders in the singing service David appoints before the temple is built."
+        },
+        {
+          "start": 48,
+          "end": 81,
+          "text": "The Levites serve the tabernacle, while Aaron’s descendants offer sacrifices and incense and make atonement as Moses commanded. The chapter lists the cities and surrounding lands allotted to the priestly and Levitical families throughout Israel. These include cities of refuge and settlements on both sides of Jordan."
+        }
+      ]
+    },
+    {
+      "chapter": 7,
+      "title": "Families and fighting men of the tribes",
+      "parts": [
+        {
+          "start": 1,
+          "end": 19,
+          "text": "The genealogies record families of Issachar, Benjamin, Naphtali, and Manasseh. Several lists include the numbers of fighting men and identify heads of households and men of valour. Manasseh’s record includes Machir, Gilead, and Zelophehad, whose children are daughters."
+        },
+        {
+          "start": 20,
+          "end": 40,
+          "text": "Ephraim’s family history includes the killing of sons by men of Gath, his mourning, and the naming of Beriah in connection with this trouble. Sherah is remembered for building towns, and the line continues to Jehoshua. The possessions of Joseph’s descendants are listed. Asher’s families conclude the chapter, with their leaders described as capable warriors and chief men."
+        }
+      ]
+    },
+    {
+      "chapter": 8,
+      "title": "Benjamin’s families and the house of Saul",
+      "parts": [
+        {
+          "start": 1,
+          "end": 28,
+          "text": "Benjamin’s descendants are listed through several branches, with notices of migration, marriages, and the building or occupation of towns. The families include men associated with Geba, Moab, Ono, Lod, Aijalon, and Jerusalem. Heads of households are distinguished within their generations."
+        },
+        {
+          "start": 29,
+          "end": 40,
+          "text": "The account turns to the family at Gibeon and traces Ner, Kish, and Saul. Saul’s sons include Jonathan, whose descendants continue through Merib-baal and Micah. Later generations are named down to the households of Azel and Eshek. The chapter closes by describing Ulam’s descendants as valiant archers with many sons and grandsons."
+        }
+      ]
+    },
+    {
+      "chapter": 9,
+      "title": "Jerusalem’s inhabitants and the service of the sanctuary",
+      "parts": [
+        {
+          "start": 1,
+          "end": 16,
+          "text": "Israel’s genealogies are recorded, and Judah’s captivity in Babylon is attributed to transgression. The chapter names inhabitants settled in their cities and in Jerusalem, including families from Judah, Benjamin, Ephraim, and Manasseh. Priests, Levites, and other servants of the sanctuary are identified with their family connections."
+        },
+        {
+          "start": 17,
+          "end": 44,
+          "text": "The gatekeepers’ duties are described, including guarding entrances, opening the house of God, and overseeing chambers and treasuries. Other servants care for vessels, supplies, spices, baked offerings, and the shewbread. Singers attend to their work day and night. The closing genealogy returns to Saul’s household, tracing Jonathan’s descendants through successive generations."
+        }
+      ]
+    },
+    {
+      "chapter": 10,
+      "title": "Saul’s death and the loss of his kingdom",
+      "parts": [
+        {
+          "start": 1,
+          "end": 7,
+          "text": "The Philistines defeat Israel at mount Gilboa and kill three of Saul’s sons, including Jonathan. Wounded by archers and fearing abuse from the enemy, Saul asks his armourbearer to kill him. When the man refuses, Saul falls on his own sword, and the armourbearer follows. Israelites abandon their towns, and the Philistines occupy them."
+        },
+        {
+          "start": 8,
+          "end": 14,
+          "text": "The Philistines display Saul’s armour and head, but the valiant men of Jabesh-gilead recover the bodies of Saul and his sons for burial. The account explains Saul’s death by his unfaithfulness, disobedience, and seeking counsel from a familiar spirit rather than the LORD. God transfers the kingdom to David."
+        }
+      ]
+    },
+    {
+      "chapter": 11,
+      "title": "David becomes king and establishes Jerusalem",
+      "parts": [
+        {
+          "start": 1,
+          "end": 9,
+          "text": "All Israel gathers at Hebron, acknowledging David as their kinsman and the leader appointed by the LORD. The elders make a covenant with him and anoint him king. David captures the Jebusite stronghold of Jerusalem; Joab wins command by leading the assault. David builds the city and grows stronger because the LORD is with him."
+        },
+        {
+          "start": 10,
+          "end": 47,
+          "text": "The chapter honours the mighty men who supported David’s kingdom. Their deeds include standing against the Philistines, risking their lives to bring water from Beth-lehem, and extraordinary victories by Abishai and Benaiah. David pours out the water to the LORD rather than drink what men obtained at such danger. A longer list records his warriors."
+        }
+      ]
+    },
+    {
+      "chapter": 12,
+      "title": "The tribes gather to support David",
+      "parts": [
+        {
+          "start": 1,
+          "end": 22,
+          "text": "The record names warriors who joined David while he was still keeping away from Saul. They include skilled Benjamite archers and Gadite fighters who cross the flooded Jordan. When David questions new arrivals, Amasai declares loyalty and recognizes God’s help for him. Men of Manasseh also join him, and his forces grow day by day."
+        },
+        {
+          "start": 23,
+          "end": 40,
+          "text": "The chapter lists the armed companies from Israel’s tribes who come to Hebron to make David king according to the LORD’s word. It highlights their courage, preparation, understanding, and united purpose. They remain with David for three days, while neighbouring tribes supply abundant food. The gathering is marked by joy throughout Israel."
+        }
+      ]
+    },
+    {
+      "chapter": 13,
+      "title": "The ark’s journey is interrupted",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "David consults Israel’s leaders and proposes bringing the ark of God to them, acknowledging that they had not sought it in Saul’s days. The assembly agrees, and Israel gathers to bring it from Kirjath-jearim. The ark is placed on a new cart, and David and the people celebrate with singing and instruments."
+        },
+        {
+          "start": 9,
+          "end": 14,
+          "text": "When the oxen stumble, Uzza reaches out to steady the ark. God strikes him dead for touching it. David is displeased and afraid, and he stops the journey rather than bring the ark into his own city. It remains in Obed-edom’s house for three months, and the LORD blesses that household."
+        }
+      ]
+    },
+    {
+      "chapter": 14,
+      "title": "David’s kingdom grows and the Philistines are defeated",
+      "parts": [
+        {
+          "start": 1,
+          "end": 7,
+          "text": "Hiram of Tyre sends workers and cedar to build David a house. David recognizes that the LORD has established his kingdom for the sake of Israel. His household also grows in Jerusalem, and the chapter names the sons born to him there."
+        },
+        {
+          "start": 8,
+          "end": 17,
+          "text": "The Philistines attack after hearing that David is king over all Israel. David asks God whether to fight and receives assurance of victory. He defeats them at Baal-perazim and orders their abandoned gods burned. When they attack again, God gives different instructions: David is to circle behind them and advance at the sound in the mulberry trees. He obeys, wins again, and becomes widely feared."
+        }
+      ]
+    },
+    {
+      "chapter": 15,
+      "title": "The Levites carry the ark to Jerusalem",
+      "parts": [
+        {
+          "start": 1,
+          "end": 15,
+          "text": "David prepares a tent for the ark and declares that the Levites, whom God chose, must carry it. He assembles their leaders with the priests and instructs them to sanctify themselves. He acknowledges that the first attempt failed because they had not sought God according to the required order. The Levites carry the ark on their shoulders with its staves, as Moses commanded."
+        },
+        {
+          "start": 16,
+          "end": 29,
+          "text": "Singers, musicians, gatekeepers, and priests with trumpets are appointed for the procession. David and Israel bring the ark from Obed-edom’s house with sacrifices, shouting, and joyful music. David wears linen and dances. Watching from a window, Michal sees him celebrating and despises him in her heart."
+        }
+      ]
+    },
+    {
+      "chapter": 16,
+      "title": "Thanksgiving before the ark",
+      "parts": [
+        {
+          "start": 1,
+          "end": 36,
+          "text": "The ark is placed in David’s tent, offerings are made, and food is distributed to the people. David appoints Levites to minister before it and gives Asaph a psalm of thanksgiving. The song calls Israel to remember God’s works and covenant with Abraham, Isaac, and Jacob. It invites all nations to honour the Creator, rejoice in his reign, and give thanks for his enduring mercy. The people answer with praise."
+        },
+        {
+          "start": 37,
+          "end": 43,
+          "text": "David arranges continuing worship before the ark in Jerusalem and sacrifices at the tabernacle in Gibeon. Priests, musicians, and gatekeepers receive their duties according to the law. The people return home, and David goes to bless his household."
+        }
+      ]
+    },
+    {
+      "chapter": 17,
+      "title": "God promises to establish David’s house",
+      "parts": [
+        {
+          "start": 1,
+          "end": 15,
+          "text": "David wishes to build a house for the ark, but God sends Nathan with a different message. God has accompanied Israel without requiring a cedar house. He recalls taking David from the sheepfold and giving him victories. Instead of David building the house, his son will build it; God promises to establish that son’s throne for ever and to build David an enduring house."
+        },
+        {
+          "start": 16,
+          "end": 27,
+          "text": "David sits before the LORD in humility and gratitude, amazed at the honour shown to his family. He praises God’s uniqueness and his redemption of Israel from Egypt. Trusting the promise, David asks God to establish it, magnify his name, and bless his servant’s house for ever."
+        }
+      ]
+    },
+    {
+      "chapter": 18,
+      "title": "Victories and the ordering of David’s kingdom",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "David defeats the Philistines and Moabites and overcomes Hadarezer of Zobah. When the Syrians of Damascus come to help Hadarezer, they too are defeated and become tributary. David brings gold shields and much brass to Jerusalem; the brass later supplies temple furnishings made by Solomon. The record attributes David’s preservation to the LORD."
+        },
+        {
+          "start": 9,
+          "end": 17,
+          "text": "Tou of Hamath sends congratulations and valuable gifts after Hadarezer’s defeat. David dedicates these and other spoils to God. Edom is also subdued and occupied by garrisons. David rules all Israel with judgment and justice, and the chapter names his chief military, priestly, and administrative officers."
+        }
+      ]
+    },
+    {
+      "chapter": 19,
+      "title": "An insult leads to war with Ammon and Syria",
+      "parts": [
+        {
+          "start": 1,
+          "end": 9,
+          "text": "David sends messengers to comfort Hanun after his father’s death, remembering his father’s kindness. Ammonite leaders accuse them of spying, and Hanun humiliates them by shaving them and cutting their garments. David allows them to remain at Jericho until their beards grow. Expecting retaliation, Ammon hires Syrian forces, and David sends Joab against them."
+        },
+        {
+          "start": 10,
+          "end": 19,
+          "text": "Facing enemies on two sides, Joab divides the army with Abishai and urges courage while entrusting the outcome to the LORD. Both enemy forces retreat. When the Syrians gather reinforcements, David leads Israel across Jordan and defeats them. They make peace, become subject to David, and cease helping Ammon."
+        }
+      ]
+    },
+    {
+      "chapter": 20,
+      "title": "Rabbah falls and giant warriors are defeated",
+      "parts": [
+        {
+          "start": 1,
+          "end": 3,
+          "text": "Joab leads the army against Ammon while David remains in Jerusalem. Rabbah is besieged and destroyed. David takes the king’s heavy gold crown and much spoil. The account describes severe punishment of the inhabitants with saws, iron harrows, and axes, and says he deals similarly with the other Ammonite cities before returning to Jerusalem."
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "text": "Further battles with the Philistines bring victories over descendants of the giant. Sibbechai kills Sippai, Elhanan kills Lahmi the brother of Goliath, and David’s nephew Jonathan kills a man with six fingers on each hand and six toes on each foot. These warriors fall before David and his servants."
+        }
+      ]
+    },
+    {
+      "chapter": 21,
+      "title": "David’s census and the altar at Ornan’s threshingfloor",
+      "parts": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "Satan provokes David to number Israel. Despite Joab’s objection, the census proceeds, though Levi and Benjamin are not counted. God is displeased, and David confesses his sin. Offered a choice of judgments through Gad, David chooses to fall into the LORD’s merciful hands rather than man’s. Pestilence kills seventy thousand. As the angel threatens Jerusalem, God orders him to stop, and David pleads for the people."
+        },
+        {
+          "start": 18,
+          "end": 30,
+          "text": "At God’s command, David buys Ornan’s threshingfloor, refusing to offer what costs him nothing. He builds an altar and offers sacrifices. God answers with fire, and the angel sheathes his sword. David continues sacrificing there, afraid to approach the tabernacle at Gibeon because of the angel’s sword."
+        }
+      ]
+    },
+    {
+      "chapter": 22,
+      "title": "David prepares Solomon to build the temple",
+      "parts": [
+        {
+          "start": 1,
+          "end": 10,
+          "text": "David identifies the place for God’s house and prepares stone, iron, brass, cedar, and workers in abundance. He explains to Solomon that he himself may not build the temple because he has shed much blood in warfare. Solomon will be a man of rest, and God has chosen him to build the house and establish his kingdom."
+        },
+        {
+          "start": 11,
+          "end": 19,
+          "text": "David asks God to give Solomon wisdom and understanding and urges him to keep the law given through Moses. The materials and craftsmen are ready, so Solomon must be courageous and begin. David also commands Israel’s leaders to help him, seek the LORD wholeheartedly, and build the sanctuary for the ark and holy vessels."
+        }
+      ]
+    },
+    {
+      "chapter": 23,
+      "title": "The Levites are organized for settled worship",
+      "parts": [
+        {
+          "start": 1,
+          "end": 23,
+          "text": "In his old age, David makes Solomon king and assembles Israel’s leaders, priests, and Levites. Thirty-eight thousand Levites aged thirty and upward are counted and assigned to temple work, judging, gatekeeping, and musical praise. Their divisions are traced through Gershon, Kohath, and Merari. Aaron’s descendants are distinguished for priestly service, while Moses’ sons remain within Levi’s wider family."
+        },
+        {
+          "start": 24,
+          "end": 32,
+          "text": "With Israel settled and the tabernacle no longer needing transport, David’s final arrangements count Levites from twenty years upward. They assist the priests, care for courts, chambers, holy things, and offerings, and give thanks morning and evening. Their ordered service supports worship on sabbaths, new moons, and appointed feasts."
+        }
+      ]
+    },
+    {
+      "chapter": 24,
+      "title": "Divisions of priests and Levites",
+      "parts": [
+        {
+          "start": 1,
+          "end": 19,
+          "text": "Aaron’s priestly descendants are organized through Eleazar and Ithamar, since Nadab and Abihu died without children. David, Zadok, and Ahimelech arrange twenty-four divisions: sixteen from Eleazar’s house and eight from Ithamar’s. Lots determine their order, and the results are recorded publicly before the king and religious leaders. Each division serves according to the order commanded by the LORD."
+        },
+        {
+          "start": 20,
+          "end": 31,
+          "text": "The remaining Levitical families are also listed through their heads of households. They cast lots in the presence of David, the priests, and family leaders. Principal fathers and younger brethren take part in the same process, establishing an orderly distribution of service."
+        }
+      ]
+    },
+    {
+      "chapter": 25,
+      "title": "The musicians’ divisions",
+      "parts": [
+        {
+          "start": 1,
+          "end": 7,
+          "text": "David and the military leaders set apart the families of Asaph, Heman, and Jeduthun for musical service. Their work is described as prophesying with harps, psalteries, and cymbals, giving thanks and praise to the LORD. The sons serve under their fathers’ direction and the king’s order. Altogether, 288 skilled singers are instructed in the songs of the LORD."
+        },
+        {
+          "start": 8,
+          "end": 31,
+          "text": "Lots assign their duties without separating great from small or teacher from pupil. The chapter lists twenty-four groups, each comprising twelve sons and brethren under its named leader. Music is thus arranged as an established, shared service in the house of God."
+        }
+      ]
+    },
+    {
+      "chapter": 26,
+      "title": "Gatekeepers, treasurers, and officers",
+      "parts": [
+        {
+          "start": 1,
+          "end": 19,
+          "text": "The families of the gatekeepers are listed, with particular attention to their strength and fitness for service. Obed-edom’s numerous household is attributed to God’s blessing. Lots assign responsibility for the gates and surrounding stations, distributing duties among families without distinction between small and great."
+        },
+        {
+          "start": 20,
+          "end": 32,
+          "text": "Other Levites oversee the treasures of the house of God and the gifts dedicated by David, Israel’s leaders, and earlier commanders. Spoils from battle help maintain the sanctuary. Still others serve as officers and judges in the affairs of God and the king, with responsibilities both west of Jordan and among the eastern tribes."
+        }
+      ]
+    },
+    {
+      "chapter": 27,
+      "title": "Military divisions and royal administration",
+      "parts": [
+        {
+          "start": 1,
+          "end": 24,
+          "text": "David’s army is organized into twelve monthly divisions, each with twenty-four thousand men under a named commander. Leaders over the tribes are also listed. The account notes that David did not count those twenty and under, remembering God’s promise to multiply Israel; Joab’s census was left unfinished after wrath fell upon the people."
+        },
+        {
+          "start": 25,
+          "end": 34,
+          "text": "Officials oversee the king’s treasures, storehouses, fields, vineyards, olive trees, oil, and livestock. Different responsibilities are assigned to named stewards, showing the range of the royal estates. The chapter concludes with David’s counsellors, attendants, and companions, including Ahithophel and Hushai, and identifies Joab as commander of the army."
+        }
+      ]
+    },
+    {
+      "chapter": 28,
+      "title": "David gives Solomon the plans and charge",
+      "parts": [
+        {
+          "start": 1,
+          "end": 10,
+          "text": "David assembles Israel’s leaders and explains that God chose Solomon, rather than David, to build the temple. He recalls God’s choice of Judah and his own family and states the condition of continued obedience attached to Solomon’s kingdom. He urges Israel to keep God’s commandments and Solomon to serve willingly, remembering that God searches every heart."
+        },
+        {
+          "start": 11,
+          "end": 21,
+          "text": "David gives Solomon the plans for the buildings, courts, furnishings, and divisions of service, together with specified quantities of precious metals. He says the LORD gave him understanding of the pattern. He encourages Solomon to act without fear: God will remain with him, and priests, Levites, skilled workers, and the people are ready to help."
+        }
+      ]
+    },
+    {
+      "chapter": 29,
+      "title": "Willing gifts, David’s prayer, and Solomon’s accession",
+      "parts": [
+        {
+          "start": 1,
+          "end": 19,
+          "text": "David gives generously from his own treasure for the temple and invites others to offer willingly. Israel’s leaders respond, and the people rejoice. David praises God as the source of greatness, power, riches, and every gift they have brought. Acknowledging the brevity of human life, he asks God to preserve the people’s devotion and give Solomon a wholehearted desire to obey and build."
+        },
+        {
+          "start": 20,
+          "end": 30,
+          "text": "The assembly worships, sacrifices, and feasts with gladness. Solomon is again made king and anointed, and Israel’s leaders and David’s sons submit to him. God greatly honours his reign. David dies after forty years as king, full of days, riches, and honour, and Solomon succeeds him."
+        }
+      ]
+    }
+  ]
+}

@@ -366,6 +366,12 @@ const HELP_SECTIONS: HelpSection[] = [
     ],
     items: [
       {
+        label: "How to use Summary",
+        body:
+          "Open Tools and expand Summary at the top. Chapter follows the current reading passage; Book gives an overview, and Bible summarizes the Old and New Testaments. Choose another book or chapter to browse independently, then use Follow reader to reconnect. Scripture references offer the same previews and opening actions as other tools. All summaries are included in the Core Bible Data offline download.",
+        keywords: ["summary", "summaries", "chapter overview", "book overview", "Old Testament", "New Testament"],
+      },
+      {
         label: "How to use Cross Refs",
         body:
           "Cross Refs are verse-based. Click a verse or a word within a verse and the app can load cross references for that verse so you can follow related passages quickly.",

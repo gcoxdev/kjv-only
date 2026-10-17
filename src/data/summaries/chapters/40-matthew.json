@@ -1,0 +1,453 @@
+{
+  "book": "Matthew",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "The ancestry and birth of Jesus Christ",
+      "parts": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "Matthew introduces Jesus Christ as the son of David and son of Abraham. His genealogy traces the line from Abraham through David, the kings of Judah, and the Babylonian captivity to Joseph, Mary’s husband. Jesus is identified as born of Mary. The generations are arranged in three groups associated with Abraham, David, the captivity, and Christ."
+        },
+        {
+          "start": 18,
+          "end": 25,
+          "text": "Before Mary and Joseph come together, she is found pregnant by the Holy Ghost. Joseph intends a private separation, but an angel tells him in a dream to take her as his wife. The child is to be named Jesus because he will save his people from their sins. Matthew connects the birth with the promised Emmanuel, and Joseph obeys the angel."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "The wise men and the flight to Egypt",
+      "parts": [
+        {
+          "start": 1,
+          "end": 12,
+          "text": "Wise men come from the east seeking the newborn King of the Jews. Herod consults the priests and scribes, who identify Bethlehem from prophecy, then secretly asks the visitors to report back. Guided by the star, they find the child with Mary, worship him, and present gold, frankincense, and myrrh. A dream warns them to return another way."
+        },
+        {
+          "start": 13,
+          "end": 23,
+          "text": "An angel directs Joseph to take Jesus and Mary to Egypt before Herod’s attempt to kill the child. Herod orders the deaths of Bethlehem’s children two years old and under. After his death, Joseph is told to return to Israel, but another warning leads the family to Nazareth. Matthew relates these events to the prophetic words concerning Egypt, Rachel’s mourning, and the Nazarene."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "John prepares the way and baptizes Jesus",
+      "parts": [
+        {
+          "start": 1,
+          "end": 12,
+          "text": "John the Baptist preaches repentance in Judea’s wilderness because the kingdom of heaven is at hand. People confess their sins and receive baptism in Jordan. He warns Pharisees and Sadducees that descent from Abraham cannot replace the fruit of repentance. One greater than John is coming, who will baptize with the Holy Ghost and fire and separate wheat from chaff."
+        },
+        {
+          "start": 13,
+          "end": 17,
+          "text": "Jesus comes from Galilee to be baptized. John initially objects, recognizing his own need, but Jesus says this is fitting to fulfil all righteousness. After the baptism, the heavens open, the Spirit descends like a dove, and a heavenly voice identifies Jesus as the beloved Son in whom the Father is well pleased."
+        }
+      ]
+    },
+    {
+      "chapter": 4,
+      "title": "Temptation and the beginning of ministry",
+      "parts": [
+        {
+          "start": 1,
+          "end": 11,
+          "text": "After fasting forty days and nights in the wilderness, Jesus is tempted by the devil. He refuses to make bread at Satan’s command, test God by jumping from the temple, or gain the world’s kingdoms through worshipping Satan. In each case he answers from Scripture. The devil leaves, and angels minister to him."
+        },
+        {
+          "start": 12,
+          "end": 25,
+          "text": "Following John’s imprisonment, Jesus settles in Capernaum, fulfilling Esaias’s words about light in Galilee. He preaches repentance and the approaching kingdom, then calls Peter, Andrew, James, and John to follow him. They leave their fishing work. Jesus teaches throughout Galilee, proclaims the gospel of the kingdom, and heals many kinds of suffering, drawing crowds from surrounding regions."
+        }
+      ]
+    },
+    {
+      "chapter": 5,
+      "title": "The character and righteousness of the kingdom",
+      "parts": [
+        {
+          "start": 1,
+          "end": 20,
+          "text": "Jesus teaches his disciples on a mountain, declaring blessings upon the poor in spirit, mourners, meek, merciful, pure, peacemakers, and those persecuted for righteousness. They are to be salt and light, doing good works that glorify their Father. He has come to fulfil the law and prophets, and calls for righteousness exceeding that of the scribes and Pharisees."
+        },
+        {
+          "start": 21,
+          "end": 48,
+          "text": "His teaching reaches beyond outward acts to anger, lust, and the heart’s intentions. He urges reconciliation, decisive resistance to sin, marital faithfulness, and plain truthfulness rather than manipulative oaths. He forbids personal retaliation and commands generosity, love for enemies, and prayer for persecutors. Such conduct reflects the Father, who gives sun and rain to both righteous and unrighteous."
+        }
+      ]
+    },
+    {
+      "chapter": 6,
+      "title": "Sincere devotion and trust in the Father",
+      "parts": [
+        {
+          "start": 1,
+          "end": 18,
+          "text": "Jesus warns against giving, praying, or fasting to win human praise. These acts should be directed toward the Father, who sees in secret. He gives a pattern of prayer seeking God’s honour, kingdom, and will, along with daily provision, forgiveness, and deliverance from evil. He also stresses forgiving others and avoiding empty repetition or displays of religious hardship."
+        },
+        {
+          "start": 19,
+          "end": 34,
+          "text": "Disciples should store treasure in heaven, where their hearts will follow, and recognize that they cannot serve both God and riches. Anxiety about food and clothing overlooks the Father’s care for birds and flowers and his knowledge of human needs. They are to seek first God’s kingdom and righteousness, trusting him for provision rather than borrowing tomorrow’s troubles."
+        }
+      ]
+    },
+    {
+      "chapter": 7,
+      "title": "Hearing and doing Jesus’ words",
+      "parts": [
+        {
+          "start": 1,
+          "end": 12,
+          "text": "Jesus warns against hypocritical judgment: people must remove the beam from their own eye before helping another with a speck. He also calls for discernment in handling holy things. Disciples should ask, seek, and knock, trusting the Father to give good gifts, and treat others as they themselves would wish to be treated."
+        },
+        {
+          "start": 13,
+          "end": 29,
+          "text": "The narrow way leads to life, while the broad way leads to destruction. False prophets are recognized by their fruit. Calling Jesus Lord or claiming mighty works does not replace doing the Father’s will. Jesus compares obedient hearers to a house founded on rock and disobedient hearers to one built on sand. The crowds are astonished at the authority of his teaching."
+        }
+      ]
+    },
+    {
+      "chapter": 8,
+      "title": "Authority over disease, storms, and devils",
+      "parts": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "Jesus cleanses a leper and heals a centurion’s servant at a distance. He commends the centurion’s trust in his authority and speaks of people from east and west entering the kingdom while others are excluded. He also heals Peter’s mother-in-law and many others, fulfilling Esaias’s words about bearing infirmities."
+        },
+        {
+          "start": 18,
+          "end": 34,
+          "text": "Jesus warns would-be followers about the cost and urgency of discipleship. Crossing the sea, he calms a violent storm and challenges the disciples’ fear. In the Gergesenes’ country, two men possessed with devils encounter him. The spirits enter a herd of swine, which rush into the sea and perish. After hearing what happened, the city asks Jesus to leave its region."
+        }
+      ]
+    },
+    {
+      "chapter": 9,
+      "title": "Forgiveness, mercy, and a plentiful harvest",
+      "parts": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "Jesus forgives and heals a paralysed man, demonstrating the Son of man’s authority to forgive sins. He calls Matthew from the receipt of custom and eats with publicans and sinners, explaining that the sick need a physician and that he calls sinners to repentance. Answering a question about fasting, he uses the bridegroom, new cloth, and new wine to explain his disciples’ situation."
+        },
+        {
+          "start": 18,
+          "end": 38,
+          "text": "A ruler’s daughter is raised, a woman with twelve years of bleeding is healed, and two blind men receive sight. Jesus also delivers a man unable to speak, though Pharisees attribute his power to the prince of devils. As he teaches and heals through the towns, he sees the crowds as shepherdless sheep and tells his disciples to pray for labourers in the plentiful harvest."
+        }
+      ]
+    },
+    {
+      "chapter": 10,
+      "title": "The twelve sent with warnings and promises",
+      "parts": [
+        {
+          "start": 1,
+          "end": 15,
+          "text": "Jesus gives the twelve apostles authority to heal and cast out unclean spirits. He sends them specifically to Israel’s lost sheep, announcing the approaching kingdom and freely giving what they have received. They are to depend on hospitality, remain with worthy hosts, and testify against places that refuse their message. Rejection carries serious consequences in judgment."
+        },
+        {
+          "start": 16,
+          "end": 42,
+          "text": "They will face persecution, hostile courts, family betrayal, and hatred, but the Father’s Spirit will give them words. They should fear God above human threats and trust his care. Loyalty to Jesus must exceed even family ties and include taking up the cross. Receiving his messengers is receiving him, and even a small kindness to a disciple will not lose its reward."
+        }
+      ]
+    },
+    {
+      "chapter": 11,
+      "title": "John’s question and Jesus’ invitation",
+      "parts": [
+        {
+          "start": 1,
+          "end": 19,
+          "text": "From prison, John sends disciples to ask whether Jesus is the expected one. Jesus points to healings, raised dead, and good news preached to the poor. He then honours John as the promised messenger and, if received, the Elias who was to come. He exposes a generation that rejects both John’s austerity and his own eating with sinners."
+        },
+        {
+          "start": 20,
+          "end": 30,
+          "text": "Jesus rebukes cities that witnessed many mighty works without repenting, warning that their judgment will be more severe than that of notorious cities. He thanks the Father for revealing truth to the humble and declares the unique knowledge shared between Father and Son. He invites the weary and burdened to come to him, take his yoke, and learn his meekness, finding rest for their souls."
+        }
+      ]
+    },
+    {
+      "chapter": 12,
+      "title": "Mercy, opposition, and the sign of Jonas",
+      "parts": [
+        {
+          "start": 1,
+          "end": 21,
+          "text": "When Pharisees criticize the disciples for plucking grain on the sabbath, Jesus appeals to Scripture and mercy, declaring himself Lord of the sabbath. He heals a man’s withered hand, prompting a plot to destroy him. His quiet healing ministry fulfils Esaias’s description of God’s servant, who brings judgment and hope without crushing the weak."
+        },
+        {
+          "start": 22,
+          "end": 50,
+          "text": "After another deliverance, opponents attribute his power to Beelzebub. Jesus refutes the charge of a divided Satan, warns about blasphemy against the Holy Ghost, and teaches that words reveal the heart. He gives the sign of Jonas, condemns the generation’s unbelief, and warns of a worsening return of uncleanness. He identifies those doing his Father’s will as his true family."
+        }
+      ]
+    },
+    {
+      "chapter": 13,
+      "title": "Parables of the kingdom",
+      "parts": [
+        {
+          "start": 1,
+          "end": 35,
+          "text": "Jesus teaches the crowds through parables. The sower’s soils portray different responses to the word: misunderstanding, shallow acceptance, choking cares, and fruitful understanding. He explains why some hear without perceiving. Wheat and tares grow together until harvest, while mustard seed and leaven illustrate the kingdom through small beginnings and pervasive effects."
+        },
+        {
+          "start": 36,
+          "end": 58,
+          "text": "Privately, Jesus explains that the wheat and tares concern the world’s children of the kingdom and wicked one, separated by angels at the end. Hidden treasure and a valuable pearl picture great value, and a fishing net again portrays final separation. An instructed scribe draws from both old and new treasure. In his own country, familiarity breeds offence, and unbelief limits the mighty works done there."
+        }
+      ]
+    },
+    {
+      "chapter": 14,
+      "title": "John’s death and Jesus’ provision",
+      "parts": [
+        {
+          "start": 1,
+          "end": 21,
+          "text": "Herod hears about Jesus and fears John has risen. Matthew recounts how Herod imprisoned John over Herodias, then ordered his beheading after her daughter’s request at a feast. Jesus withdraws after hearing the news, but compassion moves him to heal the following crowds. With five loaves and two fishes, he feeds about five thousand men besides women and children, leaving twelve baskets."
+        },
+        {
+          "start": 22,
+          "end": 36,
+          "text": "After praying alone, Jesus walks across the stormy sea toward his disciples. Peter comes toward him on the water but begins to sink when afraid; Jesus catches him and challenges his doubt. When they enter the boat, the wind ceases and the disciples worship Jesus as God’s Son. In Gennesaret, many are healed by touching his garment."
+        }
+      ]
+    },
+    {
+      "chapter": 15,
+      "title": "The heart’s defilement and unexpected faith",
+      "parts": [
+        {
+          "start": 1,
+          "end": 20,
+          "text": "Jesus answers criticism about unwashed hands by exposing a tradition that excuses neglect of parents. Human rules must not cancel God’s commandment. He teaches that defilement comes from the heart’s evil thoughts and deeds, not food entering the mouth. Leaders who cannot see this are like blind guides leading others into a ditch."
+        },
+        {
+          "start": 21,
+          "end": 39,
+          "text": "A Canaanite woman persists in seeking deliverance for her daughter. Although Jesus speaks of his mission to Israel and the children’s bread, she asks for even the crumbs; he commends her great faith and grants her request. Near Galilee, Jesus heals crowds and feeds four thousand men besides women and children with seven loaves and a few fishes, leaving seven baskets."
+        }
+      ]
+    },
+    {
+      "chapter": 16,
+      "title": "Peter’s confession and the way of the cross",
+      "parts": [
+        {
+          "start": 1,
+          "end": 20,
+          "text": "Jesus refuses a demanded heavenly sign beyond the sign of Jonas and warns his disciples against the Pharisees’ and Sadducees’ teaching. At Cesarea Philippi, Peter confesses him as the Christ, the Son of the living God. Jesus attributes this recognition to the Father and speaks of building his church, the kingdom’s keys, and binding and loosing."
+        },
+        {
+          "start": 21,
+          "end": 28,
+          "text": "Jesus then begins to explain his coming suffering, death, and third-day resurrection. Peter’s protest earns a sharp rebuke because it opposes God’s purposes. Following Jesus requires self-denial and taking up the cross: gaining the world cannot compensate for losing one’s soul. The Son of man will come in his Father’s glory to repay each person, and some present will see him coming in his kingdom."
+        }
+      ]
+    },
+    {
+      "chapter": 17,
+      "title": "Glory on the mountain and lessons in faith",
+      "parts": [
+        {
+          "start": 1,
+          "end": 13,
+          "text": "Jesus takes Peter, James, and John up a high mountain and is transfigured before them. Moses and Elias appear, and a voice from the cloud identifies Jesus as the beloved Son and commands them to hear him. Jesus comforts the frightened disciples and forbids reporting the vision until his resurrection. He explains that Elias has already come in the rejected ministry of John."
+        },
+        {
+          "start": 14,
+          "end": 27,
+          "text": "Jesus delivers a boy whom the disciples could not heal, pointing to their unbelief and the need for prayer and fasting. He again predicts betrayal, death, and resurrection, grieving them. When tribute is requested, Jesus teaches Peter about the freedom of a king’s children but directs him to find a coin in a fish’s mouth and pay for them both to avoid offence."
+        }
+      ]
+    },
+    {
+      "chapter": 18,
+      "title": "Humility, restoration, and wholehearted forgiveness",
+      "parts": [
+        {
+          "start": 1,
+          "end": 14,
+          "text": "Jesus places a child among the disciples to teach that greatness in the kingdom requires humility. He warns severely against causing little ones to stumble and urges decisive action against personal sin. They must not despise the small or vulnerable. A shepherd’s search for one wandering sheep illustrates the Father’s concern that none of these little ones perish."
+        },
+        {
+          "start": 15,
+          "end": 35,
+          "text": "Jesus gives a process for addressing a brother’s offence, beginning privately and widening only if necessary. He speaks of agreement in prayer and his presence among those gathered in his name. Answering Peter about forgiveness, he tells of a servant forgiven an immense debt who refuses mercy over a small one. His punishment warns disciples to forgive others sincerely from the heart."
+        }
+      ]
+    },
+    {
+      "chapter": 19,
+      "title": "Marriage, children, and the danger of riches",
+      "parts": [
+        {
+          "start": 1,
+          "end": 15,
+          "text": "Questioned about divorce, Jesus points to creation: husband and wife become one flesh, and people must not separate what God has joined. Moses permitted divorce because of hard hearts, but Jesus states the rule with an exception for fornication. He also discusses those who forgo marriage for the kingdom. When children are brought, he welcomes and blesses them."
+        },
+        {
+          "start": 16,
+          "end": 30,
+          "text": "A wealthy young man asks about eternal life and says he has kept the commandments. Jesus tells him to sell his possessions, give to the poor, and follow him, but he leaves sorrowful. Jesus explains the difficulty riches create, while declaring all things possible with God. He promises reward and everlasting life to those sacrificing for his name, warning that first and last may be reversed."
+        }
+      ]
+    },
+    {
+      "chapter": 20,
+      "title": "Generosity, service, and the ransom for many",
+      "parts": [
+        {
+          "start": 1,
+          "end": 16,
+          "text": "A landowner hires vineyard workers at different hours but pays everyone the same amount, the daily wage agreed with the first group. Those who worked longest complain, yet the owner has kept his promise and is free to be generous. Jesus uses the parable to challenge envy and expectations about priority, again saying that the last will be first and the first last."
+        },
+        {
+          "start": 17,
+          "end": 34,
+          "text": "On the road to Jerusalem, Jesus predicts his condemnation, crucifixion, and resurrection. When the mother of James and John requests places of honour for them, he speaks of sharing his suffering and the Father’s appointment of those places. Greatness among his followers means serving, as he gives his life a ransom for many. Leaving Jericho, he restores sight to two persistent blind men."
+        }
+      ]
+    },
+    {
+      "chapter": 21,
+      "title": "Jerusalem welcomes Jesus and its leaders resist",
+      "parts": [
+        {
+          "start": 1,
+          "end": 22,
+          "text": "Jesus enters Jerusalem riding the animal provided by his disciples, fulfilling the prophecy of the humble king. Crowds spread garments and branches and hail the Son of David. He drives traders from the temple, heals the blind and lame, and defends children’s praise. A fruitless fig tree withers at his word, prompting teaching about faith and prayer."
+        },
+        {
+          "start": 23,
+          "end": 46,
+          "text": "Leaders challenge his authority but refuse to answer his question about John’s baptism. A parable of two sons contrasts promised obedience with actual repentance. Another describes tenants murdering servants and finally the owner’s son; its judgment exposes the leaders’ rejection. Jesus applies the rejected cornerstone Scripture and warns that the kingdom will be given to those bearing its fruit. The leaders understand and seek his arrest."
+        }
+      ]
+    },
+    {
+      "chapter": 22,
+      "title": "The wedding feast and questions answered",
+      "parts": [
+        {
+          "start": 1,
+          "end": 22,
+          "text": "A king’s wedding feast pictures rejected invitations, judgment upon hostile guests, and a wider gathering. Yet a man without the required garment is excluded, showing that answering the invitation is not treated lightly. When opponents try to trap Jesus over tribute, he tells them to give Cesar what is Cesar’s and God what is God’s."
+        },
+        {
+          "start": 23,
+          "end": 46,
+          "text": "Jesus answers the Sadducees’ challenge about resurrection by correcting their assumptions about marriage and pointing to God as the God of the living. He identifies wholehearted love for God and love for one’s neighbour as the commandments on which law and prophets depend. Finally he asks how David’s son can also be David’s Lord. His opponents cannot answer and stop questioning him."
+        }
+      ]
+    },
+    {
+      "chapter": 23,
+      "title": "Warnings against religious hypocrisy",
+      "parts": [
+        {
+          "start": 1,
+          "end": 22,
+          "text": "Jesus warns the crowds against imitating leaders who teach without practising, burden others, and seek public honour. His disciples are brothers under one Master, and the greatest must serve. He pronounces woes on scribes and Pharisees for blocking the kingdom, exploiting widows, corrupting converts, and devising misleading distinctions in oaths."
+        },
+        {
+          "start": 23,
+          "end": 39,
+          "text": "Their exact tithing neglects justice, mercy, and faith, while outward purity conceals greed and iniquity. They honour dead prophets yet continue the persecution of God’s messengers, bringing accumulated guilt upon their generation. Jesus laments Jerusalem’s refusal to be gathered under his care. Its house is left desolate. Jesus says they will not see him again until they acknowledge the one coming in the Lord’s name."
+        }
+      ]
+    },
+    {
+      "chapter": 24,
+      "title": "Warnings, the Son of man’s coming, and watchfulness",
+      "parts": [
+        {
+          "start": 1,
+          "end": 31,
+          "text": "After predicting the temple’s destruction, Jesus answers the disciples’ questions about his coming and the end. He warns of deception, wars, disasters, persecution, and cooling love. The kingdom gospel will reach all nations. Daniel’s abomination in the holy place signals urgent flight from Judea and unparalleled tribulation. After that tribulation, heavenly signs precede the visible coming of the Son of man and his angels’ gathering of the elect."
+        },
+        {
+          "start": 32,
+          "end": 51,
+          "text": "The fig tree teaches recognition of approaching events, and Jesus assures them that his words will endure. Yet only the Father knows the day and hour. As in Noe’s days, ordinary life will continue until sudden separation comes. Disciples must watch and serve faithfully, unlike a servant who abuses others because he assumes his master is delayed."
+        }
+      ]
+    },
+    {
+      "chapter": 25,
+      "title": "Readiness, faithful stewardship, and final separation",
+      "parts": [
+        {
+          "start": 1,
+          "end": 30,
+          "text": "Ten virgins wait for a bridegroom, but only those prepared with oil enter when he arrives. The others find the door shut, reinforcing the need for readiness. In another parable, servants receive different amounts of money. Two trade faithfully and share their master’s joy; one buries his responsibility and is condemned as wicked and slothful when the master returns."
+        },
+        {
+          "start": 31,
+          "end": 46,
+          "text": "The Son of man then appears enthroned in glory, separating the gathered nations like sheep from goats. The righteous inherit the kingdom, while the others depart into everlasting punishment. Their treatment of the King’s hungry, thirsty, homeless, unclothed, sick, and imprisoned brethren is counted as treatment of him. The passage contrasts neglected opportunities for mercy with service remembered by the King."
+        }
+      ]
+    },
+    {
+      "chapter": 26,
+      "title": "The supper, betrayal, and trial",
+      "parts": [
+        {
+          "start": 1,
+          "end": 35,
+          "text": "As leaders plan Jesus’ death, a woman anoints him at Bethany, an act he connects with his burial. Judas agrees to betray him for thirty pieces of silver. At passover, Jesus identifies the coming betrayal and gives bread and the cup as his body and blood of the new testament, shed for remission of sins. He then predicts the disciples’ desertion and Peter’s three denials."
+        },
+        {
+          "start": 36,
+          "end": 75,
+          "text": "In Gethsemane, Jesus submits to the Father’s will while the disciples repeatedly sleep. Judas arrives with an armed crowd, and Jesus refuses armed resistance, accepting the fulfilment of Scripture. The disciples flee. Before Caiaphas, Jesus acknowledges the question about his identity and speaks of the Son of man’s heavenly authority; the council condemns and abuses him. Outside, Peter denies him three times, remembers Jesus’ warning, and weeps bitterly."
+        }
+      ]
+    },
+    {
+      "chapter": 27,
+      "title": "Jesus crucified and buried",
+      "parts": [
+        {
+          "start": 1,
+          "end": 31,
+          "text": "Jesus is delivered to Pilate. Judas returns the betrayal money, confesses innocent blood, and hangs himself; the priests use the money for the potter’s field. Despite recognizing the leaders’ envy and receiving his wife’s warning, Pilate yields to the crowd, releases Barabbas, and orders Jesus scourged and crucified. Soldiers mock him with a robe, crown of thorns, and false homage."
+        },
+        {
+          "start": 32,
+          "end": 66,
+          "text": "At Golgotha, Jesus is crucified between two thieves and mocked by onlookers and leaders. Darkness covers the land before his death. The temple veil tears, the earth shakes, and graves open; Matthew also records saints appearing after Jesus’ resurrection. The centurion and others acknowledge him as God’s Son. Joseph of Arimathea buries him in a new tomb, and the authorities seal it and station guards."
+        }
+      ]
+    },
+    {
+      "chapter": 28,
+      "title": "The risen Jesus commissions his disciples",
+      "parts": [
+        {
+          "start": 1,
+          "end": 10,
+          "text": "Mary Magdalene and the other Mary come to the tomb, where an angel has rolled back the stone and terrified the guards. He announces that Jesus has risen and sends them to tell the disciples to meet him in Galilee. As they go, Jesus meets them; they worship at his feet and receive the same instruction."
+        },
+        {
+          "start": 11,
+          "end": 20,
+          "text": "The chief priests bribe the guards to claim that disciples stole the body while they slept, promising protection from the governor. In Galilee, the eleven meet Jesus, worshipping though some doubt. He declares his authority in heaven and earth and commands them to teach all nations, baptize in the name of the Father, Son, and Holy Ghost, and teach obedience to his commands. He promises his continuing presence."
+        }
+      ]
+    }
+  ]
+}

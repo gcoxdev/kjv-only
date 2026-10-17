@@ -1,0 +1,21 @@
+{
+  "book": "Philemon",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "Receive Onesimus as a beloved brother",
+      "parts": [
+        {
+          "start": 1,
+          "end": 16,
+          "text": "Writing as a prisoner with Timothy, Paul greets Philemon and the church in his house, thanking God for his faith and the love that refreshes believers. Rather than command, Paul appeals in love for Onesimus, who became his spiritual son during imprisonment. Formerly unprofitable, Onesimus is now useful to both men. Paul sends him back, unwilling to retain his service without Philemon’s willing consent. Perhaps the temporary separation will lead to receiving him forever, now as more than a servant: a beloved brother."
+        },
+        {
+          "start": 17,
+          "end": 25,
+          "text": "Paul asks Philemon to welcome Onesimus as he would welcome Paul himself. Any wrongdoing or debt may be charged to Paul’s account, and he personally promises repayment while reminding Philemon of his own indebtedness to him. Confident Philemon will do even more than asked, Paul also requests lodging in hope of release through their prayers. He ends with greetings from fellow workers and Christ’s grace."
+        }
+      ]
+    }
+  ]
+}

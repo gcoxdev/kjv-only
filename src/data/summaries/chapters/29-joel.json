@@ -1,0 +1,53 @@
+{
+  "book": "Joel",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "A devastated harvest and a call to mourn",
+      "parts": [
+        {
+          "start": 1,
+          "end": 12,
+          "text": "Joel calls every generation to remember an extraordinary devastation. Successive consuming pests have stripped the land, leaving vines bare, grain destroyed, and fruit trees withered. Drinkers, farmers, and priests alike must mourn. The loss of harvest also cuts off the offerings brought to the LORD’s house, and joy disappears from the community."
+        },
+        {
+          "start": 13,
+          "end": 20,
+          "text": "The priests are told to put on sackcloth, appoint a fast, and gather the inhabitants to cry to the LORD. His day is near as destruction from the Almighty. Empty barns, failed seed, exhausted livestock, and dried streams show the disaster’s reach. Joel himself cries out as fire consumes the pastures and animals suffer for lack of water."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "Return to the Lord and receive his promise",
+      "parts": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "A trumpet sounds an alarm in Zion as the day of the LORD approaches. A formidable army advances through the land with destructive force, and earth and heaven tremble. God calls the people to return wholeheartedly with fasting and mourning, tearing their hearts rather than merely their clothes. Priests and people must gather to plead for mercy."
+        },
+        {
+          "start": 18,
+          "end": 32,
+          "text": "The LORD promises compassion, renewed harvests, and removal of the northern army. He will restore what the consuming pests destroyed, and Israel will know he is among them. Afterward he will pour out his Spirit on sons, daughters, old and young, servants and handmaids. Wonders precede the great and terrible day of the LORD, and those calling on his name will be delivered."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "The nations judged and Zion restored",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "When God restores Judah and Jerusalem, he will gather the nations to judgment in the valley of Jehoshaphat. Their crimes include scattering Israel, dividing its land, and trafficking its people. Tyre, Zidon, and the Philistine regions are charged with plunder and selling captives far away. God will reverse their actions upon them."
+        },
+        {
+          "start": 9,
+          "end": 21,
+          "text": "The nations are summoned to prepare for war and come before God’s judgment, pictured as harvest and winepress. Sun and moon darken, and the LORD’s roar shakes heaven and earth, but he remains his people’s refuge. Jerusalem will be holy, Judah fruitful, and a fountain will flow from the LORD’s house. Egypt and Edom face desolation for violence, while the LORD dwells in Zion."
+        }
+      ]
+    }
+  ]
+}

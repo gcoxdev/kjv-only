@@ -1820,6 +1820,7 @@ export function KJVReader() {
     onExpandAll: expandAllStudyTools,
     onCollapseAll: collapseAllStudyTools,
   } = useStudyToolsViewModel({
+    summaryProps: { context: timelineContext, books, renderPreview: referencePreviewContent, onOpenReference: openConcordanceReference, onCloseSidebar: closeRightSidebarForMobile },
     timelineProps: { context: timelineContext, books, renderPreview: referencePreviewContent, onOpenReference: openConcordanceReference, onCloseSidebar: closeRightSidebarForMobile },
     accordionValue: concordanceAccordionValue,
     onAccordionValueChange: setConcordanceAccordionValue,

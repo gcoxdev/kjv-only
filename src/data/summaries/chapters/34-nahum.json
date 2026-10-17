@@ -1,0 +1,53 @@
+{
+  "book": "Nahum",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "The Lord confronts Nineveh",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "Nahum’s vision concerns Nineveh. The LORD is slow to anger yet mighty in judgment and will not clear the guilty. Storm, sea, mountains, and earth respond to his presence, and no one can withstand his wrath. At the same time, he is good, a stronghold in trouble who knows those trusting him."
+        },
+        {
+          "start": 9,
+          "end": 15,
+          "text": "Plots against the LORD will end in destruction. The oppressor’s strength and numbers cannot prevent its downfall, and God promises to break the yoke binding his afflicted people. The enemy’s name and idols will be cut off. Judah hears good news of peace and is called to keep its feasts and vows because the wicked invader will no longer pass through."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "Nineveh’s defences collapse",
+      "parts": [
+        {
+          "start": 1,
+          "end": 7,
+          "text": "An attacker advances against Nineveh, and the city is summoned to prepare its defences. Vivid scenes describe scarlet warriors, flashing chariots, rushing soldiers, and urgent efforts at the walls. River gates open and the palace collapses. The proud city faces captivity and mourning rather than the security it expected."
+        },
+        {
+          "start": 8,
+          "end": 13,
+          "text": "People flee despite calls to stand, and invaders plunder immense stores of silver and gold. Nineveh becomes empty and terrified. Its former power is compared to a lion’s den filled with prey for its young, but that den can no longer protect it. The LORD declares himself against the city: its chariots, warriors, plunder, and threatening messengers will be brought to an end."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "The bloody city’s incurable wound",
+      "parts": [
+        {
+          "start": 1,
+          "end": 10,
+          "text": "Nineveh is condemned as a city of blood, lies, and plunder. The noise of battle and heaps of bodies expose the outcome of its violence and seductive domination of nations. God will uncover its shame before the kingdoms. It cannot claim greater security than populous No, which fell despite waterways and powerful allies."
+        },
+        {
+          "start": 11,
+          "end": 19,
+          "text": "Nineveh’s fortresses are compared to ripe figs falling at a shake. Preparations for siege, many merchants, and numerous officials cannot prevent destruction; leaders vanish like locusts when the sun rises. Assyria’s shepherds fail and its people scatter without anyone to gather them. Its wound has no remedy, and those hearing of its fall rejoice because they have suffered its persistent cruelty."
+        }
+      ]
+    }
+  ]
+}

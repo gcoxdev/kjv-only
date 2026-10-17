@@ -1,0 +1,85 @@
+{
+  "book": "Lamentations",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "Jerusalem mourns her desolation",
+      "parts": [
+        {
+          "start": 1,
+          "end": 11,
+          "text": "Jerusalem is pictured as a bereaved woman, once honoured but now abandoned. Judah has gone into captivity, the feasts have ceased, and enemies have entered the sanctuary. The people trade their treasures for food. Their suffering is connected to their many transgressions, while former friends offer no comfort."
+        },
+        {
+          "start": 12,
+          "end": 22,
+          "text": "Speaking in her own voice, Jerusalem asks passers-by to consider her sorrow. She describes the Lord’s judgment as fire, a net, and a crushing yoke. She acknowledges that the Lord is righteous and that she rebelled against his commandment. With her young people captive and her leaders dead, she asks God to see her distress and judge her enemies also."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "The Lord’s anger against Zion",
+      "parts": [
+        {
+          "start": 1,
+          "end": 10,
+          "text": "The destruction of Jerusalem is described as the Lord’s own judgment. He has brought down strongholds, rejected altar and sanctuary, and allowed enemies to enter places formerly filled with worship. Kings and princes are among the nations, prophets receive no vision, and the elders sit silently in mourning."
+        },
+        {
+          "start": 11,
+          "end": 22,
+          "text": "The speaker grieves over starving children and a calamity too great to compare with another. False prophets failed to expose the people’s sin, while enemies now celebrate Jerusalem’s ruin. Zion is urged to pour out her heart before the Lord and plead for the children. The closing prayer describes famine, violence, and the loss of those the people had nurtured."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "Hope amid affliction",
+      "parts": [
+        {
+          "start": 1,
+          "end": 39,
+          "text": "A sufferer describes feeling imprisoned, wounded, and surrounded by bitterness under God’s anger. Yet remembering the Lord’s unfailing mercies restores hope: his compassions are new every morning. The speaker urges patient waiting, humble submission, and trust that God does not cast off forever or willingly grieve mankind. Human injustice does not escape his notice."
+        },
+        {
+          "start": 40,
+          "end": 66,
+          "text": "The people are called to examine their ways and return to the Lord, confessing rebellion. Grief continues over the city’s destruction and the hostility of enemies. The speaker remembers crying from a deep pit and hearing God’s assurance not to fear. He asks the Lord, who has defended and redeemed him, to judge his cause and repay those plotting against him."
+        }
+      ]
+    },
+    {
+      "chapter": 4,
+      "title": "The bitter cost of Jerusalem’s fall",
+      "parts": [
+        {
+          "start": 1,
+          "end": 12,
+          "text": "Jerusalem’s former glory is contrasted with famine and degradation. Children thirst, wealthy people search among refuse, and once vigorous bodies are wasted by hunger. The suffering is so terrible that compassionate women have cooked their own children. The LORD’s anger has consumed Zion, and enemies have entered a city the world’s rulers thought secure."
+        },
+        {
+          "start": 13,
+          "end": 22,
+          "text": "The sins of prophets and priests, especially innocent bloodshed, are named among the causes of the disaster. Religious leaders wander in disgrace, foreign help fails, and pursuers capture the LORD’s anointed. Edom is warned that its present rejoicing will give way to judgment. Zion’s punishment is declared accomplished, while Edom’s iniquity will be exposed."
+        }
+      ]
+    },
+    {
+      "chapter": 5,
+      "title": "A prayer for restoration",
+      "parts": [
+        {
+          "start": 1,
+          "end": 14,
+          "text": "The community asks the LORD to remember its disgrace. Strangers possess their inheritance, families are bereaved, and necessities must be purchased at great cost. Hunger, forced labour, sexual violence, and the humiliation of leaders describe life under oppression. Ordinary community life has disappeared, along with the music of the young."
+        },
+        {
+          "start": 15,
+          "end": 22,
+          "text": "Joy has turned to mourning, and the people acknowledge that they have sinned. Zion lies deserted, with foxes roaming over it. Against this devastation they confess that the LORD’s throne endures through every generation. They ask why he seems to have forgotten them and plead that he turn them back to himself and renew their former days, even as they lament his continuing anger."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "book": "Zephaniah",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "The approaching day of the Lord",
+      "parts": [
+        {
+          "start": 1,
+          "end": 13,
+          "text": "During Josiah’s reign, Zephaniah announces sweeping judgment and specifically confronts Judah and Jerusalem. Baal worship, devotion to heavenly bodies, divided allegiance, and indifference to God will be removed. Rulers, merchants, and those enriched through violence face punishment. The Lord will search Jerusalem and expose people who assume he will do neither good nor evil."
+        },
+        {
+          "start": 14,
+          "end": 18,
+          "text": "The great day of the LORD is near and hastening. It is described as a day of wrath, distress, desolation, darkness, trumpet, and alarm against fortified places. Human strength cannot prevent terror, and sin brings humiliation and death. Neither silver nor gold can buy escape. The fire of God’s jealousy will consume the land and its inhabitants."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "Seek humility before judgment comes",
+      "parts": [
+        {
+          "start": 1,
+          "end": 7,
+          "text": "Before the LORD’s anger arrives, the people are urged to gather and seek him. The meek should pursue righteousness and humility, with hope of being sheltered in that day. Judgment is announced upon Philistine cities and the coastland, which will become pasture for Judah’s remnant when God restores their fortunes."
+        },
+        {
+          "start": 8,
+          "end": 15,
+          "text": "Moab and Ammon will be humbled for mocking God’s people and boasting against their territory. Their lands will become desolate, while people from distant places worship the LORD. Ethiopia, Assyria, and Nineveh also face judgment. Nineveh’s proud claim to unrivalled greatness ends in abandoned buildings occupied by animals, a spectacle of ruin to those passing by."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "A purified people and God’s rejoicing",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "Jerusalem is rebuked for oppression, refusal of correction, and failure to trust God. Princes and judges prey upon the people, prophets are treacherous, and priests profane holy things. The righteous LORD remains just, but the city ignores the warning supplied by other nations’ destruction. God announces a gathering of kingdoms for judgment."
+        },
+        {
+          "start": 9,
+          "end": 20,
+          "text": "He then promises purified speech and united worship. Pride is removed, leaving a humble remnant that trusts him and lives without deceit or fear. Zion is called to rejoice because its judgments and enemy are removed and the LORD is present as king. He will save the afflicted, gather the outcasts, restore their fortunes, and rejoice over his people with singing."
+        }
+      ]
+    }
+  ]
+}

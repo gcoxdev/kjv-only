@@ -1,4 +1,5 @@
 export const STUDY_ACCORDION_ITEMS = [
+  "summary",
   "cross-refs",
   "concordance",
   "websters",

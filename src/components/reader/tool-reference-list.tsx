@@ -38,6 +38,7 @@ type ReferencePreviewRenderer = (
 
 type ToolReferenceListProps = {
   references: string[];
+  referenceLabels?: Record<string, string>;
   highlightWord: string;
   renderPreview: ReferencePreviewRenderer;
   onOpenReference: (reference: string) => void;
@@ -82,6 +83,7 @@ function useToolReferenceDisplayMode() {
 
 export const ToolReferenceList = memo(function ToolReferenceList({
   references,
+  referenceLabels,
   highlightWord,
   renderPreview,
   onOpenReference,
@@ -282,6 +284,7 @@ export const ToolReferenceList = memo(function ToolReferenceList({
             <ConcordanceReferencePopover
               key={`${reference}-${originalIndex}`}
               reference={reference}
+              label={referenceLabels?.[reference]}
               highlightWord={highlightWord}
               renderPreview={renderPreview}
               onOpenReference={onOpenReference}

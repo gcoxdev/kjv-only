@@ -1,0 +1,69 @@
+{
+  "book": "Jonah",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "Jonah flees and the sea grows calm",
+      "parts": [
+        {
+          "start": 1,
+          "end": 10,
+          "text": "God sends Jonah to proclaim against Nineveh’s wickedness, but he boards a ship for Tarshish instead. The LORD sends a violent storm, and terrified sailors discard cargo and pray while Jonah sleeps. A lot identifies him, and he admits that he is fleeing the LORD, the God who made sea and land."
+        },
+        {
+          "start": 11,
+          "end": 17,
+          "text": "Jonah tells the sailors to throw him overboard, but they first try unsuccessfully to reach shore. After asking the LORD not to hold them guilty for his death, they cast him into the sea, which immediately becomes calm. The sailors fear the LORD and offer sacrifice. God prepares a great fish to swallow Jonah, who remains within it three days and nights."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "Prayer from the fish’s belly",
+      "parts": [
+        {
+          "start": 1,
+          "end": 6,
+          "text": "Jonah prays from inside the fish, recalling his distress and God’s response. He describes being overwhelmed by the sea, surrounded by waters and weeds, and descending to the foundations of the mountains. Though feeling cast from God’s sight, he looks again toward the holy temple and acknowledges that the LORD has brought his life up from corruption."
+        },
+        {
+          "start": 7,
+          "end": 10,
+          "text": "As Jonah’s strength failed, he remembered the LORD and his prayer reached him. He contrasts devotion to lying vanities with the mercy available from God. Promising thanksgiving and the fulfilment of his vows, he declares that salvation belongs to the LORD. God then commands the fish, and it releases Jonah onto dry land."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "Nineveh turns from its evil",
+      "parts": [
+        {
+          "start": 1,
+          "end": 5,
+          "text": "The LORD commissions Jonah a second time, and he goes to Nineveh. Entering the great city, he announces that it will be overthrown in forty days. The people believe God, proclaim a fast, and put on sackcloth, from the greatest to the least."
+        },
+        {
+          "start": 6,
+          "end": 10,
+          "text": "When the warning reaches the king, he leaves his throne and joins the mourning. He and his nobles command fasting, urgent prayer, and a turning from evil and violence, extending the signs of distress even to the animals. They hope that God may turn from his anger. Seeing that they have turned from their evil way, God does not bring the announced destruction."
+        }
+      ]
+    },
+    {
+      "chapter": 4,
+      "title": "Jonah learns about compassion",
+      "parts": [
+        {
+          "start": 1,
+          "end": 5,
+          "text": "Jonah is angry that Nineveh has been spared. He explains that he fled because he knew God was gracious, merciful, and willing to turn from judgment. He asks to die, and God questions whether his anger is right. Jonah waits outside the city in a shelter to see what will happen."
+        },
+        {
+          "start": 6,
+          "end": 11,
+          "text": "God provides a gourd to shade Jonah, then a worm destroys it and a hot east wind intensifies his discomfort. Jonah again wishes to die and defends his anger over the plant. God contrasts Jonah’s concern for something he neither made nor tended with his own concern for Nineveh’s great population, including those unable to distinguish right from left, and its many animals."
+        }
+      ]
+    }
+  ]
+}

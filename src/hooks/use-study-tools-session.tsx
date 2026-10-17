@@ -701,6 +701,7 @@ export function useStudyToolsSession({
   });
 
   const toolsProps: ReaderStudyToolsContentProps = {
+    summaryProps: { isOpen: accordionValue.includes("summary"), context: timelineContext, books, renderPreview, onOpenReference, onCloseSidebar },
     timelineProps: { isOpen: accordionValue.includes("timeline"), context: timelineContext, books, renderPreview, onOpenReference, onCloseSidebar },
     crossRefsProps: {
       hasInfo: sidebarState.hasCrossRefsInfo,

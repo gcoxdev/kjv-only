@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 type ConcordanceReferencePopoverProps = {
   reference: string;
+  label?: string;
   highlightWord: string;
   renderPreview: (
     reference: string,
@@ -29,6 +30,7 @@ type PopoverAlign = "start" | "center" | "end";
 
 export const ConcordanceReferencePopover = memo(function ConcordanceReferencePopover({
   reference,
+  label,
   highlightWord,
   renderPreview,
   onOpenReference,
@@ -239,7 +241,7 @@ export const ConcordanceReferencePopover = memo(function ConcordanceReferencePop
           />
         }
       >
-        {reference}
+        {label ?? reference}
       </PopoverTrigger>
       <PopoverContent
         ref={contentRef}

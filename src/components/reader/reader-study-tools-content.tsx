@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 
+import { SummaryTool } from "@/components/reader/study-tools/summary-tool";
 import { CrossRefsTool } from "@/components/reader/study-tools/cross-refs-tool";
 import { ConcordanceTool } from "@/components/reader/study-tools/concordance-tool";
 import { WebstersTool } from "@/components/reader/study-tools/websters-tool";
@@ -13,6 +14,7 @@ import { GenealogyTool } from "@/components/reader/study-tools/genealogy-tool";
 import { HitchcocksTool } from "@/components/reader/study-tools/hitchcocks-tool";
 
 export type ReaderStudyToolsContentProps = {
+  summaryProps: ComponentProps<typeof SummaryTool>;
   crossRefsProps: ComponentProps<typeof CrossRefsTool>;
   concordanceProps: ComponentProps<typeof ConcordanceTool>;
   webstersProps: ComponentProps<typeof WebstersTool>;
@@ -31,6 +33,7 @@ type ReaderStudyToolsContentComponentProps = ReaderStudyToolsContentProps & {
 };
 
 export function ReaderStudyToolsContent({
+  summaryProps,
   crossRefsProps,
   concordanceProps,
   webstersProps,
@@ -49,6 +52,10 @@ export function ReaderStudyToolsContent({
 
   return (
     <>
+      <SummaryTool
+        {...summaryProps}
+        isOpen={isSectionOpen("summary", summaryProps.isOpen)}
+      />
       <CrossRefsTool
         {...crossRefsProps}
         isOpen={isSectionOpen("cross-refs", crossRefsProps.isOpen)}

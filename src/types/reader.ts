@@ -229,6 +229,7 @@ export type StaticPageId =
 export type PanelHomeDestination = Exclude<LeafNode["view"], "reader" | "picker" | "page" | "visual-tool"> | "progress";
 export type StudyWorkspaceTab = "home" | PanelHomeDestination;
 export type StudyWorkspaceTool =
+  | "summary"
   | "cross-refs"
   | "concordance"
   | "topics"

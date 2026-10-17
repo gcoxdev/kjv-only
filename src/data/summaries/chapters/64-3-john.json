@@ -1,0 +1,21 @@
+{
+  "book": "3 John",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "Hospitality to the brethren and Diotrephes’ opposition",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "The elder greets Gaius with love and wishes for his health and prosperity. Reports that Gaius walks in truth bring him great joy. He commends Gaius’s faithful care for brethren and strangers who have gone out for Christ’s name without taking support from the Gentiles. Helping such travellers makes believers fellow workers for the truth."
+        },
+        {
+          "start": 9,
+          "end": 14,
+          "text": "Diotrephes, who loves preeminence, rejects the elder’s authority, speaks maliciously, and excludes those willing to welcome the brethren. The elder intends to address his conduct and urges imitation of good rather than evil. Demetrius receives a favourable testimony. The letter ends with the hope of a personal visit, peace, and greetings to friends by name."
+        }
+      ]
+    }
+  ]
+}

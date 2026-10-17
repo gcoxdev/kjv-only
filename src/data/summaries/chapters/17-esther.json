@@ -1,0 +1,165 @@
+{
+  "book": "Esther",
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "Vashti is removed as queen",
+      "parts": [
+        {
+          "start": 1,
+          "end": 12,
+          "text": "Ahasuerus, ruler of 127 provinces, displays his wealth and majesty through a long celebration, followed by a seven-day feast in Shushan. Vashti holds a separate feast for the women. When the king, merry with wine, orders her brought before the guests to display her beauty, she refuses, and he becomes furious."
+        },
+        {
+          "start": 13,
+          "end": 22,
+          "text": "The king consults his advisers about her refusal. Memucan argues that other wives will hear of it and despise their husbands. He recommends removing Vashti from her royal position and giving it to another. The king accepts the advice and sends letters throughout the empire declaring that each man should rule in his own house."
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "Esther becomes queen; Mordecai uncovers a plot",
+      "parts": [
+        {
+          "start": 1,
+          "end": 18,
+          "text": "Young women are gathered to find a new queen. Esther, an orphan raised by her cousin Mordecai, is brought into the royal household and gains favour with its keeper. Following Mordecai’s instruction, she conceals her Jewish identity. After the prescribed preparations, she appears before Ahasuerus, who loves her above the other women and crowns her queen. A feast and gifts mark her elevation."
+        },
+        {
+          "start": 19,
+          "end": 23,
+          "text": "Mordecai learns that two royal chamberlains are plotting against the king. He tells Esther, who reports it in his name. An inquiry confirms the plot, the men are hanged, and Mordecai’s service is entered in the royal record."
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "Haman secures a decree against the Jews",
+      "parts": [
+        {
+          "start": 1,
+          "end": 7,
+          "text": "Ahasuerus promotes Haman above the other princes and commands that people bow to him. Mordecai refuses. Learning that Mordecai is a Jew, Haman determines to destroy all the Jews throughout the kingdom rather than punish him alone. Lots are cast to determine the time."
+        },
+        {
+          "start": 8,
+          "end": 15,
+          "text": "Haman portrays the scattered Jews as a people whose different laws make them dangerous to the king’s interests. He offers money for their destruction, and the king gives him authority and his ring. Letters order the killing of all Jews, including women and children, on the thirteenth day of Adar and permit their goods to be seized. Haman and the king drink while Shushan is perplexed."
+        }
+      ]
+    },
+    {
+      "chapter": 4,
+      "title": "Esther resolves to plead for her people",
+      "parts": [
+        {
+          "start": 1,
+          "end": 12,
+          "text": "Mordecai and Jews throughout the provinces mourn and fast over the decree. Through a messenger, Mordecai gives Esther a copy and urges her to plead with the king. She explains that appearing uninvited carries a death sentence unless the king extends his golden sceptre, and she has not been summoned for thirty days."
+        },
+        {
+          "start": 13,
+          "end": 17,
+          "text": "Mordecai warns that royal position will not save her and says deliverance will arise elsewhere if she remains silent. He asks whether she has come to the kingdom for this very time. Esther calls the Jews of Shushan to fast with her for three days, then resolves to approach the king even if she perishes."
+        }
+      ]
+    },
+    {
+      "chapter": 5,
+      "title": "Esther’s invitation and Haman’s gallows",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "On the third day, Esther enters the inner court in royal dress. The king extends his sceptre and offers to grant her request. She invites him and Haman to a banquet. There, when asked again, she invites them to another banquet the next day, promising then to give her answer."
+        },
+        {
+          "start": 9,
+          "end": 14,
+          "text": "Haman leaves delighted at this honour, but Mordecai’s continued refusal to show reverence enrages him. At home he boasts of his wealth, family, promotion, and exclusive invitation, yet says none of it satisfies him while Mordecai remains at the gate. His wife and friends advise building a tall gallows and asking the king to hang Mordecai. Haman has it prepared."
+        }
+      ]
+    },
+    {
+      "chapter": 6,
+      "title": "Haman must honour Mordecai",
+      "parts": [
+        {
+          "start": 1,
+          "end": 9,
+          "text": "Unable to sleep, the king orders the royal records read and learns that Mordecai was never rewarded for exposing the assassination plot. Haman arrives to request Mordecai’s death, but the king first asks how to honour a favoured man. Assuming the honour is for himself, Haman recommends royal clothing, the king’s horse, and a public proclamation led by a noble prince."
+        },
+        {
+          "start": 10,
+          "end": 14,
+          "text": "The king commands Haman to perform all this for Mordecai. After leading his enemy through the city, Haman returns home humiliated. His wife and advisers warn that his downfall before a Jew will continue. While they speak, the king’s servants arrive to hurry him to Esther’s banquet."
+        }
+      ]
+    },
+    {
+      "chapter": 7,
+      "title": "Esther exposes Haman and he is executed",
+      "parts": [
+        {
+          "start": 1,
+          "end": 6,
+          "text": "At the second banquet, the king again asks Esther’s petition. She pleads for her own life and the lives of her people, explaining that they have been sold for destruction. When he asks who dared do this, she identifies Haman as their adversary and enemy. Haman becomes terrified before the king and queen."
+        },
+        {
+          "start": 7,
+          "end": 10,
+          "text": "The king leaves in anger, while Haman begs Esther for his life. Returning, the king sees Haman fallen upon her couch and treats it as a further outrage. A chamberlain points out the gallows Haman prepared for Mordecai. The king orders Haman hanged on it, and his wrath is appeased."
+        }
+      ]
+    },
+    {
+      "chapter": 8,
+      "title": "A new decree permits Jewish self-defence",
+      "parts": [
+        {
+          "start": 1,
+          "end": 8,
+          "text": "The king gives Haman’s estate to Esther and his signet ring to Mordecai, whose relationship to her is now known. Esther again pleads for her people. Because a sealed royal decree cannot be revoked, the king authorizes her and Mordecai to issue another decree in his name."
+        },
+        {
+          "start": 9,
+          "end": 17,
+          "text": "Letters are sent throughout the empire permitting Jews to assemble and defend their lives on the appointed day, destroying the forces that attack them and taking spoil. Couriers hurry the message to every province in its own language. Mordecai appears in royal apparel, and Shushan rejoices. The Jews celebrate with gladness and honour, and many others become Jews because fear of them has spread."
+        }
+      ]
+    },
+    {
+      "chapter": 9,
+      "title": "Deliverance is remembered through Purim",
+      "parts": [
+        {
+          "start": 1,
+          "end": 19,
+          "text": "On the appointed day, the Jews overcome those seeking their harm, aided by officials who fear Mordecai. Haman’s ten sons are killed. At Esther’s request, their bodies are hanged and Shushan receives another day to act against enemies. The Jews repeatedly refrain from taking spoil. Those in the provinces rest on the fourteenth of Adar, while Shushan rests on the fifteenth."
+        },
+        {
+          "start": 20,
+          "end": 32,
+          "text": "Mordecai establishes these days as an annual remembrance of sorrow turned to joy. The celebration includes feasting, sharing food, and gifts to the poor. It is named Purim after the lot Haman cast. Esther and Mordecai confirm the observance for future generations, preserving the memory of the threatened destruction and deliverance."
+        }
+      ]
+    },
+    {
+      "chapter": 10,
+      "title": "Mordecai seeks his people’s welfare",
+      "parts": [
+        {
+          "start": 1,
+          "end": 2,
+          "text": "Ahasuerus imposes tribute on the land and islands. His royal achievements and the greatness to which he advances Mordecai are recorded in the chronicles of Media and Persia."
+        },
+        {
+          "start": 3,
+          "end": 3,
+          "text": "Mordecai stands next to the king in authority and is greatly honoured among the Jews. The book closes by describing him as seeking the welfare of his people and speaking peace to his kindred."
+        }
+      ]
+    }
+  ]
+}
