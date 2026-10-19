@@ -220,7 +220,7 @@ export function ShortcutsSettings({
                           size="sm"
                           className="h-auto min-h-8 min-w-20 px-2"
                           onClick={() => openEditor(definition.id)}
-                          aria-label={`Change shortcut for ${definition.label}`}
+                          aria-label={`${binding ? binding.map(stroke => formatShortcutStroke(stroke, isMac)).join(" then ") : "Not set"}: Change shortcut for ${definition.label}`}
                         >
                           <ShortcutKeys binding={binding} isMac={isMac} />
                         </Button>

@@ -1602,7 +1602,7 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
                     <Button
                       variant={isChapterRead ? "default" : "outline"}
                       size="sm"
-                      aria-label={isChapterRead ? "Mark chapter unread" : "Mark chapter read"}
+                      aria-label={isChapterRead ? "Read: mark chapter unread" : "Mark Read: mark chapter read"}
                       onClick={() =>
                         toggleChapterRead(leaf.bookIndex, leaf.chapterIndex)
                       }
@@ -1622,7 +1622,7 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
                       disabled={!hasPrev}
                     >
                       <ChevronLeftIcon />
-                      <span className="hidden @md/toolbar:inline">Prev</span>
+                      <span className="hidden @md/toolbar:inline">Previous</span>
                     </Button>
                   </ReaderControlTooltip>
                   <ReaderControlTooltip label="Next chapter" disabled={!hasNext}>
