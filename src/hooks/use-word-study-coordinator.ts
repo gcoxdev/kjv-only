@@ -1,5 +1,5 @@
 import { resolvePersonPlaceContext, AMBIGUOUS_PERSON_PLACE_NOTICE } from "@/lib/person-place-context";
-import { useRef, useState, type RefObject } from "react";
+import { useRef, useState, type Dispatch, type RefObject, type SetStateAction } from "react";
 
 import { STUDY_ACCORDION_ITEMS } from "@/hooks/use-study-sidebar-state";
 import type { AncientMapEntry, AncientMapPayload } from "@/lib/maps";
@@ -88,7 +88,7 @@ type WordStudyCoordinatorParams = {
     selection: OpenWordInStudyToolsArgs,
   ) => void;
   setNotesContext: Setter<NotesContext | null>;
-  setConcordanceAccordionValue: Setter<string[]>;
+  setConcordanceAccordionValue: Dispatch<SetStateAction<string[]>>;
   setConcordanceError: Setter<string | null>;
   setIsConcordanceLoading: Setter<boolean>;
   setConcordanceSearchTerm: Setter<string>;
@@ -264,11 +264,12 @@ export function useWordStudyCoordinator({
         ? ["cross-refs", "concordance"]
         : ["concordance"],
     );
+    setConcordanceAccordionValue([...matchingAccordionItems]);
     const updateAccordionMatch = (
       item: (typeof STUDY_ACCORDION_ITEMS)[number],
       matches: boolean,
     ) => {
-      if (!isCurrentRequest()) {
+      if (!isCurrentRequest() || matchingAccordionItems.has(item) === matches) {
         return;
       }
       if (matches) {
@@ -276,11 +277,16 @@ export function useWordStudyCoordinator({
       } else {
         matchingAccordionItems.delete(item);
       }
-      setConcordanceAccordionValue(
-        STUDY_ACCORDION_ITEMS.filter((candidate) =>
-          matchingAccordionItems.has(candidate),
-        ),
-      );
+      // Each result changes only its own match. Replacing every section here
+      // would undo manual opens/closes while another dictionary is loading.
+      setConcordanceAccordionValue((current) => {
+        if (!isCurrentRequest()) return current;
+        if (!matches) return current.filter((candidate) => candidate !== item);
+        if (current.includes(item)) return current;
+        return STUDY_ACCORDION_ITEMS.filter(
+          (candidate) => candidate === item || current.includes(candidate),
+        );
+      });
     };
 
     setConcordanceError(null);

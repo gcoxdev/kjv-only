@@ -80,6 +80,7 @@ export function useStudyWorkspaceState({
     setActiveTab,
     setActiveTool,
     setAccordionValue: handleAccordionValueChange,
+    updateAccordionValue: setAccordionValue,
     showTool,
   };
 }

@@ -186,6 +186,7 @@ export function KJVReader() {
     setActiveTab: setStudyWorkspaceTab,
     showTool: showStudyTool,
     setAccordionValue: setConcordanceAccordionValue,
+    updateAccordionValue: updateConcordanceAccordionValue,
   } = useStudyWorkspaceState({
     initialAccordionValue: [],
   });
@@ -1417,7 +1418,7 @@ export function KJVReader() {
     openStudyTool,
     onPanelWordSelection: queuePanelWordSelection,
     setNotesContext,
-    setConcordanceAccordionValue,
+    setConcordanceAccordionValue: updateConcordanceAccordionValue,
     setConcordanceError,
     setIsConcordanceLoading,
     setConcordanceSearchTerm,

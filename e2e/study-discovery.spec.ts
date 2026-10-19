@@ -15,6 +15,36 @@ async function expandTool(page: Page, name: string) {
 test.use({ serviceWorkers: "block" });
 
 for (const width of [375, 1280]) {
+  test(`late word-study data preserves manual tool expansion at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    let releaseDictionary: () => void = () => {};
+    const dictionaryGate = new Promise<void>(resolve => { releaseDictionary = resolve; });
+    await page.route("**/references/ai-dictionary.json", async route => {
+      await dictionaryGate;
+      await route.continue();
+    });
+    try {
+      await openStudyTools(page);
+      await expect(page.getByRole("button", { name: /H7225/ }).first()).toBeVisible();
+      const strongs = page.getByRole("button", { name: "Strong's Dictionary", exact: true }).filter({ visible: true });
+      await strongs.click();
+      await expect(strongs).toHaveAttribute("aria-expanded", "false");
+      await expandTool(page, "Maps");
+      const maps = page.getByRole("button", { name: "Maps", exact: true }).filter({ visible: true });
+      await expect(page.getByRole("textbox", { name: "Search maps" })).toBeVisible();
+
+      releaseDictionary();
+      await expect.poll(() => page.evaluate(
+        () => performance.getEntriesByName("kjv:study-word-all-tools").length,
+      )).toBeGreaterThan(0);
+      await expect(maps).toHaveAttribute("aria-expanded", "true");
+      await expect(page.getByRole("textbox", { name: "Search maps" })).toBeVisible();
+      await expect(strongs).toHaveAttribute("aria-expanded", "false");
+    } finally {
+      releaseDictionary();
+    }
+  });
+
   test(`keeps Eden's garden and person references distinct at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
