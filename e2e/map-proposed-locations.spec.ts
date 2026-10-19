@@ -32,7 +32,7 @@ for (const renderer of ["OpenFreeMap", "Leaflet"]) {
     await locations.click();
     await expect(popup.getByRole("link")).toHaveCount(0);
     await expect(popup.getByRole("button", { name: /^Qalunya Confidence:/ })).toHaveAccessibleName("Qalunya Confidence: ≈34%");
-    await expect(popup.getByRole("button", { name: "Artas", exact: true })).toHaveAccessibleDescription("Confidence: <10%");
+    await expect(popup.getByRole("button", { name: /^Artas Confidence:/ })).toHaveAccessibleName("Artas Confidence: <10%");
     await popup.getByRole("button", { name: /^Emmaus Nicopolis Confidence:/ }).click();
     await expect(popup).not.toBeVisible();
     await expect(locations).toBeFocused();
