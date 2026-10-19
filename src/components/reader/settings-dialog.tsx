@@ -53,6 +53,7 @@ import {
   MIN_CONTEXT_VERSE_COUNT,
 } from "@/lib/context-verses";
 import { ShortcutsSettings } from "@/components/reader/shortcuts-settings";
+import { WorkspaceRecovery } from "@/components/reader/workspace-recovery";
 import type {
   ShortcutActionId,
   ShortcutBinding,
@@ -698,6 +699,7 @@ export function SettingsPanelContent({
               onCheckedChange={onShowWelcomeHomeAtStartupChange}
             />
           </div>
+          <WorkspaceRecovery />
           <div className="flex flex-col gap-2 border-t pt-3">
             <Field orientation="responsive">
               <FieldTitle id="tool-reference-display-label">

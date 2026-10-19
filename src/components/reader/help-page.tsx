@@ -678,7 +678,7 @@ const HELP_SECTIONS: HelpSection[] = [
       {
         label: "What the Other tab controls",
         body:
-          "The Other tab controls whether tool references use preview buttons or a verse table, how many surrounding verses Search Context and tool references show, and whether Welcome Home opens as the active tab when the app starts without a shared layout. Genesis 1 remains available as the reader tab either way.",
+          "The Other tab controls whether tool references use preview buttons or a verse table, how many surrounding verses Search Context and tool references show, and whether Welcome Home opens in a new workspace. Tabs, panels, chapters, selected verses, and searches are restored on your next visit; an opened shared link takes precedence. Start Fresh Workspace closes the current layout after confirmation while keeping saved notes, bookmarks, progress, settings, and downloads.",
         keywords: ["other tab", "reference display", "reference table", "reference buttons", "context verses", "surrounding verses", "welcome home startup", "startup tab", "genesis"],
       },
       {
@@ -736,7 +736,7 @@ const HELP_SECTIONS: HelpSection[] = [
       {
         label: "How to tell what is available offline",
         body:
-          "The Download page shows bundle status, cached file counts, sizes, and storage estimates so you can see what has been downloaded and what still needs to be cached.",
+          "The Download page shows bundle status, cached file counts, sizes, and storage estimates so you can see what has been downloaded and what still needs to be cached. Protect Offline Data requests protection from automatic browser cleanup. The browser may decline or not support the request; clearing site data yourself still removes saved data.",
         keywords: ["offline status", "cached files", "storage"],
       },
       {
@@ -770,7 +770,7 @@ const HELP_SECTIONS: HelpSection[] = [
       {
         label: "What Welcome Home is for",
         body:
-          "Welcome Home is the active startup tab by default on a fresh open. It gives a short orientation and quick actions for continuing at your next unread chapter, reviewing Reading Progress, taking the tour, opening Search, and managing offline downloads. Settings > Other can disable opening it at startup.",
+          "Welcome Home is the active startup tab by default in a new workspace. Later visits restore the saved workspace unless you open a shared link or choose Start Fresh Workspace in Settings > Other. It gives a short orientation and quick actions for continuing at your next unread chapter, reviewing Reading Progress, taking the tour, opening Search, and managing offline downloads. Settings > Other can disable opening it at startup.",
         keywords: ["welcome home", "start page"],
       },
       {

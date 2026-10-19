@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
+import { saveWorkspace } from "@/lib/saved-workspace";
 
 import {
   parseLayoutHash,
@@ -56,6 +57,7 @@ export function useLayoutHashSync({
   restoreSearchPageDefinitions,
 }: UseLayoutHashSyncParams) {
   const syncedLayoutHashRef = useRef("");
+  const savedLayoutHashRef = useRef("");
 
   const applyParsedLayout = useCallback(
     (parsed: ParsedLayoutHash) => {
@@ -111,6 +113,9 @@ export function useLayoutHashSync({
       searchPageStateByLeafId,
       targetedPanelLeafId: showTargetedPanelToggle ? targetedPanelLeafId : null,
     });
+    if (savedLayoutHashRef.current !== nextHash) {
+      if (saveWorkspace(nextHash)) savedLayoutHashRef.current = nextHash;
+    }
     if (
       syncedLayoutHashRef.current === nextHash &&
       window.location.hash === nextHash

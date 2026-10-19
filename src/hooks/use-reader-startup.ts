@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { createId, createLeaf } from "@/lib/reader-layout";
 import type { ParsedLayoutHash } from "@/lib/layout-hash";
 import type { ReaderTab } from "@/types/reader";
+import { readStartupWorkspace } from "@/lib/saved-workspace";
 
 type UseReaderStartupParams = {
   isLoaded: boolean;
@@ -10,7 +11,6 @@ type UseReaderStartupParams = {
   isCorpusLoaded: boolean;
   loadError: string | null;
   showWelcomeHomeAtStartup: boolean;
-  parseCurrentLayoutHash: () => ParsedLayoutHash | null;
   applyParsedLayout: (parsed: ParsedLayoutHash) => void;
   setIsLoaded: (isLoaded: boolean) => void;
   setTabs: React.Dispatch<React.SetStateAction<ReaderTab[]>>;
@@ -45,7 +45,6 @@ export function useReaderStartup({
   isCorpusLoaded,
   loadError,
   showWelcomeHomeAtStartup,
-  parseCurrentLayoutHash,
   applyParsedLayout,
   setIsLoaded,
   setTabs,
@@ -55,13 +54,17 @@ export function useReaderStartup({
   const didInitializeReaderRef = useRef(false);
   const didApplyStartupWelcomeHomeRef = useRef(false);
   const didRestoreLayoutRef = useRef(false);
+  const startupLayoutRef = useRef<ParsedLayoutHash | null | undefined>(undefined);
 
   useEffect(() => {
     if (didInitializeReaderRef.current) {
       return;
     }
 
-    const parsedLayout = parseCurrentLayoutHash();
+    if (startupLayoutRef.current === undefined) {
+      startupLayoutRef.current = readStartupWorkspace(window.location.hash);
+    }
+    const parsedLayout = startupLayoutRef.current;
     if (loadError) {
       didInitializeReaderRef.current = true;
       setIsLoaded(true);
@@ -94,7 +97,6 @@ export function useReaderStartup({
     finishFirstReaderReadyMeasureRef,
     isCorpusLoaded,
     loadError,
-    parseCurrentLayoutHash,
     setActiveTabId,
     setIsLoaded,
     setTabs,

@@ -383,7 +383,7 @@ export function KJVReader() {
     activeTabId,
     tabsVersion: tabs,
   });
-  const { parseCurrentLayoutHash, applyParsedLayout } = useLayoutHashSync({
+  const { applyParsedLayout } = useLayoutHashSync({
     isLoaded: isLoaded && isCorpusLoaded,
     tabs,
     activeTabId,
@@ -415,7 +415,6 @@ export function KJVReader() {
     isCorpusLoaded,
     loadError,
     showWelcomeHomeAtStartup,
-    parseCurrentLayoutHash,
     applyParsedLayout,
     setIsLoaded,
     setTabs,

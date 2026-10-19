@@ -25,6 +25,7 @@ import {
   ProgressLabel,
 } from "@/components/ui/progress";
 import { PwaRecoveryPanel } from "@/components/reader/pwa-recovery-panel";
+import { StorageProtectionControl } from "@/components/reader/storage-protection";
 import {
   GENEALOGY_ASSET_VERSION,
   STRONGS_ASSET_VERSION,
@@ -464,6 +465,7 @@ export function DownloadPage({
                 ? `Using ${formatOfflineBytes(storageEstimate.usage)} of ${formatOfflineBytes(storageEstimate.quota)} available browser storage.`
                 : "Browser storage usage is not available in this environment."}
             </p>
+            <StorageProtectionControl />
           </div>
           <div className="rounded-xl border border-border/70 bg-background/60 p-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
