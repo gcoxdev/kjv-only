@@ -18,7 +18,7 @@ test("loads the default reader and preserves chapter navigation", async ({ page 
   const corpusGate = new Promise<void>((resolve) => {
     releaseCorpus = resolve
   })
-  await page.route("**/data/kjv.json", async (route) => {
+  await page.route(/\/data\/kjv(?:-compact-v1)?\.json(?:\?.*)?$/, async (route) => {
     await corpusGate
     await route.continue()
   })
@@ -955,7 +955,7 @@ test.describe("study-data corpus isolation", () => {
     const corpusGate = new Promise<void>((resolve) => {
       releaseCorpus = resolve
     })
-    await page.route("**/data/kjv.json", async (route) => {
+    await page.route(/\/data\/kjv(?:-compact-v1)?\.json(?:\?.*)?$/, async (route) => {
       await corpusGate
       await route.continue()
     })

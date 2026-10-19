@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import corpusManifest from "../../../public/data/kjv-manifest.json";
 
 import {
   CORE_OFFLINE_URLS,
@@ -115,8 +116,8 @@ describe("app-shell offline manifest", () => {
     ).toThrow("Invalid app-shell asset manifest");
   });
 
-  it("expands the core package with every generated asset", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(
+  it.each([false, true])("selects one corpus format and every app-shell asset (compact: %s)", async (useCompact) => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(
       new Response(
         JSON.stringify({
           schemaVersion: 1,
@@ -130,10 +131,11 @@ describe("app-shell offline manifest", () => {
         { status: 200, headers: { "content-type": "application/json" } },
       ),
     );
+    fetchMock.mockResolvedValueOnce(Response.json({ ...corpusManifest, compact: useCompact ? corpusManifest.compact : undefined }));
     vi.stubGlobal("fetch", fetchMock);
 
     await expect(loadCoreOfflineUrls()).resolves.toEqual([
-      ...CORE_OFFLINE_URLS,
+      ...CORE_OFFLINE_URLS.map(url => useCompact && url === "/data/kjv.json" ? "/data/kjv-compact-v1.json" : url),
       "/assets/index-abc.js",
       "/assets/index-def.css",
       "/icons/bw/GEN.png",
@@ -173,5 +175,16 @@ describe("app-shell offline manifest", () => {
       "https://reader.test/data/kjv.json?v=1",
       { ignoreSearch: false, ignoreVary: true },
     );
+  });
+
+  it("clears both corpus formats when the user clears the core bundle", async () => {
+    const deleteMock = vi.fn().mockResolvedValue(true);
+    vi.stubGlobal("window", { location: { origin: "https://reader.test" } });
+    vi.stubGlobal("caches", { open: vi.fn().mockResolvedValue({ delete: deleteMock }) });
+    await deleteOfflineAssetBatch(["/data/kjv-manifest.json", "/data/kjv-compact-v1.json"]);
+    for (const url of ["/data/kjv.json", "/data/kjv-compact-v1.json"]) {
+      expect(deleteMock).toHaveBeenCalledWith(`https://reader.test${url}`, { ignoreSearch: false, ignoreVary: true });
+    }
+    expect(deleteMock).toHaveBeenCalledTimes(6);
   });
 });

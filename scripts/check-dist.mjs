@@ -15,6 +15,7 @@ const REQUIRED_PATHS = [
   "offline-inventory.json",
   "data/kjv-bootstrap.json",
   "data/kjv.json",
+  "data/kjv-compact-v1.json",
   "data/kjv-manifest.json",
   "icons/app-icon.svg",
   "icons/app-icon.png",
@@ -241,6 +242,12 @@ try {
     }],
     [manifest.full, {
       url: "/data/kjv.json",
+      bookCount: 66,
+      chapterCount: 1189,
+      verseCount: 31102,
+    }],
+    [manifest.compact, {
+      url: "/data/kjv-compact-v1.json",
       bookCount: 66,
       chapterCount: 1189,
       verseCount: 31102,

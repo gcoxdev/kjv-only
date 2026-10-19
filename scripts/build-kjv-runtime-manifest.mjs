@@ -6,6 +6,7 @@ import path from "node:path"
 
 const DATA_DIRECTORY = path.resolve("public/data")
 const FULL_PATH = path.join(DATA_DIRECTORY, "kjv.json")
+const COMPACT_PATH = path.join(DATA_DIRECTORY, "kjv-compact-v1.json")
 const BOOTSTRAP_PATH = path.join(DATA_DIRECTORY, "kjv-bootstrap.json")
 const MANIFEST_PATH = path.join(DATA_DIRECTORY, "kjv-manifest.json")
 
@@ -39,8 +40,8 @@ async function writeAtomically(filePath, contents) {
   }
 }
 
-const fullBuffer = await fs.readFile(FULL_PATH)
-const fullPayload = JSON.parse(fullBuffer.toString("utf8"))
+const fullPayload = JSON.parse(await fs.readFile(FULL_PATH, "utf8"))
+const fullBuffer = Buffer.from(JSON.stringify(fullPayload))
 const books = Array.isArray(fullPayload) ? fullPayload : fullPayload?.books
 if (!Array.isArray(books) || books.length !== 66) {
   throw new Error("public/data/kjv.json must contain the canonical 66 books")
@@ -73,6 +74,35 @@ const bootstrapBooks = [
   },
 ]
 const bootstrapSummary = summarize(bootstrapBooks)
+// Exact token objects are dictionary keys: no annotation is dropped or inferred.
+const tokenTable = []
+const tokenIds = new Map()
+const compactBooks = books.map(book => ({
+  ...book,
+  chapters: book.chapters.map(chapter => ({
+    ...chapter,
+    verses: chapter.verses.map(verse => ({
+      ...verse,
+      tokens: verse.tokens.map(token => {
+        const key = JSON.stringify(token)
+        let id = tokenIds.get(key)
+        if (id === undefined) {
+          id = tokenTable.length
+          tokenIds.set(key, id)
+          tokenTable.push(token)
+        }
+        return id
+      }),
+    })),
+  })),
+}))
+const compactBuffer = Buffer.from(JSON.stringify({
+  format: "kjv-token-dictionary",
+  schemaVersion: 1,
+  metadata: fullPayload.metadata,
+  books: compactBooks,
+  tokenTable,
+}))
 const bootstrapBuffer = Buffer.from(
   JSON.stringify({
     metadata: {
@@ -99,8 +129,16 @@ const manifest = {
     bytes: fullBuffer.byteLength,
     ...fullSummary,
   },
+  compact: {
+    url: "/data/kjv-compact-v1.json",
+    sha256: sha256(compactBuffer),
+    bytes: compactBuffer.byteLength,
+    ...fullSummary,
+  },
 }
 
+await writeAtomically(FULL_PATH, fullBuffer)
+await writeAtomically(COMPACT_PATH, compactBuffer)
 await writeAtomically(BOOTSTRAP_PATH, bootstrapBuffer)
 await writeAtomically(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`)
 
@@ -110,6 +148,8 @@ console.log(
       corpusVersion: manifest.corpusVersion,
       bootstrapBytes: manifest.bootstrap.bytes,
       fullBytes: manifest.full.bytes,
+      compactBytes: manifest.compact.bytes,
+      uniqueTokens: tokenTable.length,
     },
     null,
     2,

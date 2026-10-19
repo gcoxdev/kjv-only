@@ -776,7 +776,7 @@ def write_reader_json(json_path: Path, books: list[dict[str, Any]], source: str)
         "books": reader_books,
     }
 
-    json_path.write_text(json.dumps(payload, ensure_ascii=True), encoding="utf-8")
+    json_path.write_text(json.dumps(payload, ensure_ascii=True, separators=(",", ":")), encoding="utf-8")
 
 
 def main() -> int:

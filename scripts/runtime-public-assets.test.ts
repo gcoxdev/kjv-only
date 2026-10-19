@@ -8,6 +8,7 @@ import {
 describe("runtime public asset policy", () => {
   it.each([
     "data/kjv.json",
+    "data/kjv-compact-v1.json",
     "data/kjv-bootstrap.json",
     "data/kjv-manifest.json",
     "audio/GEN.1.mp3",

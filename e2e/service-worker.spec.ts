@@ -156,7 +156,7 @@ test("refreshes manifests and keeps the complete app shell usable offline", asyn
     for (const url of [
       "/data/kjv-manifest.json",
       "/data/kjv-bootstrap.json",
-      "/data/kjv.json",
+      "/data/kjv-compact-v1.json",
     ]) {
       const response = await fetch(url, { cache: "no-cache" })
       if (!response.ok) {
@@ -166,7 +166,7 @@ test("refreshes manifests and keeps the complete app shell usable offline", asyn
     }
   })
 
-  await expect.poll(() => page.evaluate(async () => Boolean(await (await caches.open("kjv-only-downloads-v1")).match("/data/kjv.json")))).toBe(true)
+  await expect.poll(() => page.evaluate(async () => Boolean(await (await caches.open("kjv-only-downloads-v1")).match("/data/kjv-compact-v1.json")))).toBe(true)
   await context.setOffline(true)
   const offlineIcons = await page.evaluate(async () => {
     const cachedBookIcon = await fetch("/icons/bw/LEV.png")

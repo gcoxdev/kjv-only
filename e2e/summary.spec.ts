@@ -93,13 +93,13 @@ test("all summary collections are included in the offline app shell", async ({ p
   // Complete the reader-data cache, as Core Bible Data does. The initial online
   // read can finish before the service worker takes control of the page.
   await page.evaluate(async () => {
-    for (const url of ["/data/kjv-manifest.json", "/data/kjv-bootstrap.json", "/data/kjv.json"]) {
+    for (const url of ["/data/kjv-manifest.json", "/data/kjv-bootstrap.json", "/data/kjv-compact-v1.json"]) {
       const response = await fetch(url, { cache: "no-cache" });
       if (!response.ok) throw new Error(`Could not download ${url}`);
       await response.arrayBuffer();
     }
   });
-  await expect.poll(() => page.evaluate(async () => Boolean(await caches.match("/data/kjv.json")))).toBe(true);
+  await expect.poll(() => page.evaluate(async () => Boolean(await caches.match("/data/kjv-compact-v1.json")))).toBe(true);
   await context.setOffline(true);
   await page.reload();
   const sidebar = page.getByRole("region", { name: "Study sidebar", exact: true });
@@ -121,7 +121,7 @@ test("all summary collections are included in the offline app shell", async ({ p
 test("Summary can browse the entire Bible while the verse corpus is still loading", async ({ page }) => {
   let release!: () => void;
   const held = new Promise<void>(resolve => { release = resolve; });
-  await page.route("**/data/kjv.json*", async route => { await held; await route.abort(); });
+  await page.route(/\/data\/kjv(?:-compact-v1)?\.json(?:\?.*)?$/, async route => { await held; await route.abort(); });
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   try {

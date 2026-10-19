@@ -36,6 +36,13 @@ describe("parseKjvCorpusManifest", () => {
     expect(parseKjvCorpusManifest(validManifest())).toEqual(validManifest())
   })
 
+  it("accepts an optional versioned compact asset without changing legacy URLs", () => {
+    const manifest = { ...validManifest(), compact: { ...validManifest().full, url: "/data/kjv-compact-v1.json" } }
+    expect(parseKjvCorpusManifest(manifest)).toEqual(manifest)
+    expect(parseKjvCorpusManifest({ ...manifest, compact: { ...manifest.compact, url: "https://example.com/data.json" } })).toBeNull()
+    expect(parseKjvCorpusManifest({ ...manifest, compact: { ...manifest.compact, verseCount: 1 } })).toBeNull()
+  })
+
   it("matches parsed book, chapter, and verse counts to an asset", () => {
     const books: Book[] = [{
       name: "Genesis",

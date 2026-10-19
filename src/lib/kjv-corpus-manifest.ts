@@ -16,6 +16,7 @@ export type KjvCorpusManifest = {
   corpusVersion: string
   bootstrap: KjvCorpusAsset
   full: KjvCorpusAsset
+  compact?: KjvCorpusAsset
 }
 
 export function matchesKjvCorpusAsset(
@@ -43,7 +44,7 @@ function isPositiveSafeInteger(value: unknown): value is number {
 
 function parseAsset(
   value: unknown,
-  expectedUrl: "/data/kjv-bootstrap.json" | "/data/kjv.json",
+  expectedUrl: "/data/kjv-bootstrap.json" | "/data/kjv.json" | "/data/kjv-compact-v1.json",
 ): KjvCorpusAsset | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return null
@@ -85,12 +86,15 @@ export function parseKjvCorpusManifest(
     "/data/kjv-bootstrap.json",
   )
   const full = parseAsset(candidate.full, "/data/kjv.json")
+  const compact = candidate.compact === undefined ? undefined :
+    parseAsset(candidate.compact, "/data/kjv-compact-v1.json")
   if (
     candidate.schemaVersion !== 1 ||
     typeof candidate.corpusVersion !== "string" ||
     !/^sha256-[a-f0-9]{16}$/.test(candidate.corpusVersion) ||
     !bootstrap ||
-    !full ||
+    !full || compact === null ||
+    (compact && (compact.bookCount !== 66 || compact.chapterCount !== 1189 || compact.verseCount !== 31102)) ||
     bootstrap.bookCount !== 1 ||
     bootstrap.chapterCount !== 1 ||
     bootstrap.verseCount !== 31 ||
@@ -106,5 +110,6 @@ export function parseKjvCorpusManifest(
     corpusVersion: candidate.corpusVersion,
     bootstrap,
     full,
+    ...(compact ? { compact } : {}),
   }
 }

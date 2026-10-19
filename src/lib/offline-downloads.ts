@@ -1,4 +1,5 @@
 import { DOWNLOAD_CACHE_NAME, cacheNameForAsset } from "@/lib/offline-cache";
+import { KJV_CORPUS_MANIFEST_URL, parseKjvCorpusManifest } from "@/lib/kjv-corpus-manifest";
 import { sha256, type OfflineInventory } from "@/lib/offline-inventory";
 import type { Book } from "@/types/bible";
 import { bookCodeForIndex } from "@/lib/reader-view";
@@ -115,16 +116,20 @@ export function parseAppShellAssetManifest(value: unknown): AppShellAssetManifes
 }
 
 export async function loadCoreOfflineUrls() {
-  const response = await fetch(APP_SHELL_ASSET_MANIFEST_URL, {
-    cache: "no-cache",
-  });
+  const [response, corpusResponse] = await Promise.all([
+    fetch(APP_SHELL_ASSET_MANIFEST_URL, { cache: "no-cache" }),
+    fetch(KJV_CORPUS_MANIFEST_URL, { cache: "no-cache" }),
+  ]);
   if (!response.ok) {
     throw new Error(`Could not load app-shell assets (HTTP ${response.status})`);
   }
   const manifest = parseAppShellAssetManifest(await response.json());
+  if (!corpusResponse.ok) throw new Error(`Could not load Bible download information (HTTP ${corpusResponse.status})`);
+  const corpus = parseKjvCorpusManifest(await corpusResponse.json());
+  if (!corpus) throw new Error("Invalid Bible download information");
   return Array.from(
     new Set([
-      ...CORE_OFFLINE_URLS,
+      ...CORE_OFFLINE_URLS.map(url => url === "/data/kjv.json" ? (corpus.compact ?? corpus.full).url : url),
       ...manifest.assets,
       ...manifest.offlineIconAssets,
     ]),
@@ -240,7 +245,13 @@ export async function downloadOfflineAssetBatch(
 
 export async function deleteOfflineAssetBatch(urls: string[]) {
   const stores = await Promise.all([openAppCache(), caches.open(DOWNLOAD_CACHE_NAME)]);
-  for (const url of urls) {
+  // Clearing Core Bible Data also clears the legacy fallback retained on upgrade.
+  const targets = new Set(urls);
+  if (targets.has(KJV_CORPUS_MANIFEST_URL)) {
+    targets.add("/data/kjv.json");
+    targets.add("/data/kjv-compact-v1.json");
+  }
+  for (const url of targets) {
     const absoluteUrl = new URL(url, window.location.origin).toString();
     await Promise.all(stores.map(cache => cache.delete(absoluteUrl, {
       ignoreSearch: false,

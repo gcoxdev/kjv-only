@@ -32,6 +32,7 @@ import {
   matchesKjvCorpusAsset,
   parseKjvCorpusManifest,
   type KjvCorpusManifest,
+  type KjvCorpusAsset,
 } from "@/lib/kjv-corpus-manifest";
 
 let kjvBooksPromise: Promise<Book[]> | null = null;
@@ -104,10 +105,11 @@ function fetchKjvBooksInWorker(url: string) {
     );
     worker.addEventListener(
       "message",
-      (event: MessageEvent<{ books?: Book[]; error?: string }>) => {
+      (event: MessageEvent<{ books?: Book[]; payload?: unknown; error?: string }>) => {
         worker.terminate();
-        if (event.data.books && event.data.books.length > 0) {
-          resolve(event.data.books);
+        const books = parseBooks(event.data.payload ?? event.data.books);
+        if (books && books.length > 0) {
+          resolve(books);
           return;
         }
         reject(new Error(event.data.error ?? `Could not load ${url}`));
@@ -184,22 +186,20 @@ export function loadKjvBooks() {
   if (!kjvBooksPromise) {
     const finishMeasure = beginPerformanceMeasure("kjv:corpus-load");
     kjvBooksPromise = loadKjvManifest()
-      .then(async (manifest) => ({
-        manifest,
-        books: await (typeof Worker === "function"
-          ? fetchKjvBooksInWorker(manifest.full.url).catch(() =>
-              fetchKjvBooksOnMainThread(manifest.full.url),
-            )
-          : fetchKjvBooksOnMainThread(manifest.full.url)),
-      }))
-      .then(({ books, manifest }) => {
-        if (books[0]?.name !== "Genesis") {
-          throw new Error("Invalid canonical Bible corpus order");
+      .then(async (manifest) => {
+        const loadAsset = async (asset: KjvCorpusAsset) => {
+          const books = await (typeof Worker === "function"
+            ? fetchKjvBooksInWorker(asset.url).catch(() => fetchKjvBooksOnMainThread(asset.url))
+            : fetchKjvBooksOnMainThread(asset.url));
+          if (books[0]?.name !== "Genesis") throw new Error("Invalid canonical Bible corpus order");
+          if (!matchesKjvCorpusAsset(books, asset)) throw new Error("Invalid full Bible corpus counts");
+          return books;
+        };
+        if (manifest.compact) {
+          try { return await loadAsset(manifest.compact); }
+          catch { /* Older offline installations may only have the legacy corpus. */ }
         }
-        if (!matchesKjvCorpusAsset(books, manifest.full)) {
-          throw new Error("Invalid full Bible corpus counts");
-        }
-        return books;
+        return loadAsset(manifest.full);
       })
       .finally(finishMeasure)
       .catch((error) => {
