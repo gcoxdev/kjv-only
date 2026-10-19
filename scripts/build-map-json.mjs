@@ -2,7 +2,7 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { boundsForGeoJson, mapGeoJsonForDisplay } from "../src/lib/maps.ts";
+import { boundsForGeoJson, cleanMapMarkup, mapGeoJsonForDisplay } from "../src/lib/maps.ts";
 import { buildMapIdentifications } from "./lib/map-identifications.ts";
 
 const DEFAULT_GEOMETRY_PATH = "public/maps/geometry";
@@ -83,18 +83,12 @@ function dedupeStrings(values) {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
 }
 
-function cleanMarkup(input) {
-  return input.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
-}
-
 function toCompactVerseReference(verse) {
   if (typeof verse?.usx === "string") {
     return verse.usx.replace(/\s+/g, ".").replace(":", ".");
   }
   if (typeof verse?.osis === "string") {
-    return verse.osis
-      .replace(/^([1-3]?[A-Za-z]+)\./, (_, bookCode) => `${normalizeBookCode(bookCode)}.`)
-      .replace(/\./g, ".");
+    return verse.osis.replace(/^([1-3]?[A-Za-z]+)\./, (_, bookCode) => `${normalizeBookCode(bookCode)}.`);
   }
   return null;
 }
@@ -194,7 +188,7 @@ function buildModernNames(ancientEntry, modernById) {
   }
 
   for (const identification of ancientEntry.identifications ?? []) {
-    const cleaned = cleanMarkup(identification.description ?? "");
+    const cleaned = cleanMapMarkup(identification.description ?? "");
     if (cleaned) {
       names.push(cleaned);
     }

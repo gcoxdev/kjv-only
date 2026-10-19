@@ -18,6 +18,21 @@ import {
 } from "@/lib/map-renderers";
 
 describe("maps helpers", () => {
+  it.each([
+    ['  <modern id="x">Tel\n Dan</modern>  ', "Tel Dan"],
+    ["<modern><b>Dan</b></modern>", "Dan"],
+    ["<<modern>Dan</modern>>", "Dan"],
+    ["<scr<script>ipt>", "ipt"],
+    ["Dan <script", "Dan"],
+    ["Dan <> >", "Dan"],
+    ["&lt;modern&gt;Dan&lt;/modern&gt;", "&lt;modern&gt;Dan&lt;/modern&gt;"],
+  ])("converts source markup to text without leftover angle brackets: %s", (input, expected) => {
+    const text = cleanMapMarkup(input);
+    expect(text).toBe(expected);
+    expect(text).not.toMatch(/[<>]/);
+    expect(cleanMapMarkup(text)).toBe(text);
+  });
+
   it("cleans markup and matches normalized words", () => {
     expect(cleanMapMarkup('<modern id="x">Arabian Peninsula</modern>')).toBe(
       "Arabian Peninsula",

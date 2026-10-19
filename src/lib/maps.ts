@@ -84,11 +84,18 @@ export function mapEntrySearchableText(entry: AncientMapEntry) {
     .toLowerCase();
 }
 
+/** Plain-text labels from source markup; callers must render as text, never HTML. */
 export function cleanMapMarkup(input: string) {
-  return input
-    .replace(/<[^>]+>/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  let text = "";
+  let insideTag = false;
+  // Source labels use simple wrappers such as <modern id="...">. Discard
+  // tag contents (including an unfinished tag) and never copy angle brackets.
+  for (const character of input) {
+    if (character === "<") insideTag = true;
+    else if (character === ">") insideTag = false;
+    else if (!insideTag) text += character;
+  }
+  return text.replace(/\s+/g, " ").trim();
 }
 
 export function mapConfidenceLabel(score?: number) {

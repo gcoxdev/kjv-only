@@ -1,7 +1,11 @@
+// @vitest-environment jsdom
+import { cleanup, render } from "@testing-library/react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ChapterTextContent } from "@/components/reader/chapter-text-content";
+
+afterEach(cleanup);
 
 const verses = [
   {
@@ -67,7 +71,7 @@ describe("ChapterTextContent", () => {
   });
 
   it("keeps standalone punctuation attached and non-interactive in study mode", () => {
-    const markup = renderToStaticMarkup(
+    const { container, getByRole, queryByRole } = render(
       <ChapterTextContent
         bookName="Genesis"
         chapterNumber={1}
@@ -99,13 +103,13 @@ describe("ChapterTextContent", () => {
       />,
     );
 
-    expect(markup.match(/data-inline-study-token="true"/g)).toHaveLength(3);
-    expect(markup).toContain('aria-label="Details for God"');
-    expect(markup).toContain('aria-label="Details for said"');
-    expect(markup).toContain('aria-label="Details for Amen"');
-    expect(markup).not.toContain('aria-label="Details for ,"');
-    expect(markup).not.toContain('aria-label="Details for :"');
-    expect(markup).not.toContain('aria-label="Details for ."');
-    expect(markup.replace(/<[^>]+>/g, "")).toBe("God, said: Amen.");
+    expect(container.querySelectorAll('[data-inline-study-token="true"]')).toHaveLength(3);
+    for (const word of ["God", "said", "Amen"]) {
+      expect(getByRole("button", { name: `Details for ${word}` }).textContent).toBe(word);
+    }
+    for (const punctuation of [",", ":", "."]) {
+      expect(queryByRole("button", { name: `Details for ${punctuation}` })).toBeNull();
+    }
+    expect(container.textContent).toBe("God, said: Amen.");
   });
 });
