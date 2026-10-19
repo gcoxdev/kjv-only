@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import type {
   SearchDefinition,
   SearchFacets,
@@ -253,7 +254,7 @@ export function formatSearchResultsText(args: {
     "",
   ];
   for (const match of args.results) {
-    const reference = `${match.bookName} ${match.chapterIndex + 1}:${match.verseNumber}`;
+    const reference = `${chapterLabel(match.bookName, match.chapterIndex + 1)}:${match.verseNumber}`;
     const context = args.contextByMatchKey?.get(searchMatchKey(match));
     for (const before of context?.before ?? []) {
       lines.push(`  Before (${before.verseNumber}) ${before.text}`);

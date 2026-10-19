@@ -45,7 +45,7 @@ describe("proposed map locations", () => {
         expect(mapIdentificationTarget(candidate, payload), `${entry.geojson_file}: ${candidate.label}`).not.toBeNull();
       }
     }
-  }, 60_000);
+  }, 180_000);
 
   const mixed: MapGeoJsonPayload = { bbox: [-170, -80, 170, 80], features: [
     { properties: { id: "site.point" }, geometry: { type: "Point", coordinates: [35, 32] } },

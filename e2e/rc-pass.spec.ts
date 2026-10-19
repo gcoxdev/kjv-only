@@ -370,7 +370,7 @@ test("downloads, uses, and clears the core offline package", async ({
     }
   })
   expect(offlineReadiness.controlled).toBe(true)
-  expect(offlineReadiness.cacheName).toBe("kjv-only-cache-v10")
+  expect(offlineReadiness.cacheName).toMatch(/^kjv-only-cache-/)
   expect(offlineReadiness.missing).toEqual([])
 
   await context.setOffline(true)
@@ -430,5 +430,6 @@ test("downloads, uses, and clears the core offline package", async ({
     .getByText("Core Bible Data", { exact: true }).filter({ visible: true })
     .locator('xpath=ancestor::*[@data-slot="card"][1]')
   await refreshedCoreCard.getByRole("button", { name: "Clear Bundle" }).click()
+  await expect(refreshedCoreCard.getByRole("button", { name: "Download Core Bible Data", exact: true })).toBeEnabled({ timeout: 180_000 })
   await expect(refreshedCoreCard.getByText("Not downloaded", { exact: true })).toBeVisible()
 })

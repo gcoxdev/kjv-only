@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Component, type ReactNode } from "react"
 
 import { KJVReader } from "@/components/reader/kjv-reader"
@@ -28,7 +29,10 @@ class AppErrorBoundary extends Component<
               ? "Some application files are unavailable offline. Reconnect and reload once to refresh the offline copy."
               : "The application could not finish loading. Reload to try again."
           }
-        />
+        >
+          <Button size="sm" onClick={() => window.location.reload()}>Reload</Button>
+          <Button size="sm" variant="outline" onClick={() => window.location.replace(window.location.pathname + window.location.search)}>Reset workspace</Button>
+        </ReaderStatusScreen>
       )
     }
 

@@ -3,9 +3,9 @@ import { readFileSync } from "node:fs"
 
 const ISOLATION_TEST_URL = "/icons/app-icon.svg?cache-isolation-test=1"
 const APP_CACHE = readFileSync(
-  new URL("../public/app-cache-config.js", import.meta.url),
+  new URL(process.env.PLAYWRIGHT_USE_PREVIEW ? "../dist/app-cache-config.js" : "../public/app-cache-config.js", import.meta.url),
   "utf8",
-).match(/cacheName:\s*["']([^"']+)["']/)?.[1]
+).match(/["']?cacheName["']?:\s*["']([^"']+)["']/)?.[1]
 
 if (!APP_CACHE) {
   throw new Error("Could not read the application cache name")
@@ -147,7 +147,10 @@ test("refreshes manifests and keeps the complete app shell usable offline", asyn
   expect(cacheState.missingAssets).toEqual([])
   expect(cacheState.missingIcons).toEqual([])
   expect(cacheState.refreshedManifestIconCount).toBe(165)
-  expect(cacheState.cachedManifestIconCount).toBe(165)
+  await expect.poll(() => page.evaluate(async (name) => {
+    const manifest = await (await (await caches.open(name!)).match("/app-shell-assets.json"))?.json();
+    return manifest?.offlineIconAssets?.length ?? 0;
+  }, APP_CACHE)).toBe(165)
 
   await page.evaluate(async () => {
     for (const url of [
@@ -163,6 +166,7 @@ test("refreshes manifests and keeps the complete app shell usable offline", asyn
     }
   })
 
+  await expect.poll(() => page.evaluate(async () => Boolean(await (await caches.open("kjv-only-downloads-v1")).match("/data/kjv.json")))).toBe(true)
   await context.setOffline(true)
   const offlineIcons = await page.evaluate(async () => {
     const cachedBookIcon = await fetch("/icons/bw/LEV.png")
@@ -355,7 +359,10 @@ test("upgrades and reads only application-owned caches", async ({ page, context 
     workerUrl.searchParams.set("upgrade-test", "1")
     const readyRegistration = await navigator.serviceWorker.ready
     await readyRegistration.unregister()
-    await caches.open("kjv-only-cache-obsolete-test")
+    const legacyCache = await caches.open("kjv-only-cache-obsolete-test")
+    await legacyCache.put("/maps/geometry/migration-test.geojson", new Response("preserved map"))
+    const downloads = await caches.open("kjv-only-downloads-v1")
+    await downloads.put("/audio/migration-test.mp3", new Response("preserved audio"))
     await caches.open("unrelated-application-cache")
     const registration = await navigator.serviceWorker.register(workerUrl.href, {
       updateViaCache: "none",
@@ -422,6 +429,8 @@ test("upgrades and reads only application-owned caches", async ({ page, context 
     )
   }, { isolationTestUrl: ISOLATION_TEST_URL, currentCacheName: APP_CACHE })
   await context.setOffline(true)
+  expect(await page.evaluate(() => fetch("/maps/geometry/migration-test.geojson").then(response => response.text()))).toBe("preserved map")
+  expect(await page.evaluate(() => fetch("/audio/migration-test.mp3").then(response => response.text()))).toBe("preserved audio")
   const isolatedCacheResult = await page.evaluate(async (isolationTestUrl) => {
     try {
       return await (await fetch(isolationTestUrl)).text()

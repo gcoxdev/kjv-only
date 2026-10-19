@@ -23,6 +23,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
+import { dayOfYear } from "@/lib/calendar-date";
 import { parseBibleReference } from "@/lib/references";
 import { preloadSearchPage } from "@/lib/search-page-loader";
 import {
@@ -52,12 +53,6 @@ type DailyScriptureEntry = {
   reference: string;
   topic: string;
 };
-
-function dayOfYear(date: Date) {
-  const start = new Date(date.getFullYear(), 0, 0);
-  const diff = date.getTime() - start.getTime();
-  return Math.floor(diff / 86_400_000);
-}
 
 function renderVerseText(book: Book, chapterIndex: number, verseStart: number, verseEnd: number) {
   const chapter = book.chapters[chapterIndex];
@@ -101,13 +96,25 @@ export function WelcomeHomePage({
     DailyScriptureTopicsPayload["topics"]
   >([]);
 
-  const initialIndex = useMemo(
-    () =>
-      Math.max(0, dayOfYear(new Date()) - 1),
-    [],
-  );
+  const [dailySeed, setDailySeed] = useState(() => dayOfYear(new Date()) - 1);
 
-  const [dailySeed, setDailySeed] = useState(initialIndex);
+  useEffect(() => {
+    let day = new Date().toDateString();
+    let timer: ReturnType<typeof setTimeout>;
+    const refresh = () => {
+      const now = new Date();
+      if (now.toDateString() !== day) {
+        day = now.toDateString();
+        setDailySeed(dayOfYear(now) - 1);
+      }
+      clearTimeout(timer);
+      const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      timer = setTimeout(refresh, midnight.getTime() - now.getTime() + 100);
+    };
+    refresh();
+    document.addEventListener("visibilitychange", refresh);
+    return () => { clearTimeout(timer); document.removeEventListener("visibilitychange", refresh); };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;

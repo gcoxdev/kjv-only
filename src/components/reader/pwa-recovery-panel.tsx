@@ -242,7 +242,7 @@ export function PwaRecoveryPanel({
                 Notes and bookmarks are not targeted. Export them first if you have not already made a current backup.
               </span>
               <span>
-                Downloaded Bible data, maps, and audio stored in the app cache will need to be downloaded again.
+                Downloaded Bible data, maps, and audio in the downloads cache are preserved.
               </span>
             </AlertDialogDescription>
           </AlertDialogHeader>

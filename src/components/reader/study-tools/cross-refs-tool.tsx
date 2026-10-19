@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import { type ReactNode } from "react";
 import { BookSearchIcon, LoaderCircleIcon } from "lucide-react";
 
@@ -31,7 +32,7 @@ function selectedLabel(selectedKey: string, books: Book[]) {
     return selectedKey;
   }
   const book = books[parsed.bookIndex];
-  return `${book?.name ?? parsed.bookCode} ${parsed.startChapterIndex + 1}:${parsed.startVerse}`;
+  return `${chapterLabel(book?.name ?? parsed.bookCode, parsed.startChapterIndex + 1)}:${parsed.startVerse}`;
 }
 
 export function CrossRefsTool({

@@ -36,7 +36,7 @@ for (const { mode, width } of [
     await page.getByRole("button", { name: "Smart", exact: true }).click();
     await page.getByLabel("Word or phrase").fill("sheperd");
     await page.getByLabel("Run Bible search").click();
-    await expect(page.getByText("Psalms 23:1", { exact: true })).toBeVisible();
+    await expect(page.getByText("Psalm 23:1", { exact: true })).toBeVisible();
     await expect(notice).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Refine search", exact: true })).toHaveCount(0);
   });

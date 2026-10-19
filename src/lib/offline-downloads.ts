@@ -1,3 +1,4 @@
+import { DOWNLOAD_CACHE_NAME, cacheNameForAsset } from "@/lib/offline-cache";
 import { sha256, type OfflineInventory } from "@/lib/offline-inventory";
 import type { Book } from "@/types/bible";
 import { bookCodeForIndex } from "@/lib/reader-view";
@@ -29,6 +30,7 @@ export const CORE_OFFLINE_URLS = [
   "/index.html",
   "/manifest.webmanifest",
   "/sw.js",
+  "/theme-init.js",
   "/app-cache-config.js",
   APP_SHELL_ASSET_MANIFEST_URL,
   "/icons/app-icon.svg",
@@ -170,14 +172,14 @@ export async function clearAppOfflineCaches() {
   const cacheNames = await caches.keys();
   const { cachePrefix } = getAppCacheConfig();
   const appCacheNames = cacheNames.filter((cacheName) =>
-    cacheName.startsWith(cachePrefix),
+    cacheName.startsWith(cachePrefix) || cacheName === DOWNLOAD_CACHE_NAME,
   );
   await Promise.all(appCacheNames.map((cacheName) => caches.delete(cacheName)));
 }
 
 export async function getCachedOfflineAssetKeys() {
-  const cache = await openAppCache();
-  const requests = await cache.keys();
+  const stores = await Promise.all([openAppCache(), caches.open(DOWNLOAD_CACHE_NAME)]);
+  const requests = (await Promise.all(stores.map(cache => cache.keys()))).flat();
   return new Set(
     requests.map((request) => normalizeOfflineAssetUrl(request.url)),
   );
@@ -193,7 +195,6 @@ export async function downloadOfflineAssetBatch(
   options?: DownloadOfflineAssetBatchOptions,
   onProgress?: (completed: number, total: number, failures: string[]) => void,
 ) {
-  const cache = await openAppCache();
   const cachedKeys = await getCachedOfflineAssetKeys();
   const failures: string[] = [];
   let completed = 0;
@@ -222,6 +223,7 @@ export async function downloadOfflineAssetBatch(
           throw new Error("The download does not match the current bundle. Reload download information and try again.");
         }
       }
+      const cache = await caches.open(cacheNameForAsset(absoluteUrl));
       await cache.put(absoluteUrl, response.clone());
       if (expected) verified += 1;
       cachedKeys.add(normalizedKey);
@@ -237,13 +239,13 @@ export async function downloadOfflineAssetBatch(
 }
 
 export async function deleteOfflineAssetBatch(urls: string[]) {
-  const cache = await openAppCache();
+  const stores = await Promise.all([openAppCache(), caches.open(DOWNLOAD_CACHE_NAME)]);
   for (const url of urls) {
     const absoluteUrl = new URL(url, window.location.origin).toString();
-    await cache.delete(absoluteUrl, {
+    await Promise.all(stores.map(cache => cache.delete(absoluteUrl, {
       ignoreSearch: false,
       ignoreVary: true,
-    });
+    })));
   }
 }
 

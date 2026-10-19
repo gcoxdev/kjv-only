@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import { normalizeBookmarkRanges, normalizeRangePoints } from "@/lib/bookmarks";
 import {
   BOOK_ICON_CODES,
@@ -377,18 +378,18 @@ export function formatNoteLinkLabel(target: NoteLinkTarget, books: Book[]): stri
       normalized.start.bookIndex === normalized.end.bookIndex &&
       normalized.start.chapterIndex === normalized.end.chapterIndex
     ) {
-      return `${bookName} ${normalized.start.chapterIndex + 1}:${normalized.start.verseNumber}-${normalized.end.verseNumber}`;
+      return `${chapterLabel(bookName, normalized.start.chapterIndex + 1)}:${normalized.start.verseNumber}-${normalized.end.verseNumber}`;
     }
-    return `${bookName} ${normalized.start.chapterIndex + 1}:${normalized.start.verseNumber}-${normalized.end.chapterIndex + 1}:${normalized.end.verseNumber}`;
+    return `${chapterLabel(bookName, normalized.start.chapterIndex + 1)}:${normalized.start.verseNumber}-${normalized.end.chapterIndex + 1}:${normalized.end.verseNumber}`;
   }
 
   const bookName = books[target.bookIndex]?.name ?? `Book ${target.bookIndex + 1}`;
   const chapterNumber = target.chapterIndex + 1;
   if (target.type === "chapter") {
-    return `${bookName} ${chapterNumber}`;
+    return `${chapterLabel(bookName, chapterNumber)}`;
   }
   if (target.type === "verse") {
-    return `${bookName} ${chapterNumber}:${target.verseNumber}`;
+    return `${chapterLabel(bookName, chapterNumber)}:${target.verseNumber}`;
   }
   if (target.type === "selection") {
     const rangesLabel = target.ranges
@@ -398,9 +399,9 @@ export function formatNoteLinkLabel(target: NoteLinkTarget, books: Book[]): stri
           : `${range.start}-${range.end}`,
       )
       .join(", ");
-    return `${bookName} ${chapterNumber}:${rangesLabel}`;
+    return `${chapterLabel(bookName, chapterNumber)}:${rangesLabel}`;
   }
-  return `${bookName} ${chapterNumber}:${target.verseNumber} • "${target.word}"`;
+  return `${chapterLabel(bookName, chapterNumber)}:${target.verseNumber} • "${target.word}"`;
 }
 
 export function parseTypedBibleReference(

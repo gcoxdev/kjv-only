@@ -9,6 +9,7 @@ import { ReaderControlTooltip } from "@/components/reader/reader-control-tooltip
 import { ToolReferenceList } from "@/components/reader/tool-reference-list";
 import type { TimelineReaderContext } from "@/hooks/use-timeline-reader-context";
 import { loadChapterSummaries, loadSummaryOverview, summaryChapterLabel, summaryReferenceCode, summaryReferenceLabel, type ChapterSummaries, type SummaryReference } from "@/lib/summaries";
+import { BIBLE_BOOKS } from "@/lib/bible-books";
 import type { Book } from "@/types/bible";
 
 type SummaryToolProps = {
@@ -25,18 +26,18 @@ type LoadedSummary = {
   attempt: number;
 } & ({ data: { chapters: ChapterSummaries | null; overview: Awaited<ReturnType<typeof loadSummaryOverview>> } } | { error: string });
 
-function SummaryReferences({ references, books, ...props }: Pick<SummaryToolProps, "books" | "renderPreview" | "onOpenReference" | "onCloseSidebar"> & { references: SummaryReference[] }) {
-  const labels = Object.fromEntries(references.map(reference => [summaryReferenceCode(reference, books), summaryReferenceLabel(reference)]));
+function SummaryReferences({ references, ...props }: Pick<SummaryToolProps, "renderPreview" | "onOpenReference" | "onCloseSidebar"> & { references: SummaryReference[] }) {
+  const labels = Object.fromEntries(references.map(reference => [summaryReferenceCode(reference), summaryReferenceLabel(reference)]));
   return <ToolReferenceList references={Object.keys(labels)} referenceLabels={labels} highlightWord="" {...props} />;
 }
 
-export function SummaryTool({ isOpen, context, books, ...referenceProps }: SummaryToolProps) {
+export function SummaryTool({ isOpen, context, ...referenceProps }: SummaryToolProps) {
   const [level, setLevel] = useState("chapter");
   const [browsing, setBrowsing] = useState<TimelineReaderContext | null>(null);
   const selection = browsing ?? context ?? { bookIndex: 0, chapterIndex: 0 };
-  const bookIndex = Math.max(0, Math.min(selection.bookIndex, books.length - 1));
-  const book = books[bookIndex];
-  const chapterIndex = Math.max(0, Math.min(selection.chapterIndex, (book?.chapters.length ?? 1) - 1));
+  const bookIndex = Math.max(0, Math.min(selection.bookIndex, BIBLE_BOOKS.length - 1));
+  const book = BIBLE_BOOKS[bookIndex];
+  const chapterIndex = Math.max(0, Math.min(selection.chapterIndex, (book?.chapterCount ?? 1) - 1));
   const chapterNumber = chapterIndex + 1;
   const [loaded, setLoaded] = useState<LoadedSummary | null>(null);
   const [attempt, setAttempt] = useState(0);
@@ -81,7 +82,7 @@ export function SummaryTool({ isOpen, context, books, ...referenceProps }: Summa
                 }}>
                   <SelectTrigger className="w-full min-w-0" aria-label="Summary book"><SelectValue>{book.name}</SelectValue></SelectTrigger>
                   <SelectContent className="min-w-52" align="start" alignItemWithTrigger={false}>
-                    <SelectGroup>{books.map((entry, index) => (
+                    <SelectGroup>{BIBLE_BOOKS.map((entry, index) => (
                       <SelectItem key={entry.name} value={String(index)}><span className="whitespace-nowrap">{entry.name}</span></SelectItem>
                     ))}</SelectGroup>
                   </SelectContent>
@@ -94,13 +95,13 @@ export function SummaryTool({ isOpen, context, books, ...referenceProps }: Summa
                     <Select value={String(chapterIndex)} onValueChange={(value) => { if (value !== null) selectChapter(Number(value)); }}>
                       <SelectTrigger className="min-w-0 flex-1" aria-label="Summary chapter"><SelectValue>{book.name === "Psalms" ? "Psalm" : "Chapter"} {chapterNumber}</SelectValue></SelectTrigger>
                       <SelectContent alignItemWithTrigger={false}>
-                        <SelectGroup>{book.chapters.map((entry, index) => (
-                          <SelectItem key={entry.chapter} value={String(index)}>{entry.chapter}</SelectItem>
+                        <SelectGroup>{Array.from({ length: book.chapterCount }, (_, index) => (
+                          <SelectItem key={index} value={String(index)}>{index + 1}</SelectItem>
                         ))}</SelectGroup>
                       </SelectContent>
                     </Select>
                     <ReaderControlTooltip label="Next summary chapter">
-                      <Button size="icon-sm" variant="outline" aria-label="Next summary chapter" disabled={chapterIndex === book.chapters.length - 1} onClick={() => selectChapter(chapterIndex + 1)}><ChevronRightIcon /></Button>
+                      <Button size="icon-sm" variant="outline" aria-label="Next summary chapter" disabled={chapterIndex === book.chapterCount - 1} onClick={() => selectChapter(chapterIndex + 1)}><ChevronRightIcon /></Button>
                     </ReaderControlTooltip>
                   </div>
                 ) : null}
@@ -126,7 +127,7 @@ export function SummaryTool({ isOpen, context, books, ...referenceProps }: Summa
                   {chapter.parts.map(part => (
                     <div key={part.start} className="flex min-w-0 flex-col gap-1.5">
                       <p className="leading-relaxed">{part.text}</p>
-                      <SummaryReferences references={[{ book: book.name, chapter: chapterNumber, start: part.start, end: part.end }]} books={books} {...referenceProps} />
+                      <SummaryReferences references={[{ book: book.name, chapter: chapterNumber, start: part.start, end: part.end }]} {...referenceProps} />
                     </div>
                   ))}
                 </article>
@@ -163,7 +164,7 @@ export function SummaryTool({ isOpen, context, books, ...referenceProps }: Summa
                       {testament.parts.map((part, index) => (
                         <div key={index} className="flex min-w-0 flex-col gap-1.5">
                           <p className="leading-relaxed">{part.text}</p>
-                          <SummaryReferences references={part.references} books={books} {...referenceProps} />
+                          <SummaryReferences references={part.references} {...referenceProps} />
                         </div>
                       ))}
                     </section>

@@ -1,31 +1,16 @@
-import { useEffect, useState } from "react"
-
-import {
-  READER_STORAGE_KEYS,
-  readLocalStorageJson,
-  reportLocalStorageIssue,
-  writeLocalStorageJson,
-} from "@/lib/local-storage"
-import {
-  isReadChaptersPayload,
-  parseReadChapters,
-} from "@/lib/reader-persistence"
+import { useSyncedStorage } from "@/hooks/use-synced-storage";
+import { READER_STORAGE_KEYS, reportLocalStorageIssue } from "@/lib/local-storage";
+import { isReadChaptersPayload, parseReadChapters } from "@/lib/reader-persistence";
+import { mergeStoredSet } from "@/lib/synced-storage";
 
 export function useReadChapters() {
-  const [readChapters, setReadChapters] = useState(() => {
-    const stored = readLocalStorageJson<unknown>(READER_STORAGE_KEYS.readChapters)
-    if (stored !== null && !isReadChaptersPayload(stored)) {
-      reportLocalStorageIssue(READER_STORAGE_KEYS.readChapters)
-    }
-    return parseReadChapters(stored)
-  })
-
-  useEffect(() => {
-    writeLocalStorageJson(
-      READER_STORAGE_KEYS.readChapters,
-      Array.from(readChapters),
-    )
-  }, [readChapters])
-
-  return { readChapters, setReadChapters }
+  const [readChapters, setReadChapters] = useSyncedStorage(READER_STORAGE_KEYS.readChapters, {
+    parse(raw) {
+      const value: unknown = raw === null ? null : JSON.parse(raw);
+      if (value !== null && !isReadChaptersPayload(value)) reportLocalStorageIssue(READER_STORAGE_KEYS.readChapters);
+      return parseReadChapters(value);
+    },
+    stringify: value => JSON.stringify([...value]),
+  }, mergeStoredSet, new Set<string>());
+  return { readChapters, setReadChapters };
 }

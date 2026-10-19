@@ -1,9 +1,10 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-async function openSummary(page: Page, width: number) {
+async function openSummary(page: Page, width: number, bootstrap = false) {
   await page.setViewportSize({ width, height: 844 });
-  await page.goto("/#tab=0&tabs=h&layout=Genesis%201:GEN.1");
+  await page.goto(bootstrap ? "/" : "/#tab=0&tabs=h&layout=Genesis%201:GEN.1");
+  if (bootstrap) await page.getByRole("button", { name: "Genesis 1", exact: true }).click();
   await expect(page.getByRole("region", { name: "Genesis 1 panel", exact: true })).toBeVisible();
   if (width < 768) await page.getByRole("button", { name: "Toggle Sidebar", exact: true }).click();
   const sidebar = page.getByRole("region", { name: "Study sidebar", exact: true });
@@ -56,7 +57,7 @@ for (const width of [390, 1280]) {
         await expect(popover).toBeVisible();
         await popover.getByRole("button", { name: "Open", exact: true }).click();
       }
-      await expect(page.getByRole("region", { name: "Psalms 23 panel", exact: true })).toBeVisible();
+      await expect(page.getByRole("region", { name: "Psalm 23 panel", exact: true })).toBeVisible();
       expect(errors).toEqual([]);
     });
   });
@@ -114,4 +115,26 @@ test("all summary collections are included in the offline app shell", async ({ p
   await expect(sidebar.getByRole("article", { name: "Revelation book summary", exact: true })).toBeVisible();
   await sidebar.getByRole("tab", { name: "Bible", exact: true }).click();
   await expect(sidebar.getByRole("article", { name: "Whole Bible summary", exact: true })).toBeVisible();
+});
+
+
+test("Summary can browse the entire Bible while the verse corpus is still loading", async ({ page }) => {
+  let release!: () => void;
+  const held = new Promise<void>(resolve => { release = resolve; });
+  await page.route("**/data/kjv.json*", async route => { await held; await route.abort(); });
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  try {
+    const sidebar = await openSummary(page, 1280, true);
+    await sidebar.getByRole("tab", { name: "Bible", exact: true }).click();
+    await expect(sidebar.getByRole("heading", { name: "New Testament", exact: true })).toBeAttached();
+    await sidebar.getByRole("tab", { name: "Chapter", exact: true }).click();
+    await sidebar.getByRole("combobox", { name: "Summary book" }).click();
+    await expect(page.getByRole("option")).toHaveCount(66);
+    await page.getByRole("option", { name: "Revelation", exact: true }).click();
+    await sidebar.getByRole("combobox", { name: "Summary chapter" }).click();
+    await page.getByRole("option", { name: "22", exact: true }).click();
+    await expect(sidebar.getByRole("article", { name: "Revelation 22 summary" })).toBeVisible();
+    expect(errors).toEqual([]);
+  } finally { release(); }
 });

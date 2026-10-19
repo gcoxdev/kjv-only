@@ -1,3 +1,4 @@
+import { ReaderErrorBoundary } from "@/components/reader/reader-error-boundary";
 import type { ComponentProps } from "react";
 
 import { SummaryTool } from "@/components/reader/study-tools/summary-tool";
@@ -52,26 +53,37 @@ export function ReaderStudyToolsContent({
 
   return (
     <>
+      <ReaderErrorBoundary label="Summary">
       <SummaryTool
         {...summaryProps}
         isOpen={isSectionOpen("summary", summaryProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="CrossRefs">
       <CrossRefsTool
         {...crossRefsProps}
         isOpen={isSectionOpen("cross-refs", crossRefsProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="Concordance">
       <ConcordanceTool
         {...concordanceProps}
         isOpen={isSectionOpen("concordance", concordanceProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="Websters">
       <WebstersTool
         {...webstersProps}
         isOpen={isSectionOpen("websters", webstersProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="Strongs">
       <StrongsTool
         {...strongsProps}
         isOpen={isSectionOpen("strongs", strongsProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="KJVWordsPhrases">
       <KJVWordsPhrasesTool
         {...kjvWordsPhrasesProps}
         isOpen={isSectionOpen(
@@ -79,6 +91,8 @@ export function ReaderStudyToolsContent({
           kjvWordsPhrasesProps.isOpen,
         )}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="BibleWordBook">
       <BibleWordBookTool
         {...bibleWordBookProps}
         isOpen={isSectionOpen(
@@ -86,10 +100,14 @@ export function ReaderStudyToolsContent({
           bibleWordBookProps.isOpen,
         )}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="Hitchcocks">
       <HitchcocksTool
         {...hitchcocksProps}
         isOpen={isSectionOpen("hitchcocks", hitchcocksProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="AIDictionary">
       <AIDictionaryTool
         {...aiDictionaryProps}
         isOpen={isSectionOpen(
@@ -97,15 +115,22 @@ export function ReaderStudyToolsContent({
           aiDictionaryProps.isOpen,
         )}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="Genealogy">
       <GenealogyTool
         {...genealogyProps}
         isOpen={isSectionOpen("genealogy", genealogyProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="Maps">
       <MapsTool
         {...mapsProps}
         isOpen={isSectionOpen("maps", mapsProps.isOpen)}
       />
+      </ReaderErrorBoundary>
+      <ReaderErrorBoundary label="Timeline">
       <TimelineTool {...timelineProps} isOpen={isSectionOpen("timeline", timelineProps.isOpen)} />
+      </ReaderErrorBoundary>
     </>
   );
 }

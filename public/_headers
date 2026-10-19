@@ -32,3 +32,9 @@
 
 /maps/data/*
   Cache-Control: no-cache
+
+/topics/*
+  Cache-Control: no-cache
+
+/theme-init.js
+  Cache-Control: no-cache

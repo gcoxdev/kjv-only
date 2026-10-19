@@ -1,3 +1,4 @@
+import { BIBLE_BOOKS, chapterLabel } from "@/lib/bible-books";
 import { BOOK_ICON_CODES } from "@/lib/references";
 
 export type SummaryPart = { start: number; end: number; text: string };
@@ -39,7 +40,7 @@ export async function loadSummaryOverview(): Promise<{ books: BookSummary[]; bib
 }
 
 export function summaryChapterLabel(book: string, chapter: number) {
-  return `${book === "Psalms" ? "Psalm" : book} ${chapter}`;
+  return chapterLabel(book, chapter);
 }
 
 export function summaryReferenceLabel(reference: SummaryReference) {
@@ -47,8 +48,8 @@ export function summaryReferenceLabel(reference: SummaryReference) {
   return `${summaryChapterLabel(book, chapter)}:${start}${end === start ? "" : `-${end}`}`;
 }
 
-export function summaryReferenceCode(reference: SummaryReference, books: readonly { name: string }[]) {
-  const code = BOOK_ICON_CODES[books.findIndex(book => book.name === reference.book)];
+export function summaryReferenceCode(reference: SummaryReference) {
+  const code = BOOK_ICON_CODES[BIBLE_BOOKS.findIndex(book => book.name === reference.book)];
   if (!code) throw new Error(`Unknown summary reference book: ${reference.book}`);
   return `${code}.${reference.chapter}.${reference.start}${reference.end === reference.start ? "" : `-${reference.end}`}`;
 }

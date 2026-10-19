@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto"
 import { buildOfflineInventory, writeOfflineInventory } from "./scripts/lib/offline-inventory.ts"
 import path from "path"
 import { constants } from "node:fs"
@@ -9,6 +10,7 @@ import { defineConfig, type Connect, type Plugin } from "vite"
 
 const RUNTIME_PUBLIC_ENTRIES = [
   "_headers",
+  "theme-init.js",
   "app-cache-config.js",
   "audio",
   "data",
@@ -23,6 +25,7 @@ const RUNTIME_PUBLIC_ENTRIES = [
 
 const EXACT_RUNTIME_ASSETS = new Set([
   "_headers",
+  "theme-init.js",
   "app-cache-config.js",
   "data/kjv-bootstrap.json",
   "data/kjv.json",
@@ -271,6 +274,17 @@ function runtimePublicAssets(): Plugin {
       "utf8",
     )
     await fs.rename(temporaryPath, manifestPath)
+    const hash = createHash("sha256").update(await fs.readFile(manifestPath)).update(indexHtml)
+    // Fixed-name shell resources must also invalidate an installed worker.
+    for (const file of ["sw.js", "theme-init.js", "manifest.webmanifest", "app-cache-config.js", ...(await collectGeneratedAssetUrls(path.join(outputDirectory, "icons"))).map(url => url.slice(1))]) {
+      hash.update(await fs.readFile(path.join(outputDirectory, file)))
+    }
+    const cacheName = `kjv-only-cache-build-${hash.digest("hex").slice(0, 20)}`
+    await fs.writeFile(path.join(outputDirectory, "app-cache-config.js"), `globalThis.KJV_ONLY_CACHE_CONFIG = Object.freeze(${JSON.stringify({ cachePrefix: "kjv-only-cache-", cacheName })});\n`)
+    const workerPath = path.join(outputDirectory, "sw.js")
+    const worker = await fs.readFile(workerPath, "utf8")
+    await fs.writeFile(workerPath, worker.replace("const BUILD_CACHE_NAME = null", `const BUILD_CACHE_NAME = ${JSON.stringify(cacheName)}`))
+
   }
 
   return {
@@ -279,9 +293,7 @@ function runtimePublicAssets(): Plugin {
       installDevelopmentManifestMiddleware(server.middlewares)
       installRuntimeAssetMiddleware(server.middlewares)
     },
-    configurePreviewServer(server) {
-      installRuntimeAssetMiddleware(server.middlewares)
-    },
+    // Preview must serve the generated cache config and worker from dist.
     configResolved(config) {
       outputDirectory = path.resolve(config.root, config.build.outDir)
     },

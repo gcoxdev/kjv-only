@@ -9,6 +9,7 @@ const REQUIRED_PATHS = [
   "index.html",
   "manifest.webmanifest",
   "sw.js",
+  "theme-init.js",
   "app-cache-config.js",
   "app-shell-assets.json",
   "offline-inventory.json",
@@ -113,6 +114,11 @@ try {
     path.join(DIST_DIR, "sw.js"),
     "utf8",
   );
+  const cacheConfig = await fs.readFile(path.join(DIST_DIR, "app-cache-config.js"), "utf8");
+  const buildCache = cacheConfig.match(/"cacheName":"(kjv-only-cache-build-[a-f0-9]{20})"/)?.[1];
+  if (!buildCache || !serviceWorkerSource.includes(`const BUILD_CACHE_NAME = "${buildCache}"`)) {
+    failures.push("The generated worker and app must use the same build-specific cache");
+  }
   const installStart = serviceWorkerSource.indexOf(
     'self.addEventListener("install"',
   );

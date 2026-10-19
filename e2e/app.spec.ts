@@ -395,7 +395,7 @@ test("finds Psalms 23:1 for sheperd without short prefixes crowding it out", asy
   await page.getByLabel("Run Bible search").click()
 
   await expect(page.getByText(/\d+ matching verses loaded/)).toBeVisible()
-  await expect(page.getByText("Psalms 23:1", { exact: true })).toBeVisible()
+  await expect(page.getByText("Psalm 23:1", { exact: true })).toBeVisible()
   await expect(page.getByText("Genesis 3:20", { exact: true })).toHaveCount(0)
 })
 
@@ -598,7 +598,7 @@ test("uses context and reference display preferences across Search and tools", a
   await expect(referenceButton).toBeVisible()
   await referenceButton.hover()
 
-  const referencePopover = page.getByRole("dialog")
+  const referencePopover = page.getByRole("dialog").filter({ hasText: /Through faith we understand that the worlds were framed/ })
   await expect(
     referencePopover.getByText(/Through faith we understand that the worlds were framed/),
   ).toBeVisible()

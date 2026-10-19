@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import { Button } from "@/components/ui/button";
 import {
   Progress,
@@ -67,7 +68,7 @@ export function ProgressPanelContent({
   onResetAllProgress,
 }: ProgressPanelContentProps) {
   const continuationLabel = readingContinuation
-    ? `${readingContinuation.bookName} ${readingContinuation.chapterNumber}`
+    ? `${chapterLabel(readingContinuation.bookName, readingContinuation.chapterNumber)}`
     : null;
 
   return (

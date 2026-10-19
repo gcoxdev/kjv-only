@@ -1,12 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { isBookmarkScopeAvailable, bookmarkCanonicalKey, bookmarkScopeLabel, normalizeRangePoints } from "@/lib/bookmarks";
-import {
-  READER_STORAGE_KEYS,
-  readLocalStorageValue,
-  reportLocalStorageIssue,
-  writeLocalStorageJson,
-} from "@/lib/local-storage";
+import { READER_STORAGE_KEYS } from "@/lib/local-storage";
+import { useSyncedStorage } from "@/hooks/use-synced-storage";
+import { mergeStoredItems, recoveryCodec } from "@/lib/synced-storage";
 import { filterRecordEntries, swapRecordEntries } from "@/lib/leaf-state";
 import { createId } from "@/lib/reader-layout";
 import { parseStoredBookmarksPayloadDetailed } from "@/lib/reader-transfer";
@@ -21,44 +18,14 @@ type UseReaderBookmarksArgs = {
 };
 
 export function useReaderBookmarks({ books }: UseReaderBookmarksArgs) {
-  const [readerBookmarks, setReaderBookmarks] = useState<ReaderBookmark[]>([]);
-  const [bookmarksHydrated, setBookmarksHydrated] = useState(false);
-  const initialReaderBookmarksRef = useRef(readerBookmarks);
-  const blockedPersistStateRef = useRef<ReaderBookmark[] | null>(null);
+  const [readerBookmarks, setReaderBookmarks] = useSyncedStorage(
+    READER_STORAGE_KEYS.bookmarks, recoveryCodec<ReaderBookmark>(READER_STORAGE_KEYS.bookmarks, parseStoredBookmarksPayloadDetailed),
+    mergeStoredItems<ReaderBookmark>, [],
+  );
   const [highlightModeEnabledByLeafId, setHighlightModeEnabledByLeafId] =
     useState<Record<string, boolean>>({});
   const [selectedHighlightScope, setSelectedHighlightScope] =
     useState<BookmarkScope | null>(null);
-
-  useEffect(() => {
-    try {
-      const stored = readLocalStorageValue(READER_STORAGE_KEYS.bookmarks);
-      if (!stored) {
-        return;
-      }
-      const parsed = parseStoredBookmarksPayloadDetailed(stored);
-      if (parsed.skippedInvalidCount > 0) {
-        reportLocalStorageIssue(READER_STORAGE_KEYS.bookmarks);
-      }
-      setReaderBookmarks(parsed.entries);
-    } catch {
-      blockedPersistStateRef.current = initialReaderBookmarksRef.current;
-      reportLocalStorageIssue(READER_STORAGE_KEYS.bookmarks);
-    } finally {
-      setBookmarksHydrated(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!bookmarksHydrated || blockedPersistStateRef.current === readerBookmarks) {
-      return;
-    }
-    try {
-      writeLocalStorageJson(READER_STORAGE_KEYS.bookmarks, readerBookmarks);
-    } catch {
-      // Ignore persistence errors (quota/private mode edge cases).
-    }
-  }, [bookmarksHydrated, readerBookmarks]);
 
   const upsertBookmark = useCallback(
     (
@@ -120,7 +87,7 @@ export function useReaderBookmarks({ books }: UseReaderBookmarksArgs) {
 
       return nextBookmarkId;
     },
-    [books],
+    [books, setReaderBookmarks],
   );
 
   const updateBookmark = useCallback(
@@ -148,14 +115,14 @@ export function useReaderBookmarks({ books }: UseReaderBookmarksArgs) {
         ),
       );
     },
-    [books],
+    [books, setReaderBookmarks],
   );
 
   const deleteBookmark = useCallback((bookmarkId: string) => {
     setReaderBookmarks((current) =>
       current.filter((bookmark) => bookmark.id !== bookmarkId),
     );
-  }, []);
+  }, [setReaderBookmarks]);
 
   const importBookmarks = useCallback((importedBookmarks: ReaderBookmark[]) => {
     setReaderBookmarks((current) => {
@@ -168,7 +135,7 @@ export function useReaderBookmarks({ books }: UseReaderBookmarksArgs) {
       }
       return [...merged.values()].sort((a, b) => b.updatedAt - a.updatedAt);
     });
-  }, []);
+  }, [setReaderBookmarks]);
 
   const toggleHighlightModeForLeaf = useCallback((leafId: string) => {
     setHighlightModeEnabledByLeafId((current) => {

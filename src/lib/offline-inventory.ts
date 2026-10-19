@@ -1,3 +1,4 @@
+import { DOWNLOAD_CACHE_NAME } from "@/lib/offline-cache";
 import { readLocalStorageJson, writeLocalStorageJson } from '@/lib/local-storage';
 export type OfflineAsset = { bytes: number; sha256: string };
 export type OfflineInventory = { schemaVersion: 1; mapUrls?: string[]; assets: Record<string, OfflineAsset> };
@@ -57,7 +58,7 @@ export async function loadOfflineInventory() {
   return inventory;
 }
 function openInventoryCache() {
-  return caches.open(globalThis.KJV_ONLY_CACHE_CONFIG?.cacheName ?? 'kjv-only-cache-v10');
+  return caches.open(DOWNLOAD_CACHE_NAME);
 }
 
 export async function readSavedOfflineInventory(): Promise<OfflineInventory | null> {

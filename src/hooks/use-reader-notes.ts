@@ -1,12 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { migrateNoteBodyInternalLinks } from "@/lib/note-links";
-import {
-  READER_STORAGE_KEYS,
-  readLocalStorageValue,
-  reportLocalStorageIssue,
-  writeLocalStorageJson,
-} from "@/lib/local-storage";
+import { READER_STORAGE_KEYS } from "@/lib/local-storage";
+import { useSyncedStorage } from "@/hooks/use-synced-storage";
+import { mergeStoredItems, recoveryCodec } from "@/lib/synced-storage";
 import { filterRecordEntries, swapRecordEntries } from "@/lib/leaf-state";
 import { noteMatchesContext } from "@/lib/notes";
 import { createId, findLeafNode, collectLeafIds } from "@/lib/reader-layout";
@@ -50,49 +47,14 @@ function contextFromScope(scope: ReaderNote["scope"]): NotesContext | null {
 }
 
 export function useReaderNotes({ activeTab }: UseReaderNotesArgs) {
-  const [readerNotes, setReaderNotes] = useState<ReaderNote[]>([]);
-  const [notesHydrated, setNotesHydrated] = useState(false);
-  const initialReaderNotesRef = useRef(readerNotes);
-  const blockedPersistStateRef = useRef<ReaderNote[] | null>(null);
+  const [readerNotes, setReaderNotes] = useSyncedStorage(
+    READER_STORAGE_KEYS.notes, recoveryCodec<ReaderNote>(READER_STORAGE_KEYS.notes, (raw) => { const parsed = parseStoredNotesPayloadDetailed(raw); return { ...parsed, entries: parsed.entries.map(note => ({ ...note, body: migrateNoteBodyInternalLinks(note.body) })) }; }),
+    mergeStoredItems<ReaderNote>, [],
+  );
   const [notesContext, setNotesContext] = useState<NotesContext | null>(null);
   const [notesTabStateByLeafId, setNotesTabStateByLeafId] = useState<
     Record<string, NotesTabState>
   >({});
-
-  useEffect(() => {
-    try {
-      const stored = readLocalStorageValue(READER_STORAGE_KEYS.notes);
-      if (!stored) {
-        return;
-      }
-      const parsed = parseStoredNotesPayloadDetailed(stored);
-      if (parsed.skippedInvalidCount > 0) {
-        reportLocalStorageIssue(READER_STORAGE_KEYS.notes);
-      }
-      setReaderNotes(
-        parsed.entries.map((note) => ({
-          ...note,
-          body: migrateNoteBodyInternalLinks(note.body),
-        })),
-      );
-    } catch {
-      blockedPersistStateRef.current = initialReaderNotesRef.current;
-      reportLocalStorageIssue(READER_STORAGE_KEYS.notes);
-    } finally {
-      setNotesHydrated(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!notesHydrated || blockedPersistStateRef.current === readerNotes) {
-      return;
-    }
-    try {
-      writeLocalStorageJson(READER_STORAGE_KEYS.notes, readerNotes);
-    } catch {
-      // Ignore persistence errors (quota/private mode edge cases).
-    }
-  }, [notesHydrated, readerNotes]);
 
   useEffect(() => {
     if (!activeTab) {
@@ -138,7 +100,7 @@ export function useReaderNotes({ activeTab }: UseReaderNotesArgs) {
       ...current,
     ]);
     return noteId;
-  }, []);
+  }, [setReaderNotes]);
 
   const createContextNote = useCallback((context: NotesContext | null) => {
     if (!context) {
@@ -178,7 +140,7 @@ export function useReaderNotes({ activeTab }: UseReaderNotesArgs) {
       ...current,
     ]);
     return noteId;
-  }, []);
+  }, [setReaderNotes]);
 
   const updateNote = useCallback(
     (noteId: string, patch: Partial<Pick<ReaderNote, "title" | "body" | "scope" | "folder" | "tags">>) => {
@@ -189,12 +151,12 @@ export function useReaderNotes({ activeTab }: UseReaderNotesArgs) {
         ),
       );
     },
-    [],
+    [setReaderNotes],
   );
 
   const deleteNote = useCallback((noteId: string) => {
     setReaderNotes((current) => current.filter((note) => note.id !== noteId));
-  }, []);
+  }, [setReaderNotes]);
 
   const importNotes = useCallback((importedNotes: ReaderNote[]) => {
     setReaderNotes((current) => {
@@ -225,7 +187,7 @@ export function useReaderNotes({ activeTab }: UseReaderNotesArgs) {
       }
       return contextFromScope(importedScopedNotes[0].scope) ?? current;
     });
-  }, []);
+  }, [setReaderNotes]);
 
   const changeNotesTabState = useCallback(
     (leafId: string, patch: Partial<NotesTabState>) => {

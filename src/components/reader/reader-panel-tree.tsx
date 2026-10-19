@@ -1,3 +1,5 @@
+import { ReaderErrorBoundary } from "@/components/reader/reader-error-boundary";
+import { chapterLabel } from "@/lib/bible-books";
 import { VISUAL_TOOL_TITLES } from "@/lib/visual-tool-routing";
 import { HistoryIcon, MapIcon, NetworkIcon } from "lucide-react";
 import { ReaderControlTooltip } from "@/components/reader/reader-control-tooltip";
@@ -794,7 +796,7 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
   const canHistoryForward = canGoLeafHistoryForward(leaf.id);
   const panelAccessibleName =
     leaf.view === "reader"
-      ? `${book?.name ?? "Bible"} ${chapter?.chapter ?? leaf.chapterIndex + 1}`
+      ? chapterLabel(book?.name ?? "Bible", chapter?.chapter ?? leaf.chapterIndex + 1)
       : leaf.view === "visual-tool" ? visualToolTitle
       : leaf.view === "picker"
         ? "Panel Home"
@@ -864,7 +866,7 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
                   className="w-auto max-w-full justify-start px-2"
                   onClick={openBookPickerPanelHome}
                 >
-                  {`${book?.name ?? "Book"} ${chapter.chapter}`}
+                  {chapterLabel(book?.name ?? "Book", chapter.chapter)}
                 </Button>
               </>
             ) : panelHeaderIcon ? (
@@ -1355,7 +1357,7 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
               <Progress
                 value={readingProgress}
                 className="w-full"
-                aria-label={`Reading progress for ${book?.name ?? "Book"} ${chapter.chapter}`}
+                aria-label={`Reading progress for ${chapterLabel(book?.name ?? "Book", chapter.chapter)}`}
               />
               {audioVisible ? (
                 <div className="flex flex-col gap-2 border-b p-2">
@@ -1965,6 +1967,7 @@ export const ReaderPanelTree = memo(function ReaderPanelTree({
   onActivePanelChange,
 }: ReaderPanelTreeProps) {
   const renderLeaf = (leaf: LeafNode) => (
+    <ReaderErrorBoundary key={leaf.id} label="This panel" resetKey={`${leaf.view}:${leaf.bookIndex}:${leaf.chapterIndex}`}>
     <ReaderLeafPanel
       key={leaf.id}
       leaf={leaf}
@@ -2069,6 +2072,7 @@ export const ReaderPanelTree = memo(function ReaderPanelTree({
       activePanelLeafId={activePanelLeafId}
       onActivePanelChange={onActivePanelChange}
     />
+    </ReaderErrorBoundary>
   );
 
   const flattenRenderableChildren = (

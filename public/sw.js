@@ -1,5 +1,14 @@
 const workerUrl = new URL(self.location.href)
-const APP_CACHE = workerUrl.searchParams.get("cacheName")
+const BUILD_CACHE_NAME = null // Replaced by the production build.
+const APP_CACHE = BUILD_CACHE_NAME || workerUrl.searchParams.get("cacheName")
+const DOWNLOAD_CACHE = "kjv-only-downloads-v1"
+const NETWORK_TIMEOUT_MS = 3500
+function isDownloadPath(path) {
+  return /^\/(?:audio|data|references|maps|topics)\//.test(path) || path === "/offline-inventory.json"
+}
+function cacheForRequest(request) {
+  return caches.open(isDownloadPath(new URL(request.url).pathname) ? DOWNLOAD_CACHE : APP_CACHE)
+}
 const APP_CACHE_PREFIX = workerUrl.searchParams.get("cachePrefix")
 const CACHE_TOKEN_PATTERN = /^[a-z0-9][a-z0-9._-]{0,99}$/
 if (
@@ -15,6 +24,7 @@ const APP_SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
+  "/theme-init.js",
   "/app-cache-config.js",
   "/app-shell-assets.json",
   "/data/kjv-manifest.json",
@@ -36,9 +46,10 @@ const APP_SHELL_ASSET_URL_PATTERN =
   /^\/assets\/[A-Za-z0-9][A-Za-z0-9._-]*(?:\/[A-Za-z0-9][A-Za-z0-9._-]*)*$/
 const OFFLINE_ICON_ASSET_URL_PATTERN =
   /^\/icons\/(?:bw|color)\/[A-Za-z0-9][A-Za-z0-9._-]{0,99}\.png$/
-const LIVE_DATA_PREFIXES = ["/references/", "/data/", "/maps/"]
+const LIVE_DATA_PREFIXES = ["/references/", "/data/", "/maps/", "/topics/"]
 const NETWORK_FIRST_PATHS = new Set([
   "/offline-inventory.json",
+  "/theme-init.js",
   "/app-cache-config.js",
   "/app-shell-assets.json",
 ])
@@ -108,29 +119,38 @@ async function cacheAppShell() {
   )
 }
 
-async function networkFirst(request) {
-  const cache = await caches.open(APP_CACHE)
-  let response
+function sameCacheVersion(cached, response) {
+  if (!cached || !response.ok) return false
+  const etag = response.headers.get("etag")
+  if (etag) return etag === cached.headers.get("etag")
+  const modified = response.headers.get("last-modified")
+  const length = response.headers.get("content-length")
+  return Boolean(modified && length && modified === cached.headers.get("last-modified") && length === cached.headers.get("content-length"))
+}
 
-  try {
-    response = await fetch(request)
-  } catch {
-    const cached = await cache.match(request, { ignoreVary: true })
-    return cached || Response.error()
-  }
-
-  if (shouldCacheResponse(response)) {
-    try {
-      await cache.put(request, response.clone())
-    } catch {
-      // A cache quota failure must not turn a successful online request into an error.
+async function networkFirst(request, event, navigation = false) {
+  const cache = await (navigation ? caches.open(APP_CACHE) : cacheForRequest(request))
+  const key = navigation ? "/index.html" : request
+  const cached = await cache.match(key, { ignoreVary: true }) || (!navigation && isDownloadPath(new URL(request.url).pathname)
+    ? await (await caches.open(APP_CACHE)).match(request, { ignoreVary: true }) : undefined)
+  const network = fetch(request).then(response => {
+    if (shouldCacheResponse(response) && !sameCacheVersion(cached, response)) {
+      const copy = response.clone()
+      event.waitUntil(cache.put(key, copy).catch(() => {}))
     }
-  }
-  return response
+    return response.status >= 500 && cached ? cached : response
+  }).catch(() => cached || Response.error())
+  // Keep the request alive to refresh the cache even after a timed fallback.
+  event.waitUntil(network.then(() => {}))
+  if (!cached) return network
+  let timer
+  const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(cached), NETWORK_TIMEOUT_MS) })
+  try { return await Promise.race([network, timeout]) }
+  finally { clearTimeout(timer) }
 }
 
 async function cacheFirst(request, requestUrl) {
-  const cache = await caches.open(APP_CACHE)
+  const cache = await cacheForRequest(request)
   const cached = await cache.match(request, { ignoreVary: true })
   if (cached) {
     return cached
@@ -198,21 +218,22 @@ self.addEventListener("message", (event) => {
 })
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys.map((key) => {
-            if (key.startsWith(APP_CACHE_PREFIX) && key !== APP_CACHE) {
-              return caches.delete(key)
-            }
-            return Promise.resolve()
-          })
-        )
-      )
-      .then(() => self.clients.claim())
-  )
+  event.waitUntil((async () => {
+    const downloads = await caches.open(DOWNLOAD_CACHE)
+    for (const name of await caches.keys()) {
+      if (!name.startsWith(APP_CACHE_PREFIX) || name === APP_CACHE) continue
+      const old = await caches.open(name)
+      for (const request of await old.keys()) {
+        if (!isDownloadPath(new URL(request.url).pathname)) continue
+        if (await downloads.match(request, { ignoreVary: true })) continue
+        const response = await old.match(request, { ignoreVary: true })
+        if (response?.status === 200) await downloads.put(request, response)
+      }
+      // Never delete an old cache if migration failed (e.g. storage quota).
+      await caches.delete(name)
+    }
+    await self.clients.claim()
+  })())
 })
 
 self.addEventListener("fetch", (event) => {
@@ -239,19 +260,12 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (event.request.mode === "navigate") {
-    event.respondWith(
-      fetch(event.request).catch(() =>
-        caches
-          .open(APP_CACHE)
-          .then((cache) => cache.match("/index.html"))
-          .then((cached) => cached || Response.error())
-      )
-    )
+    event.respondWith(networkFirst(event.request, event, true))
     return
   }
 
   if (shouldUseNetworkFirst(requestUrl)) {
-    event.respondWith(networkFirst(event.request))
+    event.respondWith(networkFirst(event.request, event))
     return
   }
 

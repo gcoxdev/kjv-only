@@ -1,10 +1,12 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import type { ReactNode } from "react";
+import { CardContent, Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 type ReaderStatusScreenProps = {
   message: string;
+  children?: ReactNode;
 };
 
-export function ReaderStatusScreen({ message }: ReaderStatusScreenProps) {
+export function ReaderStatusScreen({ message, children }: ReaderStatusScreenProps) {
   return (
     <main className="flex min-h-screen w-full items-center justify-center p-4">
       <Card className="w-full max-w-xl">
@@ -21,6 +23,7 @@ export function ReaderStatusScreen({ message }: ReaderStatusScreenProps) {
             </div>
           </div>
         </CardHeader>
+        {children ? <CardContent className="flex flex-wrap gap-2">{children}</CardContent> : null}
       </Card>
     </main>
   );

@@ -1,3 +1,4 @@
+import { BIBLE_BOOKS } from "../src/lib/bible-books";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { loadChapterSummaries, loadSummaryOverview, summaryChapterLabel, summaryReferenceCode, summaryReferenceLabel } from "@/lib/summaries";
@@ -26,7 +27,7 @@ describe("reviewed summaries", () => {
         for (const part of chapter.parts) {
           expect(part.text.trim()).not.toBe("");
           expect(Number.isInteger(part.start) && Number.isInteger(part.end) && part.end >= part.start).toBe(true);
-          const reference = summaryReferenceCode({ book: source.name, chapter: chapter.chapter, ...part }, books);
+          const reference = summaryReferenceCode({ book: source.name, chapter: chapter.chapter, ...part });
           expect(parseBibleReference(reference)).toMatchObject({ bookIndex, startChapterIndex: chapterIndex, startVerse: part.start, endVerse: part.end });
           covered.push(...Array.from({ length: part.end - part.start + 1 }, (_, i) => part.start + i));
         }
@@ -42,6 +43,7 @@ describe("reviewed summaries", () => {
       });
       expect(covered).toEqual(source.chapters.map(chapter => chapter.chapter));
     }
+    expect(BIBLE_BOOKS).toEqual(books.map(book => ({ name: book.name, chapterCount: book.chapters.length })));
     expect(chapterCount).toBe(1189);
     expect(verseCount).toBe(31102);
   });
@@ -56,7 +58,7 @@ describe("reviewed summaries", () => {
         expect(part.text.trim()).not.toBe("");
         expect(part.references.length).toBeGreaterThan(0);
         for (const reference of part.references) {
-          const parsed = parseBibleReference(summaryReferenceCode(reference, books))!;
+          const parsed = parseBibleReference(summaryReferenceCode(reference))!;
           const verses = books[parsed.bookIndex].chapters[parsed.startChapterIndex].verses;
           expect(reference.start).toBeGreaterThan(0);
           expect(reference.end).toBeGreaterThanOrEqual(reference.start);

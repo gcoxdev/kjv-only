@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import type { Book } from "@/types/bible";
 import type {
   BookmarkPoint,
@@ -53,13 +54,13 @@ function scopeType(scope: BookmarkScope): BookmarkType {
 
 function refLabel(point: BookmarkPoint, books: Book[]) {
   const bookName = books[point.bookIndex]?.name ?? `Book ${point.bookIndex + 1}`;
-  return `${bookName} ${point.chapterIndex + 1}:${point.verseNumber}`;
+  return `${chapterLabel(bookName, point.chapterIndex + 1)}:${point.verseNumber}`;
 }
 
 export function bookmarkScopeLabel(scope: BookmarkScope, books: Book[]) {
   if (scope.type === "chapter") {
     const bookName = books[scope.bookIndex]?.name ?? `Book ${scope.bookIndex + 1}`;
-    return `${bookName} ${scope.chapterIndex + 1}`;
+    return `${chapterLabel(bookName, scope.chapterIndex + 1)}`;
   }
   if (scope.type === "verse") {
     return refLabel(scope, books);
@@ -71,7 +72,7 @@ export function bookmarkScopeLabel(scope: BookmarkScope, books: Book[]) {
         range.start === range.end ? `${range.start}` : `${range.start}-${range.end}`,
       )
       .join(",");
-    return `${bookName} ${scope.chapterIndex + 1}:${rangeLabel}`;
+    return `${chapterLabel(bookName, scope.chapterIndex + 1)}:${rangeLabel}`;
   }
   const normalized = normalizeRangePoints(scope.start, scope.end);
   const sameChapter =
@@ -81,7 +82,7 @@ export function bookmarkScopeLabel(scope: BookmarkScope, books: Book[]) {
     const bookName =
       books[normalized.start.bookIndex]?.name ??
       `Book ${normalized.start.bookIndex + 1}`;
-    return `${bookName} ${normalized.start.chapterIndex + 1}:${normalized.start.verseNumber}-${normalized.end.verseNumber}`;
+    return `${chapterLabel(bookName, normalized.start.chapterIndex + 1)}:${normalized.start.verseNumber}-${normalized.end.verseNumber}`;
   }
   return `${refLabel(normalized.start, books)}-${refLabel(normalized.end, books)}`;
 }
@@ -104,7 +105,7 @@ export function bookmarkScopeSummary(scope: BookmarkScope, books: Book[]) {
     const bookName =
       books[normalized.start.bookIndex]?.name ??
       `Book ${normalized.start.bookIndex + 1}`;
-    return `Range • ${bookName} ${normalized.start.chapterIndex + 1}:${normalized.start.verseNumber}-${normalized.end.verseNumber}`;
+    return `Range • ${chapterLabel(bookName, normalized.start.chapterIndex + 1)}:${normalized.start.verseNumber}-${normalized.end.verseNumber}`;
   }
   return `Range • ${bookmarkScopeLabel(scope, books)}`;
 }

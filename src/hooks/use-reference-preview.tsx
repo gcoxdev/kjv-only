@@ -51,7 +51,7 @@ export function formatReferenceCitation(
         : `${startChapterIndex + 1}:${startVerse}-${endVerse}`
       : `${startChapterIndex + 1}:${startVerse}-${endChapterIndex + 1}:${endVerse}`;
 
-  return `${bookName} ${citationVerse}`;
+  return `${bookName === "Psalms" && startChapterIndex === endChapterIndex ? "Psalm" : bookName} ${citationVerse}`;
 }
 
 export function useReferencePreview({

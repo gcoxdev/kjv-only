@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import { BookOpenIcon, ChartBarIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -20,7 +21,7 @@ export function ReadingContinuationCard({
   className,
 }: ReadingContinuationCardProps) {
   const continuationLabel = readingContinuation
-    ? `${readingContinuation.bookName} ${readingContinuation.chapterNumber}`
+    ? `${chapterLabel(readingContinuation.bookName, readingContinuation.chapterNumber)}`
     : null
 
   return (

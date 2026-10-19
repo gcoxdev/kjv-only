@@ -1,200 +1,66 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, type SetStateAction } from "react";
+import { useSyncedStorage } from "@/hooks/use-synced-storage";
+import { READER_STORAGE_KEYS, reportLocalStorageIssue } from "@/lib/local-storage";
+import { isReaderDisplaySettingsPayload, parseReaderDisplaySettings, type ReaderDisplaySettings } from "@/lib/reader-persistence";
+import { mergeStoredFields } from "@/lib/synced-storage";
+import type { TabsOrientation } from "@/types/reader";
 
-import {
-  READER_STORAGE_KEYS,
-  readLocalStorageJson,
-  readLocalStorageValue,
-  reportLocalStorageIssue,
-  writeLocalStorageJson,
-  writeLocalStorageValue,
-} from "@/lib/local-storage"
-import {
-  isReaderDisplaySettingsPayload,
-  parseReaderDisplaySettings,
-  type ReaderDisplaySettings,
-} from "@/lib/reader-persistence"
-import type { TabsOrientation } from "@/types/reader"
+type UseReaderPreferencesOptions = { tabsOrientation: TabsOrientation; setTabsOrientation: (orientation: TabsOrientation) => void };
 
-type UseReaderPreferencesOptions = {
-  tabsOrientation: TabsOrientation
-  setTabsOrientation: (orientation: TabsOrientation) => void
-}
-
-export function useReaderPreferences({
-  tabsOrientation,
-  setTabsOrientation,
-}: UseReaderPreferencesOptions) {
-  const initialSettingsRef = useRef<ReaderDisplaySettings | null>(null)
-  if (initialSettingsRef.current === null) {
-    const storedSettings = readLocalStorageJson<unknown>(
-      READER_STORAGE_KEYS.displaySettings,
-    )
-    if (
-      storedSettings !== null &&
-      !isReaderDisplaySettingsPayload(storedSettings)
-    ) {
-      reportLocalStorageIssue(READER_STORAGE_KEYS.displaySettings)
+export function useReaderPreferences({ tabsOrientation, setTabsOrientation }: UseReaderPreferencesOptions) {
+  const [settings, updateSettings] = useSyncedStorage(READER_STORAGE_KEYS.displaySettings, {
+    parse(raw) {
+      const value: unknown = raw === null ? null : JSON.parse(raw);
+      if (value !== null && !isReaderDisplaySettingsPayload(value)) reportLocalStorageIssue(READER_STORAGE_KEYS.displaySettings);
+      return parseReaderDisplaySettings(value);
+    },
+    stringify: JSON.stringify,
+  }, mergeStoredFields<ReaderDisplaySettings>, parseReaderDisplaySettings(null));
+  const [theme, setTheme] = useSyncedStorage<"light" | "dark">(READER_STORAGE_KEYS.theme, {
+    parse: raw => raw === "dark" || raw === "light" ? raw : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+    stringify: value => value,
+  }, (_latest, _before, after) => after, "light");
+  const lastOrientation = useRef(tabsOrientation);
+  useEffect(() => {
+    if (settings.tabsOrientation && settings.tabsOrientation !== lastOrientation.current) {
+      lastOrientation.current = settings.tabsOrientation;
+      setTabsOrientation(settings.tabsOrientation);
+    } else if (tabsOrientation !== lastOrientation.current) {
+      lastOrientation.current = tabsOrientation;
+      updateSettings(current => ({ ...current, tabsOrientation }));
     }
-    initialSettingsRef.current = parseReaderDisplaySettings(storedSettings)
-  }
-  const initialSettings = initialSettingsRef.current
-  const [theme, setTheme] = useState<"light" | "dark">(() =>
-    readLocalStorageValue(READER_STORAGE_KEYS.theme) === "dark" ? "dark" : "light",
-  )
-  const [readerColorTheme, setReaderColorTheme] = useState(
-    initialSettings.readerColorTheme,
-  )
-  const [fontSize, setFontSize] = useState(initialSettings.fontSize)
-  const [lightHighlightColor, setLightHighlightColor] = useState(
-    initialSettings.lightHighlightColor,
-  )
-  const [darkHighlightColor, setDarkHighlightColor] = useState(
-    initialSettings.darkHighlightColor,
-  )
-  const [verseSpacing, setVerseSpacing] = useState(initialSettings.verseSpacing)
-  const [contextVerseCount, setContextVerseCount] = useState(
-    initialSettings.contextVerseCount,
-  )
-  const [toolReferenceDisplayMode, setToolReferenceDisplayMode] = useState(
-    initialSettings.toolReferenceDisplayMode,
-  )
-  const [hideReadModeVerseNumbers, setHideReadModeVerseNumbers] = useState(
-    initialSettings.hideReadModeVerseNumbers,
-  )
-  const [readModeParagraphIndent, setReadModeParagraphIndent] = useState(
-    initialSettings.readModeParagraphIndent,
-  )
-  const [flowVersesByParagraph, setFlowVersesByParagraph] = useState(
-    initialSettings.flowVersesByParagraph,
-  )
-  const [showWelcomeHomeAtStartup, setShowWelcomeHomeAtStartup] = useState(
-    initialSettings.showWelcomeHomeAtStartup,
-  )
-  const [wordVerseSelectionTarget, setWordVerseSelectionTarget] = useState(
-    initialSettings.wordVerseSelectionTarget,
-  )
-  const [notesLinkOpenTarget, setNotesLinkOpenTarget] = useState(
-    initialSettings.notesLinkOpenTarget,
-  )
-  const [searchResultOpenTarget, setSearchResultOpenTarget] = useState(
-    initialSettings.searchResultOpenTarget,
-  )
-  const [bookmarkOpenTarget, setBookmarkOpenTarget] = useState(
-    initialSettings.bookmarkOpenTarget,
-  )
-  const [referenceLinkOpenTarget, setReferenceLinkOpenTarget] = useState(
-    initialSettings.referenceLinkOpenTarget,
-  )
-  const [genealogyOpenTarget, setGenealogyOpenTarget] = useState(initialSettings.genealogyOpenTarget)
-  const [mapsOpenTarget, setMapsOpenTarget] = useState(initialSettings.mapsOpenTarget)
-  const [timelineOpenTarget, setTimelineOpenTarget] = useState(initialSettings.timelineOpenTarget)
-  const didMountSettingsRef = useRef(false)
-
+  }, [settings.tabsOrientation, tabsOrientation, setTabsOrientation, updateSettings]);
   useEffect(() => {
-    if (initialSettings.tabsOrientation) {
-      setTabsOrientation(initialSettings.tabsOrientation)
-    }
-  }, [initialSettings, setTabsOrientation])
-
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark")
-    writeLocalStorageValue(READER_STORAGE_KEYS.theme, theme)
-  }, [theme])
-
-  useEffect(() => {
-    document.documentElement.dataset.readerTheme = readerColorTheme
-  }, [readerColorTheme])
-
-  useEffect(() => {
-    if (!didMountSettingsRef.current) {
-      didMountSettingsRef.current = true
-      return
-    }
-    writeLocalStorageJson(READER_STORAGE_KEYS.displaySettings, {
-      readerColorTheme,
-      fontSize,
-      lightHighlightColor,
-      darkHighlightColor,
-      verseSpacing,
-      contextVerseCount,
-      toolReferenceDisplayMode,
-      hideReadModeVerseNumbers,
-      readModeParagraphIndent,
-      flowVersesByParagraph,
-      showWelcomeHomeAtStartup,
-      tabsOrientation,
-      wordVerseSelectionTarget,
-      notesLinkOpenTarget,
-      searchResultOpenTarget,
-      bookmarkOpenTarget,
-      genealogyOpenTarget,
-      mapsOpenTarget,
-      timelineOpenTarget,
-      referenceLinkOpenTarget,
-    })
-  }, [
-    readerColorTheme,
-    fontSize,
-    lightHighlightColor,
-    darkHighlightColor,
-    verseSpacing,
-    contextVerseCount,
-    toolReferenceDisplayMode,
-    hideReadModeVerseNumbers,
-    readModeParagraphIndent,
-    flowVersesByParagraph,
-    showWelcomeHomeAtStartup,
-    tabsOrientation,
-    wordVerseSelectionTarget,
-    notesLinkOpenTarget,
-    searchResultOpenTarget,
-    bookmarkOpenTarget,
-    genealogyOpenTarget,
-    mapsOpenTarget,
-    timelineOpenTarget,
-    referenceLinkOpenTarget,
-  ])
-
-  return {
-    theme,
-    setTheme,
-    readerColorTheme,
-    setReaderColorTheme,
-    fontSize,
-    setFontSize,
-    lightHighlightColor,
-    setLightHighlightColor,
-    darkHighlightColor,
-    setDarkHighlightColor,
-    verseSpacing,
-    setVerseSpacing,
-    contextVerseCount,
-    setContextVerseCount,
-    toolReferenceDisplayMode,
-    setToolReferenceDisplayMode,
-    hideReadModeVerseNumbers,
-    setHideReadModeVerseNumbers,
-    readModeParagraphIndent,
-    setReadModeParagraphIndent,
-    flowVersesByParagraph,
-    setFlowVersesByParagraph,
-    showWelcomeHomeAtStartup,
-    setShowWelcomeHomeAtStartup,
-    wordVerseSelectionTarget,
-    setWordVerseSelectionTarget,
-    notesLinkOpenTarget,
-    setNotesLinkOpenTarget,
-    searchResultOpenTarget,
-    setSearchResultOpenTarget,
-    bookmarkOpenTarget,
-    setBookmarkOpenTarget,
-    genealogyOpenTarget,
-    mapsOpenTarget,
-    timelineOpenTarget,
-    referenceLinkOpenTarget,
-    setGenealogyOpenTarget,
-    setMapsOpenTarget,
-    setTimelineOpenTarget,
-    setReferenceLinkOpenTarget,
-  }
+    document.documentElement.dataset.readerTheme = settings.readerColorTheme;
+  }, [settings.readerColorTheme]);
+  const setters = useMemo(() => {
+    const setter = <K extends keyof ReaderDisplaySettings>(key: K) => (action: SetStateAction<ReaderDisplaySettings[K]>) => {
+      updateSettings(current => ({ ...current, [key]: typeof action === "function" ? action(current[key]) : action }));
+    };
+    return {
+      setReaderColorTheme: setter("readerColorTheme"),
+      setFontSize: setter("fontSize"),
+      setLightHighlightColor: setter("lightHighlightColor"),
+      setDarkHighlightColor: setter("darkHighlightColor"),
+      setVerseSpacing: setter("verseSpacing"),
+      setContextVerseCount: setter("contextVerseCount"),
+      setToolReferenceDisplayMode: setter("toolReferenceDisplayMode"),
+      setHideReadModeVerseNumbers: setter("hideReadModeVerseNumbers"),
+      setReadModeParagraphIndent: setter("readModeParagraphIndent"),
+      setFlowVersesByParagraph: setter("flowVersesByParagraph"),
+      setShowWelcomeHomeAtStartup: setter("showWelcomeHomeAtStartup"),
+      setWordVerseSelectionTarget: setter("wordVerseSelectionTarget"),
+      setNotesLinkOpenTarget: setter("notesLinkOpenTarget"),
+      setSearchResultOpenTarget: setter("searchResultOpenTarget"),
+      setBookmarkOpenTarget: setter("bookmarkOpenTarget"),
+      setReferenceLinkOpenTarget: setter("referenceLinkOpenTarget"),
+      setGenealogyOpenTarget: setter("genealogyOpenTarget"),
+      setMapsOpenTarget: setter("mapsOpenTarget"),
+      setTimelineOpenTarget: setter("timelineOpenTarget"),
+    };
+  }, [updateSettings]);
+  return { ...settings, ...setters, theme, setTheme };
 }

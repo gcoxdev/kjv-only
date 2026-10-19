@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import type { Book } from "@/types/bible";
 import type { NoteScope, NotesContext, ReaderNote } from "@/types/notes";
 
@@ -9,15 +10,15 @@ export function contextLabel(context: NotesContext | null, books: Book[]) {
   const bookName = book?.name ?? `Book ${context.bookIndex + 1}`;
   const chapter = context.chapterIndex + 1;
   if (context.word && context.verseNumber) {
-    return `${bookName} ${chapter}:${context.verseNumber} • "${context.word}"`;
+    return `${chapterLabel(bookName, chapter)}:${context.verseNumber} • "${context.word}"`;
   }
   if (context.word) {
-    return `${bookName} ${chapter} • "${context.word}"`;
+    return `${chapterLabel(bookName, chapter)} • "${context.word}"`;
   }
   if (context.verseNumber) {
-    return `${bookName} ${chapter}:${context.verseNumber}`;
+    return `${chapterLabel(bookName, chapter)}:${context.verseNumber}`;
   }
-  return `${bookName} ${chapter}`;
+  return `${chapterLabel(bookName, chapter)}`;
 }
 
 export function noteScopeLabel(scope: NoteScope, books: Book[]) {
@@ -30,15 +31,15 @@ export function noteScopeLabel(scope: NoteScope, books: Book[]) {
     return bookName;
   }
   if (scope.type === "chapter") {
-    return `${bookName} ${scope.chapterIndex + 1}`;
+    return `${chapterLabel(bookName, scope.chapterIndex + 1)}`;
   }
   if (scope.type === "verse") {
-    return `${bookName} ${scope.chapterIndex + 1}:${scope.verseNumber}`;
+    return `${chapterLabel(bookName, scope.chapterIndex + 1)}:${scope.verseNumber}`;
   }
   if (scope.verseNumber) {
-    return `${bookName} ${scope.chapterIndex + 1}:${scope.verseNumber} • "${scope.word}"`;
+    return `${chapterLabel(bookName, scope.chapterIndex + 1)}:${scope.verseNumber} • "${scope.word}"`;
   }
-  return `${bookName} ${scope.chapterIndex + 1} • "${scope.word}"`;
+  return `${chapterLabel(bookName, scope.chapterIndex + 1)} • "${scope.word}"`;
 }
 
 export function noteMatchesContext(note: ReaderNote, context: NotesContext | null) {

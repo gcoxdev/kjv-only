@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import { bcv_parser } from "bible-passage-reference-parser/esm/bcv_parser.js";
 import * as bibleReferenceLanguage from "bible-passage-reference-parser/esm/lang/en.js";
 
@@ -167,7 +168,7 @@ function formatReferenceRanges(
         : `${range.start}-${range.end}`,
     )
     .join(", ");
-  return `${bookName} ${chapterIndex + 1}:${rangeLabel}`;
+  return `${chapterLabel(bookName, chapterIndex + 1)}:${rangeLabel}`;
 }
 
 function formatCrossChapterRangeLabel(
@@ -307,7 +308,7 @@ function normalizeParsedEntity(
       kind: "chapter" as const,
       bookIndex: startBookIndex,
       chapterIndex: startChapterIndex,
-      label: `${bookName} ${startChapterIndex + 1}`,
+      label: `${chapterLabel(bookName, startChapterIndex + 1)}`,
       target: {
         type: "chapter" as const,
         bookIndex: startBookIndex,
@@ -322,7 +323,7 @@ function normalizeParsedEntity(
         kind: "selection" as const,
         bookIndex: startBookIndex,
         chapterIndex: startChapterIndex,
-        label: `${bookName} ${startChapterIndex + 1}:${startVerse}`,
+        label: `${chapterLabel(bookName, startChapterIndex + 1)}:${startVerse}`,
         target: {
           type: "verse" as const,
           bookIndex: startBookIndex,

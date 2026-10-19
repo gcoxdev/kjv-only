@@ -1,3 +1,4 @@
+import { chapterLabel } from "@/lib/bible-books";
 import {
   memo,
   startTransition,
@@ -316,7 +317,7 @@ const SearchResultRow = memo(
         }
       >
         <p className="tabular-data text-sm font-medium text-foreground">
-          {`${match.bookName} ${match.chapterIndex + 1}:${match.verseNumber}`}
+          {`${chapterLabel(match.bookName, match.chapterIndex + 1)}:${match.verseNumber}`}
         </p>
         {context ? (
           <div
