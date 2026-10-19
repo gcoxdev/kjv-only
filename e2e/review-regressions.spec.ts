@@ -57,10 +57,10 @@ test('read progress from two windows merges and unmarking stays synchronized', a
   const other = await context.newPage();
   await page.goto('/#tab=0&tabs=h&layout=Genesis:GEN.1');
   await other.goto('/#tab=0&tabs=h&layout=Genesis:GEN.2');
-  await page.getByRole('button', { name: 'Mark chapter read', exact: true }).click();
-  await other.getByRole('button', { name: 'Mark chapter read', exact: true }).click();
+  await page.getByRole('button', { name: 'Mark Read: mark chapter read', exact: true }).click();
+  await other.getByRole('button', { name: 'Mark Read: mark chapter read', exact: true }).click();
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('kjv-read-chapters-v1') ?? '[]').sort())).toEqual(['0:0', '0:1']);
-  await page.getByRole('button', { name: 'Mark chapter unread', exact: true }).click();
+  await page.getByRole('button', { name: 'Read: mark chapter unread', exact: true }).click();
   await expect.poll(() => other.evaluate(() => JSON.parse(localStorage.getItem('kjv-read-chapters-v1') ?? '[]'))).toEqual(['0:1']);
   await other.close();
 });

@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CheckIcon, MapPinnedIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,6 @@ export function MapProposedLocations({ entry, geojson, selectedId, disabled, onS
   onSelect: (target: MapViewRequest["target"], identificationId?: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const confidenceId = useId();
   const candidates = useMemo(() => (entry.identifications ?? []).map(identification => ({
     ...identification,
     target: geojson ? mapIdentificationTarget(identification, geojson) : null,
@@ -41,7 +40,6 @@ export function MapProposedLocations({ entry, geojson, selectedId, disabled, onS
           {candidates.map(candidate => (
             <li key={candidate.id}>
               <Button variant="ghost" size="sm" className="h-auto w-full justify-start whitespace-normal py-2 text-left"
-                aria-label={candidate.label} aria-describedby={`${confidenceId}-${candidate.id}`}
                 aria-current={selectedId === candidate.id ? "location" : undefined}
                 disabled={disabled || !candidate.target}
                 onClick={() => {
@@ -51,7 +49,7 @@ export function MapProposedLocations({ entry, geojson, selectedId, disabled, onS
                 }}>
                 {selectedId === candidate.id ? <CheckIcon data-icon="inline-start" /> : null}
                 <span className="min-w-0 flex-1">{candidate.label}</span>
-                <span id={`${confidenceId}-${candidate.id}`} className="shrink-0 text-muted-foreground">
+                <span className="shrink-0 text-muted-foreground">
                   <span className="sr-only">Confidence: </span>
                   {mapConfidenceLabel(candidate.confidence)}
                 </span>

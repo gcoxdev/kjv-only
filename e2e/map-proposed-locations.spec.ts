@@ -31,9 +31,9 @@ for (const renderer of ["OpenFreeMap", "Leaflet"]) {
     await dialog.getByRole("button", { name: "Hide areas", exact: true }).click();
     await locations.click();
     await expect(popup.getByRole("link")).toHaveCount(0);
-    await expect(popup.getByRole("button", { name: "Qalunya", exact: true })).toHaveAccessibleDescription("Confidence: ≈34%");
+    await expect(popup.getByRole("button", { name: /^Qalunya Confidence:/ })).toHaveAccessibleName("Qalunya Confidence: ≈34%");
     await expect(popup.getByRole("button", { name: "Artas", exact: true })).toHaveAccessibleDescription("Confidence: <10%");
-    await popup.getByRole("button", { name: "Emmaus Nicopolis", exact: true }).click();
+    await popup.getByRole("button", { name: /^Emmaus Nicopolis Confidence:/ }).click();
     await expect(popup).not.toBeVisible();
     await expect(locations).toBeFocused();
     await expect(camera).toHaveAttribute("data-map-zoom", "15");
@@ -54,13 +54,13 @@ for (const renderer of ["OpenFreeMap", "Leaflet"]) {
     expect(switched[1]).toBeCloseTo(focused[1], 4);
     await expect(confidence).toHaveText("Emmaus Nicopolis · Confidence: ≈24%");
     await locations.click();
-    await expect(popup.getByRole("button", { name: "Emmaus Nicopolis", exact: true })).toHaveAttribute("aria-current", "location");
+    await expect(popup.getByRole("button", { name: /^Emmaus Nicopolis Confidence:/ })).toHaveAttribute("aria-current", "location");
     await popup.getByRole("button", { name: "Show all locations", exact: true }).click();
     await expect(confidence).toHaveText("6 proposed sites · Select one for confidence");
     await expect.poll(async () => Number(await camera.getAttribute("data-map-zoom"))).toBeLessThan(15);
 
     await locations.click();
-    await popup.getByRole("button", { name: "Qalunya", exact: true }).click();
+    await popup.getByRole("button", { name: /^Qalunya Confidence:/ }).click();
     await expect(confidence).toHaveText("Qalunya · Confidence: ≈34%");
     await expect(camera).toHaveAttribute("data-map-zoom", "15");
     const qalunya = JSON.parse((await camera.getAttribute("data-map-center"))!) as number[];
@@ -97,7 +97,7 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 812, height: 375 }
     expect(results.violations.filter(item => ["serious", "critical"].includes(item.impact ?? ""))).toEqual([]);
     await expect(popup.getByRole("link")).toHaveCount(0);
     await page.screenshot({ path: `design/map-proposed-locations-popup-${viewport.width}.png` });
-    await popup.getByRole("button", { name: "Abu Ghosh", exact: true }).click();
+    await popup.getByRole("button", { name: /^Abu Ghosh Confidence:/ }).click();
     await expect(dialog.locator("[data-map-zoom]")).toHaveAttribute("data-map-zoom", "15");
     await expect(dialog.getByRole("status", { name: "Location confidence" })).toHaveText("Abu Ghosh · Confidence: <10%");
     expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);

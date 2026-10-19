@@ -1634,7 +1634,7 @@ export function SearchPage({
               type="button"
               onClick={search}
               disabled={isSearching || !isVerseIndexReady}
-              aria-label="Run Bible search"
+              aria-label={isVerseIndexBuilding ? "Preparing search..." : "Run Bible search"}
             >
               <SearchIcon />
               {isVerseIndexBuilding ? "Preparing search..." : "Search"}
