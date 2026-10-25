@@ -26,7 +26,7 @@ import {
 import {
   AArrowDownIcon,
   AArrowUpIcon,
-  ListIcon,
+  PictureInPicture2Icon,
   AppWindowIcon,
   RotateCcwIcon,
   Table2Icon,
@@ -718,13 +718,13 @@ export function SettingsPanelContent({
                   }
                 }}
               >
+                <ToggleGroupItem value="buttons" aria-label="Reference popover">
+                  <PictureInPicture2Icon data-icon="inline-start" />
+                  Popover
+                </ToggleGroupItem>
                 <ToggleGroupItem value="table" aria-label="Reference table">
                   <Table2Icon data-icon="inline-start" />
                   Table
-                </ToggleGroupItem>
-                <ToggleGroupItem value="buttons" aria-label="Reference popover">
-                  <ListIcon data-icon="inline-start" />
-                  Popover
                 </ToggleGroupItem>
                 <ToggleGroupItem value="dialog" aria-label="Reference dialog">
                   <AppWindowIcon data-icon="inline-start" />

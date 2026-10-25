@@ -664,7 +664,7 @@ test("uses context and reference display preferences across Search and tools", a
     await referenceDisplayOptions.evaluateAll((options) =>
       options.map((option) => option.getAttribute("aria-label")),
     ),
-  ).toEqual(["Reference table", "Reference popover", "Reference dialog"])
+  ).toEqual(["Reference popover", "Reference table", "Reference dialog"])
   await referenceDisplayOptions.filter({ hasText: "Table" }).click()
   await expect
     .poll(() =>

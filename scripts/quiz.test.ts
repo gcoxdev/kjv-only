@@ -18,7 +18,8 @@ describe("quiz question bank and grading", () => {
   it("checks the actual bank and every embedded KJV verse", () => {
     const corpus = JSON.parse(readFileSync("public/data/kjv.json", "utf8")) as { books: { name: string; chapters: { chapter: number; verses: { verse: number; tokens: { text: string }[] }[] }[] }[] };
     const verses = new Map(corpus.books.flatMap(b => b.chapters.flatMap(c => c.verses.map(v => [`${b.name}:${c.chapter}:${v.verse}`, v.tokens.map(t => t.text).join(" ").replace(/\s+([,.;:?!])/g, "$1")] as const))));
-    expect(bank.questions).toHaveLength(116);
+    expect(bank.questions).toHaveLength(180);
+    expect(bank.featured).toHaveLength(20);
     for (const question of bank.questions) {
       const canonical = question.kind === "text" ? question.answer[0] : question.answer;
       expect(gradeQuizAnswer(question, canonical), question.id).toBe(true);

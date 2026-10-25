@@ -202,3 +202,23 @@ test('quiz references use table mode with expandable context',async({page})=>{
   await expect(table.locator('[data-context-line="surrounding"]')).toHaveCount(2);
   await expect(table.getByRole('button',{name:'Open',exact:true})).toBeVisible();
 });
+
+test('expanded chapter coverage is selectable and uses shared KJV evidence',async({page})=>{
+  const quiz=await quizPanel(page);
+  await expect(quiz).toContainText('180 objectives');
+  await quiz.getByRole('combobox',{name:'Book',exact:true}).click();
+  await page.getByRole('option',{name:'Numbers',exact:true}).click();
+  await quiz.getByRole('combobox',{name:'Chapter',exact:true}).click();
+  await page.getByRole('option',{name:'13',exact:true}).click();
+  await expect(quiz).toContainText('Up to 8 questions');
+  await quiz.getByRole('button',{name:'Start quiz',exact:true}).click();
+  await expect(quiz).toContainText('Numbers 13 · Question 1 of 8');
+  const saved=(await readData(page)).sessions[0];
+  expect(saved.entries).toHaveLength(8);
+  expect(saved.entries.every(e=>e.id.startsWith('04-13-'))).toBe(true);
+  await solveCurrent(page,quiz);
+  await expect(quiz.getByRole('region',{name:'Answer feedback'})).toContainText('Correct');
+  await quiz.getByRole('region',{name:'Answer feedback'}).getByRole('button',{name:/Numbers 13:/}).first().hover();
+  const preview=page.locator('[data-slot=popover-content]');
+  await expect(preview.locator('[data-context-primary=true]').first()).toBeVisible();
+});
