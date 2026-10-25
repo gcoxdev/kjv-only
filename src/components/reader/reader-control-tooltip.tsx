@@ -1,4 +1,4 @@
-import { useState, type ReactElement } from "react";
+import type { ReactElement } from "react";
 
 import {
   Tooltip,
@@ -17,22 +17,23 @@ export function ReaderControlTooltip({
   side?: "top" | "bottom";
   disabled?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
-  const hoverProps = {
-    onPointerEnter: (event: React.PointerEvent) => {
-      if (event.pointerType === "mouse") setOpen(true);
-    },
-    onPointerLeave: () => setOpen(false),
-  };
-
+  // Let Base UI coordinate hover, focus, and pointer travel into the popup.
+  // Closing on pointerleave here creates a loop when the opening animation
+  // briefly crosses the edge of the trigger.
+  // Distinct keys reattach its native hover listeners when the disabled
+  // wrapper is replaced by the enabled button (or vice versa).
   return (
-    <Tooltip open={open} onOpenChange={setOpen}>
+    <Tooltip>
       {disabled ? (
-        <TooltipTrigger {...hoverProps} render={<span className="inline-flex" />}>
+        <TooltipTrigger
+          key="disabled"
+          delay={0}
+          render={<span className="inline-flex" />}
+        >
           {children}
         </TooltipTrigger>
       ) : (
-        <TooltipTrigger {...hoverProps} render={children} />
+        <TooltipTrigger key="enabled" delay={0} render={children} />
       )}
       <TooltipContent side={side}>{label}</TooltipContent>
     </Tooltip>
