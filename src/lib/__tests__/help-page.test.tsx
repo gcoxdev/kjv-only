@@ -18,7 +18,8 @@ describe("HelpPage", () => {
     const markup = renderToStaticMarkup(<HelpPage />);
 
     expect(markup).toContain("an active Welcome Home tab");
-    expect(markup).toContain("Reading Progress, Tools, Topics, Notes, Bookmarks, or Search");
+    expect(markup).toContain("Reading Progress, Tools, Topics, Notes, Bookmarks, Search, or Quiz");
+    expect(markup).toContain("How to use Quiz");
     expect(markup).toContain("Home button beside the title to return");
     expect(markup).toContain("Visual, Targeting, Shortcuts, and Other tabs");
     expect(markup).toContain("What the Shortcuts tab controls");

@@ -14,6 +14,7 @@ const REQUIRED_PATHS = [
   "app-shell-assets.json",
   "offline-inventory.json",
   "data/kjv-bootstrap.json",
+  "data/quiz-pilot-v1.json",
   "data/kjv.json",
   "data/kjv-compact-v1.json",
   "data/kjv-manifest.json",

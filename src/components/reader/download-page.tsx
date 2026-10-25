@@ -190,7 +190,7 @@ export function DownloadPage({
         id: "core",
         title: "Core Bible Data",
         description:
-          "Bible text, summaries, concordance, cross references, dictionaries, genealogy, and the app shell needed for offline study.",
+          "Bible text, summaries, quiz questions, concordance, cross references, dictionaries, genealogy, and the app shell needed for offline study.",
         icon: HardDriveDownloadIcon,
         urls: coreUrls
           ? [

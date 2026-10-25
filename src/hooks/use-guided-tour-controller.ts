@@ -56,7 +56,7 @@ const GUIDED_TOUR_STEPS: GuidedTourStep[] = [
     id: "sidebar",
     title: "Study Sidebar",
     description:
-      "Sidebar Home opens reading progress, tools, topics, notes, bookmarks, and search alongside the Bible text. Use the Home button beside a view title to return.",
+      "Sidebar Home opens reading progress, tools, topics, notes, bookmarks, search, and quizzes alongside the Bible text. Use the Home button beside a view title to return.",
     selector: "[data-tour='sidebar']",
   },
   {

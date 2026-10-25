@@ -45,6 +45,7 @@ export const CORE_OFFLINE_URLS = [
   "/icons/favicon.png",
   "/data/kjv-manifest.json",
   "/data/kjv-bootstrap.json",
+  "/data/quiz-pilot-v1.json",
   "/data/kjv.json",
   "/references/concordance.compact.delta.min.json",
   "/references/cross-refs.json",

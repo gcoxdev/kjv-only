@@ -206,7 +206,17 @@ export const STATIC_PAGES: StaticPageDefinition[] = [
           label: "OpenBible.info",
           href: "https://www.openbible.info/geo/",
           description:
-            "Place, topic, cross-reference, and Bible reference-parser data.",
+            "Place, topic, cross-reference, and Bible reference-parser data. Quiz map points are adapted under CC BY 4.0; coast shapes are schematic.",
+        },
+        {
+          label: "Crossway",
+          href: "https://www.esv.org/resources/esv-global-study-bible/table-of-weights-and-measures/",
+          description: "Approximate modern weights and measures for quiz explanations; the KJV remains the source text.",
+        },
+        {
+          label: "American Bible Society",
+          href: "https://www.americanbible.org/engage/bible-resources/articles/weights-and-measures-in-ancient-israel/",
+          description: "Historical measurement estimates and variation, including the New Testament stadion represented as furlong in the KJV.",
         },
         {
           label: "Complete Bible Genealogy",

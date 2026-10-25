@@ -17,6 +17,7 @@ import {
   BookOpenIcon,
   BookTextIcon,
   EllipsisVerticalIcon,
+  GraduationCapIcon,
   HouseIcon,
   HistoryIcon,
   MapIcon,
@@ -111,6 +112,7 @@ function getTabIcon(tab: ReaderTab) {
   if (firstLeaf.view === "bookmarks") {
     return BookMarkedIcon;
   }
+  if (firstLeaf.view === "quiz") return GraduationCapIcon;
   if (firstLeaf.view === "search") {
     return SearchIcon;
   }

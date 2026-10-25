@@ -28,6 +28,7 @@ const EXACT_RUNTIME_ASSETS = new Set([
   "theme-init.js",
   "app-cache-config.js",
   "data/kjv-bootstrap.json",
+  "data/quiz-pilot-v1.json",
   "data/kjv.json",
   "data/kjv-compact-v1.json",
   "data/kjv-manifest.json",

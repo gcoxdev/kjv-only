@@ -218,7 +218,7 @@ const HELP_SECTIONS: HelpSection[] = [
       {
         label: "What panel home is for",
         body:
-          "Panel Home is the launch point for a panel. From there you can choose a Bible book and chapter or open Tools, Topics, Notes, Bookmarks, or Search. Informational pages such as Help and Download are opened from the main menu or Welcome Home.",
+          "Panel Home is the launch point for a panel. From there you can choose a Bible book and chapter or open Tools, Topics, Notes, Bookmarks, Search, or Quiz. Informational pages such as Help and Download are opened from the main menu or Welcome Home.",
         keywords: ["panel home", "picker", "launch panel"],
       },
       {
@@ -322,7 +322,7 @@ const HELP_SECTIONS: HelpSection[] = [
     title: "Study and Read Mode",
     icon: SidebarIcon,
     summary:
-      "The application can emphasize reading or studying, and sidebar Home offers reading progress, tools, topics, notes, bookmarks, and search alongside the Bible.",
+      "The application can emphasize reading or studying, and sidebar Home offers reading progress, tools, topics, notes, bookmarks, search, and quizzes alongside the Bible.",
     keywords: ["sidebar", "study mode", "read mode", "tools", "topics", "notes", "bookmarks", "accordion"],
     items: [
       {
@@ -334,8 +334,13 @@ const HELP_SECTIONS: HelpSection[] = [
       {
         label: "How to use sidebar Home",
         body:
-          "Sidebar Home has the same study options as Panel Home, without a book and chapter selector. Choose Reading Progress, Tools, Topics, Notes, Bookmarks, or Search. Use the Home button beside the title to return. Notes includes the full list and editor, so you can create and edit notes directly in the sidebar.",
+          "Sidebar Home has the same study options as Panel Home, without a book and chapter selector. Choose Reading Progress, Tools, Topics, Notes, Bookmarks, Search, or Quiz. Use the Home button beside the title to return. Notes includes the full list and editor, so you can create and edit notes directly in the sidebar.",
         keywords: ["sidebar home", "tools", "topics", "notes", "bookmarks", "search", "reading progress"],
+      },
+      {
+        label: "How to use Quiz",
+        body: "Open Quiz from panel or sidebar Home. Choose a chapter, book, testament, or whole-Bible sample and a skill or difficulty. The initial pack has 116 objectives; unavailable chapters are clearly indicated. Practice gives immediate feedback and KJV evidence; Assessment gives feedback at the end. Hints mark an answer assisted. Correct unassisted answers earn learning credit; repeat in another session at least seven days later for mastery. Quiz progress is separate from reading progress and can be exported or imported. Saved sessions can be continued in another view using Take over. Download Bible & tools for offline use.",
+        keywords: ["quiz", "vocabulary", "mastery", "points", "assessment", "backup", "offline"],
       },
       {
         label: "How tool accordions behave",

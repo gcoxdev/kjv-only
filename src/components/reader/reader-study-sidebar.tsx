@@ -21,6 +21,7 @@ import { areReaderViewModelsEqual } from "@/lib/reader-view-model";
 
 const LazyNotesPage = lazy(async () => ({ default: (await import("@/components/reader/notes-page")).NotesPage }));
 const LazySearchPage = lazy(async () => ({ default: (await loadSearchPage()).SearchPage }));
+const LazyQuiz = lazy(async () => ({ default: (await import("@/components/reader/quiz/quiz-page")).QuizPage }));
 const LazyProgress = lazy(async () => ({ default: (await import("@/components/reader/progress-dialog")).ProgressPanelContent }));
 
 type ReaderStudySidebarProps = {
@@ -89,6 +90,7 @@ export const ReaderStudySidebar = memo(function ReaderStudySidebar({
     search: () => <LazySearchPage {...searchProps} state={searchState ?? createDefaultSearchPageState(searchProps.books)}
       onStateChange={(patch) => setSearchState((current) => ({ ...(current ?? createDefaultSearchPageState(searchProps.books)), ...patch }))}
       onOpenResult={(...args) => { searchProps.onOpenResult(...args); onNavigateAway(); }} />,
+    quiz: () => <LazyQuiz initialBook={toolsProps.summaryProps.books[toolsProps.summaryProps.context?.bookIndex ?? 0]?.name} initialChapter={(toolsProps.summaryProps.context?.chapterIndex ?? 0) + 1} />,
     progress: () => <div className="h-full overflow-y-auto p-2"><LazyProgress {...progressProps} onContinueReading={continueReading}
       onOpenChapterInNewTab={(bookIndex, chapterIndex) => { progressProps.onOpenChapterInNewTab(bookIndex, chapterIndex); onNavigateAway(); }} /></div>,
   };

@@ -343,6 +343,7 @@ export type LeafNode = {
     | "page"
     | "tools"
     | "bookmarks"
+    | "quiz"
     | "visual-tool";
   bookIndex: number;
   chapterIndex: number;

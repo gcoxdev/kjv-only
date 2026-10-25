@@ -27,6 +27,7 @@ import {
   BookMarkedIcon,
   BookOpenCheckIcon,
   BookOpenIcon,
+  GraduationCapIcon,
   HouseIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -157,6 +158,8 @@ const LazyBookmarksTool = lazy(async () => {
   const module = await import("@/components/reader/study-tools/bookmarks-tool");
   return { default: module.BookmarksTool };
 });
+
+const LazyQuizPage = lazy(async () => ({ default: (await import("@/components/reader/quiz/quiz-page")).QuizPage }));
 
 const LazyVisualToolPanel = lazy(() => import("@/components/reader/visual-tool-panel"));
 
@@ -778,6 +781,8 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
       <NotebookPenIcon className="size-4 shrink-0 text-muted-foreground" />
     ) : leaf.view === "bookmarks" ? (
       <BookMarkedIcon className="size-4 shrink-0 text-muted-foreground" />
+    ) : leaf.view === "quiz" ? (
+      <GraduationCapIcon className="size-4 shrink-0 text-muted-foreground" />
     ) : leaf.view === "search" ? (
       <SearchIcon className="size-4 shrink-0 text-muted-foreground" />
     ) : leaf.view === "page" ? (
@@ -876,6 +881,8 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
                   <p className="text-sm text-muted-foreground">{visualToolTitle}</p>
                 ) : leaf.view === "picker" ? (
                   <p className="text-sm text-muted-foreground">Panel Home</p>
+                ) : leaf.view === "quiz" ? (
+                  <p className="text-sm text-muted-foreground">Quiz</p>
                 ) : leaf.view === "search" ? (
                   <p className="text-sm text-muted-foreground">Search</p>
                 ) : leaf.view === "topics" ? (
@@ -1687,6 +1694,12 @@ const ReaderLeafPanel = memo(function ReaderLeafPanel({
                 onStateChange={(patch) => onChangeSearchPageState(leaf.id, patch)}
                 onOpenResult={onOpenSearchResult}
               />
+            </Suspense>
+          </CardContent>
+        ) : leaf.view === "quiz" ? (
+          <CardContent className="min-h-0 flex-1 overflow-hidden p-0">
+            <Suspense fallback={AUXILIARY_PANEL_FALLBACK}>
+              <LazyQuizPage initialBook={books[leaf.bookIndex]?.name} initialChapter={leaf.chapterIndex + 1} />
             </Suspense>
           </CardContent>
         ) : leaf.view === "visual-tool" ? (

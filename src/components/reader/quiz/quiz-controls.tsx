@@ -1,0 +1,59 @@
+import { useId, useRef, useState } from "react";
+import { ArrowDownIcon, ArrowUpIcon, XIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ReaderControlTooltip } from "@/components/reader/reader-control-tooltip";
+import { cn } from "@/lib/utils";
+import type { QuizAnswer, QuizEntry, QuizQuestion, QuizReference } from "@/lib/quiz/types";
+export function QuizSelect({ label, value, items, onChange, disabled = false }: { label: string; value: string; items: { value: string; label: string }[]; onChange: (value: string) => void; disabled?: boolean }) {
+  const id = useId();
+  return <Field><FieldLabel htmlFor={id}>{label}</FieldLabel><Select value={value} items={items} onValueChange={v => { if (v !== null) onChange(v); }} disabled={disabled}>
+    <SelectTrigger id={id} className="w-full"><SelectValue /></SelectTrigger><SelectContent align="start"><SelectGroup>{items.map(i => <SelectItem key={i.value} value={i.value}>{i.label}</SelectItem>)}</SelectGroup></SelectContent>
+  </Select></Field>;
+}
+export function QuizEvidence({ question }: { question: QuizQuestion }) {
+  const [reference, setReference] = useState<QuizReference | null>(null);
+  return <><div className="flex flex-wrap gap-2">{question.refs.map(r => <Button key={r.label} size="sm" variant="outline" onClick={() => setReference(r)}>{r.label}</Button>)}</div>
+    {question.evidence ? <p className="text-xs text-muted-foreground">{question.evidence}</p> : null}
+    {question.measure ? <p className="text-xs text-muted-foreground">Modern equivalents are approximate. Measurement sources are listed on Credits.</p> : null}
+    <Dialog open={!!reference} onOpenChange={open => { if (!open) setReference(null); }}><DialogContent showCloseButton={false} className="max-h-[85dvh] overflow-y-auto">
+      <DialogHeader className="pr-10"><DialogTitle>{reference?.label}</DialogTitle><DialogDescription>King James Version</DialogDescription></DialogHeader>
+      <DialogClose render={<Button size="icon-sm" variant="outline" className="absolute top-3 right-3 rounded-full" aria-label="Close passage"><XIcon /></Button>} />
+      {reference?.verses.map(v => <p key={v.number} className="font-reading leading-relaxed"><sup className="mr-2 text-xs text-muted-foreground">{v.number}</sup>{v.text}</p>)}
+    </DialogContent></Dialog></>;
+}
+export function QuizAnswerControls({ question: q, entry, answer, onChange, disabled }: { question: QuizQuestion; entry: QuizEntry; answer: QuizAnswer; onChange: (answer: QuizAnswer) => void; disabled: boolean }) {
+  const drag = useRef<number | null>(null), [announcement, setAnnouncement] = useState("");
+  const inputId = useId();
+  if (q.kind === "text") return <Field><FieldLabel htmlFor={inputId}>Your answer</FieldLabel><Input id={inputId} autoComplete="off" spellCheck={false} value={String(answer)} onChange={e => onChange(e.target.value)} disabled={disabled} maxLength={500} /><p className="text-xs text-muted-foreground">Capitalization and punctuation do not matter.</p></Field>;
+  if (q.kind === "order" || q.kind === "timeline") {
+    const values = answer as string[];
+    const move = (from: number, to: number) => { if (disabled || from === to || to < 0 || to >= values.length) return; const next = [...values], item = next.splice(from, 1)[0]; next.splice(to, 0, item); onChange(next); setAnnouncement(`${item} moved to position ${to + 1}.`); };
+    return <div className="flex flex-col gap-3"><p className="text-xs text-muted-foreground">Drag cards or use the move buttons. The top item comes first. {q.kind === "timeline" ? "Spacing does not represent elapsed time." : ""}</p>
+      <ol className={cn("flex flex-col gap-2", q.kind === "timeline" && "ml-2 border-l-2 pl-3")}>{values.map((text, i) => <li key={text} draggable={!disabled} onDragStart={event => { drag.current = i; event.dataTransfer.setData("text/plain", String(i)); event.dataTransfer.effectAllowed = "move"; }} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); if (drag.current !== null) move(drag.current, i); drag.current = null; }} onDragEnd={() => { drag.current = null; }} className="flex min-w-0 items-center gap-2 rounded-lg border bg-card p-2">
+        <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs">{i + 1}</span><span className="min-w-0 flex-1 text-sm">{text}</span><div className="flex shrink-0 flex-col gap-1">
+          <ReaderControlTooltip label={`Move ${text} up`}><Button variant="outline" size="icon-sm" aria-label={`Move ${text} up`} disabled={disabled || i === 0} onClick={() => move(i, i - 1)}><ArrowUpIcon /></Button></ReaderControlTooltip>
+          <ReaderControlTooltip label={`Move ${text} down`}><Button variant="outline" size="icon-sm" aria-label={`Move ${text} down`} disabled={disabled || i === values.length - 1} onClick={() => move(i, i + 1)}><ArrowDownIcon /></Button></ReaderControlTooltip>
+        </div></li>)}</ol><Button size="sm" variant="ghost" disabled={disabled} onClick={() => onChange(structuredClone(entry.initial))}>Reset arrangement</Button><p role="status" className="sr-only">{announcement}</p></div>;
+  }
+  if (q.kind === "match" || q.kind === "family") return <div className="flex flex-col gap-3">
+    {q.kind === "family" ? <><p className="text-xs text-muted-foreground">Each arrow means father → son.</p><p className="rounded-lg border bg-muted p-2 text-center">Jared</p></> : null}
+    {q.slots!.map((slot, i) => <div key={i} className="flex flex-col gap-2">{q.kind === "family" ? <span aria-hidden="true" className="text-center">↓</span> : null}<QuizSelect label={`${i + 1}. ${slot}`} value={(answer as string[])[i]} items={[{ value: "", label: "Choose…" }, ...entry.choices.map(value => ({ value, label: value }))]} disabled={disabled} onChange={value => { const next = [...answer as string[]]; next[i] = value; onChange(next); }} /></div>)}
+  </div>;
+  const map = q.kind === "map";
+  return <div className="flex flex-col gap-3">{map ? <>
+    <svg viewBox="0 0 550 290" role="group" aria-label="Schematic northern Aegean map" className="w-full rounded-lg border bg-muted">
+      <path d="M0 0H550V40L170 53 80 78 0 68Z M490 130L550 110V290H455L466 227 485 202Z" className="fill-accent" />
+      <ellipse cx="327" cy="130" rx="45" ry="18" className="fill-accent" /><text x="25" y="150" className="fill-foreground text-sm">Northern Aegean</text><text x="508" y="65" className="fill-foreground text-sm">N ↑</text>
+      {q.places!.map((p, i) => { const value = q.choices[i], selected = value === answer; return <g key={value} role="button" tabIndex={disabled ? -1 : 0} aria-disabled={disabled} aria-pressed={selected} aria-label={q.mapLabels![i]} transform={`translate(${60 + (p.lon - 24.4) / 1.8 * 410},${245 - (p.lat - 39.7) / 1.3 * 200})`} onClick={() => { if (!disabled) onChange(value); }} onKeyDown={e => { if (!disabled && ["Enter", " "].includes(e.key)) { e.preventDefault(); onChange(value); } }} className="cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring">
+        <circle r="24" className={cn("stroke-2 stroke-primary", selected ? "fill-accent" : "fill-background")} /><text textAnchor="middle" dy="6" className="fill-foreground">{value}</text></g>; })}
+    </svg><p className="text-xs text-muted-foreground">Approximate locations and schematic coast. Choose a marker or its equivalent description below.</p></> : null}
+    <ToggleGroup orientation="vertical" variant="outline" spacing={2} value={typeof answer === "string" && answer ? [answer] : []} onValueChange={values => { if (!disabled) onChange(values[0] ?? ""); }} disabled={disabled} className="w-full" aria-label="Answer choices">
+      {(map ? q.choices : entry.choices).map((choice, i) => <ToggleGroupItem key={choice} value={choice} className="h-auto min-h-10 w-full justify-start px-3 py-2 text-left whitespace-normal"><span className="mr-2 shrink-0">{map ? choice : String.fromCharCode(65 + i)}.</span><span>{map ? q.mapLabels![i].slice(4) : choice}</span></ToggleGroupItem>)}
+    </ToggleGroup>
+  </div>;
+}

@@ -1,0 +1,5552 @@
+{
+  "version": "pilot-1",
+  "questions": [
+    {
+      "id": "01-1-1",
+      "version": 1,
+      "objective": "01-1-1",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "Who created the heaven and the earth?",
+      "answer": "God",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "In the beginning God created the heaven and the earth."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "God",
+        "Adam",
+        "Moses",
+        "Noah"
+      ],
+      "explanation": "The opening verse attributes creation to God.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-1-2",
+      "version": 1,
+      "objective": "01-1-2",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "What did God call the light?",
+      "answer": "Day",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:5",
+          "verses": [
+            {
+              "number": 5,
+              "text": "And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Day",
+        "Night",
+        "Seas",
+        "Earth"
+      ],
+      "explanation": "God calls the light Day and the darkness Night.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-1-3",
+      "version": 1,
+      "objective": "01-1-3",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "What did the firmament divide?",
+      "answer": "Waters from waters",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:6–8",
+          "verses": [
+            {
+              "number": 6,
+              "text": "And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters."
+            },
+            {
+              "number": 7,
+              "text": "And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so."
+            },
+            {
+              "number": 8,
+              "text": "And God called the firmament Heaven. And the evening and the morning were the second day."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Waters from waters",
+        "Light from darkness",
+        "Land from trees",
+        "Stars from the moon"
+      ],
+      "explanation": "The firmament separates waters below it from waters above it.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-1-4",
+      "version": 1,
+      "objective": "01-1-4",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "What did God call the gathered waters?",
+      "answer": "Seas",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:9–10",
+          "verses": [
+            {
+              "number": 9,
+              "text": "And God said, Let the waters under the heaven be gathered together unto one place, and let the dry land appear: and it was so."
+            },
+            {
+              "number": 10,
+              "text": "And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Seas",
+        "Earth",
+        "Heaven",
+        "Day"
+      ],
+      "explanation": "The dry land is called Earth and the gathered waters Seas.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-1-5",
+      "version": 1,
+      "objective": "01-1-5",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "On which day are the two great lights described as being made?",
+      "answer": "The fourth day",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:14–19",
+          "verses": [
+            {
+              "number": 14,
+              "text": "And God said, Let there be lights in the firmament of the heaven to divide the day from the night; and let them be for signs, and for seasons, and for days, and years:"
+            },
+            {
+              "number": 15,
+              "text": "And let them be for lights in the firmament of the heaven to give light upon the earth: and it was so."
+            },
+            {
+              "number": 16,
+              "text": "And God made two great lights; the greater light to rule the day, and the lesser light to rule the night: he made the stars also."
+            },
+            {
+              "number": 17,
+              "text": "And God set them in the firmament of the heaven to give light upon the earth,"
+            },
+            {
+              "number": 18,
+              "text": "And to rule over the day and over the night, and to divide the light from the darkness: and God saw that it was good."
+            },
+            {
+              "number": 19,
+              "text": "And the evening and the morning were the fourth day."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The fourth day",
+        "The first day",
+        "The second day",
+        "The fifth day"
+      ],
+      "explanation": "The fourth-day account describes the greater and lesser lights and the stars.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-1-6",
+      "version": 1,
+      "objective": "01-1-6",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "In whose image was man created?",
+      "answer": "God's image",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:26–27",
+          "verses": [
+            {
+              "number": 26,
+              "text": "And God said, Let us make man in our image, after our likeness: and let them have dominion over the fish of the sea, and over the fowl of the air, and over the cattle, and over all the earth, and over every creeping thing that creepeth upon the earth."
+            },
+            {
+              "number": 27,
+              "text": "So God created man in his own image, in the image of God created he him; male and female created he them."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "God's image",
+        "An angel's image",
+        "The beasts' image",
+        "The sun's image"
+      ],
+      "explanation": "The passage explicitly states that God created man in his own image.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-1-7",
+      "version": 1,
+      "objective": "01-1-7",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "What does “meat” mean in the provision of herbs and fruit here?",
+      "answer": "Food",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:29–30",
+          "verses": [
+            {
+              "number": 29,
+              "text": "And God said, Behold, I have given you every herb bearing seed, which is upon the face of all the earth, and every tree, in the which is the fruit of a tree yielding seed; to you it shall be for meat."
+            },
+            {
+              "number": 30,
+              "text": "And to every beast of the earth, and to every fowl of the air, and to every thing that creepeth upon the earth, wherein there is life, I have given every green herb for meat: and it was so."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Food",
+        "Only animal flesh",
+        "A metal tool",
+        "A kind of clothing"
+      ],
+      "explanation": "Here meat includes plants given for food; it does not mean only animal flesh.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "01-1-7-context",
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-1-8",
+      "version": 1,
+      "objective": "01-1-8",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "How did God describe everything he had made?",
+      "answer": "Very good",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:31",
+          "verses": [
+            {
+              "number": 31,
+              "text": "And God saw every thing that he had made, and, behold, it was very good. And the evening and the morning were the sixth day."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Very good",
+        "Unfinished",
+        "Hidden",
+        "Unclean"
+      ],
+      "explanation": "The sixth-day account ends with God's assessment of everything he had made.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "01-5-1",
+      "version": 1,
+      "objective": "01-5-1",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "Which son does Adam name in verse 3?",
+      "answer": "Seth",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Family",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:3",
+          "verses": [
+            {
+              "number": 3,
+              "text": "And Adam lived an hundred and thirty years, and begat a son in his own likeness, after his image; and called his name Seth:"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Seth",
+        "Noah",
+        "Lamech",
+        "Jared"
+      ],
+      "explanation": "Adam names this son Seth. This is not a claim that Seth was Adam's first son.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "01-5-2",
+      "version": 1,
+      "objective": "01-5-2",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "How many years did Adam live, according to this chapter?",
+      "answer": "930",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:5",
+          "verses": [
+            {
+              "number": 5,
+              "text": "And all the days that Adam lived were nine hundred and thirty years: and he died."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "930",
+        "365",
+        "777",
+        "969"
+      ],
+      "explanation": "The chapter states Adam's total lifespan as nine hundred and thirty years.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "01-5-3",
+      "version": 1,
+      "objective": "01-5-3",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "Who is the son of Seth named here?",
+      "answer": "Enos",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Family",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:6",
+          "verses": [
+            {
+              "number": 6,
+              "text": "And Seth lived an hundred and five years, and begat Enos:"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Enos",
+        "Cainan",
+        "Jared",
+        "Lamech"
+      ],
+      "explanation": "Verse 6 names Enos as Seth's son.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "01-5-4",
+      "version": 1,
+      "objective": "01-5-4",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "Who begat Enoch in this genealogy?",
+      "answer": "Jared",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Family",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:18",
+          "verses": [
+            {
+              "number": 18,
+              "text": "And Jared lived an hundred sixty and two years, and he begat Enoch:"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Jared",
+        "Cainan",
+        "Lamech",
+        "Noah"
+      ],
+      "explanation": "Jared is the father named immediately before Enoch in this line.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "01-5-5",
+      "version": 1,
+      "objective": "01-5-5",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "What distinctive statement is made about Enoch?",
+      "answer": "God took him",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:24",
+          "verses": [
+            {
+              "number": 24,
+              "text": "And Enoch walked with God: and he was not; for God took him."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "God took him",
+        "He built an altar",
+        "He became king",
+        "He went down into Egypt"
+      ],
+      "explanation": "Enoch walked with God, and the text says that God took him.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "01-5-6",
+      "version": 1,
+      "objective": "01-5-6",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "How long did Methuselah live?",
+      "answer": "969 years",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:27",
+          "verses": [
+            {
+              "number": 27,
+              "text": "And all the days of Methuselah were nine hundred sixty and nine years: and he died."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "969 years",
+        "930 years",
+        "365 years",
+        "777 years"
+      ],
+      "explanation": "The chapter gives his total lifespan as nine hundred sixty and nine years.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "01-5-7",
+      "version": 1,
+      "objective": "01-5-7",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "Who named his son Noah?",
+      "answer": "Lamech",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Family",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:28–29",
+          "verses": [
+            {
+              "number": 28,
+              "text": "And Lamech lived an hundred eighty and two years, and begat a son:"
+            },
+            {
+              "number": 29,
+              "text": "And he called his name Noah, saying, This same shall comfort us concerning our work and toil of our hands, because of the ground which the Lord hath cursed."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Lamech",
+        "Seth",
+        "Enos",
+        "Jared"
+      ],
+      "explanation": "Lamech named Noah and spoke of comfort concerning their toil.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "01-5-8",
+      "version": 1,
+      "objective": "01-5-8",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "Which set names the sons of Noah listed here?",
+      "answer": "Shem, Ham, and Japheth",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Family",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:32",
+          "verses": [
+            {
+              "number": 32,
+              "text": "And Noah was five hundred years old: and Noah begat Shem, Ham, and Japheth."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Shem, Ham, and Japheth",
+        "Nadab, Abihu, and Eleazar",
+        "Cain, Abel, and Seth",
+        "Peter, James, and John"
+      ],
+      "explanation": "The final verse names Shem, Ham, and Japheth without establishing a birth order in this exercise.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "02-28-1",
+      "version": 1,
+      "objective": "02-28-1",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "Who is named to minister in the priest's office with his sons?",
+      "answer": "Aaron",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "And take thou unto thee Aaron thy brother, and his sons with him, from among the children of Israel, that he may minister unto me in the priest’s office, even Aaron, Nadab and Abihu, Eleazar and Ithamar, Aaron’s sons."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Aaron",
+        "Joshua",
+        "Caleb",
+        "David"
+      ],
+      "explanation": "God instructs Moses concerning Aaron and Aaron's sons.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "02-28-2",
+      "version": 1,
+      "objective": "02-28-2",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "For what two purposes are Aaron's holy garments described as being made?",
+      "answer": "Glory and beauty",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:2",
+          "verses": [
+            {
+              "number": 2,
+              "text": "And thou shalt make holy garments for Aaron thy brother for glory and for beauty."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Glory and beauty",
+        "Speed and warmth",
+        "Travel and trade",
+        "Mourning and fasting"
+      ],
+      "explanation": "The stated purposes are glory and beauty.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "02-28-3",
+      "version": 1,
+      "objective": "02-28-3",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "In this passage, what kind of object is an ephod?",
+      "answer": "A priestly garment",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:4–6",
+          "verses": [
+            {
+              "number": 4,
+              "text": "And these are the garments which they shall make; a breastplate, and an ephod, and a robe, and a broidered coat, a mitre, and a girdle: and they shall make holy garments for Aaron thy brother, and his sons, that he may minister unto me in the priest’s office."
+            },
+            {
+              "number": 5,
+              "text": "And they shall take gold, and blue, and purple, and scarlet, and fine linen."
+            },
+            {
+              "number": 6,
+              "text": "And they shall make the ephod of gold, of blue, and of purple, of scarlet, and fine twined linen, with cunning work."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A priestly garment",
+        "A liquid measure",
+        "A musical instrument",
+        "A city gate"
+      ],
+      "explanation": "The ephod is listed among the holy garments and its materials are then specified.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "02-28-3-context",
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "02-28-4",
+      "version": 1,
+      "objective": "02-28-4",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "Where are the two engraved onyx stones placed?",
+      "answer": "On the shoulders of the ephod",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:9–12",
+          "verses": [
+            {
+              "number": 9,
+              "text": "And thou shalt take two onyx stones, and grave on them the names of the children of Israel:"
+            },
+            {
+              "number": 10,
+              "text": "Six of their names on one stone, and the other six names of the rest on the other stone, according to their birth."
+            },
+            {
+              "number": 11,
+              "text": "With the work of an engraver in stone, like the engravings of a signet, shalt thou engrave the two stones with the names of the children of Israel: thou shalt make them to be set in ouches of gold."
+            },
+            {
+              "number": 12,
+              "text": "And thou shalt put the two stones upon the shoulders of the ephod for stones of memorial unto the children of Israel: and Aaron shall bear their names before the Lord upon his two shoulders for a memorial."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "On the shoulders of the ephod",
+        "Under the altar",
+        "On the hem of the robe",
+        "Inside the ark"
+      ],
+      "explanation": "Aaron bears the names on his shoulders as a memorial before the Lord.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "02-28-5",
+      "version": 1,
+      "objective": "02-28-5",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "The breastplate is a span long and a span broad. What kind of measure is a span?",
+      "answer": "Length",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:16",
+          "verses": [
+            {
+              "number": 16,
+              "text": "Foursquare it shall be being doubled; a span shall be the length thereof, and a span shall be the breadth thereof."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Length",
+        "Weight",
+        "Liquid capacity",
+        "Time"
+      ],
+      "explanation": "Span measures length. A common modern estimate is about 9 inches (22–23 cm); the estimate is not a measurement supplied by this verse.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "02-28-5-context",
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ],
+      "measure": "span"
+    },
+    {
+      "id": "02-28-6",
+      "version": 1,
+      "objective": "02-28-6",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "How many rows of stones are specified for the breastplate?",
+      "answer": "Four",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:17–21",
+          "verses": [
+            {
+              "number": 17,
+              "text": "And thou shalt set in it settings of stones, even four rows of stones: the first row shall be a sardius, a topaz, and a carbuncle: this shall be the first row."
+            },
+            {
+              "number": 18,
+              "text": "And the second row shall be an emerald, a sapphire, and a diamond."
+            },
+            {
+              "number": 19,
+              "text": "And the third row a ligure, an agate, and an amethyst."
+            },
+            {
+              "number": 20,
+              "text": "And the fourth row a beryl, and an onyx, and a jasper: they shall be set in gold in their inclosings."
+            },
+            {
+              "number": 21,
+              "text": "And the stones shall be with the names of the children of Israel, twelve, according to their names, like the engravings of a signet; every one with his name shall they be according to the twelve tribes."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Four",
+        "Two",
+        "Seven",
+        "Twelve"
+      ],
+      "explanation": "There are four rows, each containing three stones, for twelve stones in all.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "02-28-7",
+      "version": 1,
+      "objective": "02-28-7",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "What is to be put in the breastplate of judgment?",
+      "answer": "The Urim and the Thummim",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:30",
+          "verses": [
+            {
+              "number": 30,
+              "text": "And thou shalt put in the breastplate of judgment the Urim and the Thummim; and they shall be upon Aaron’s heart, when he goeth in before the Lord: and Aaron shall bear the judgment of the children of Israel upon his heart before the Lord continually."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The Urim and the Thummim",
+        "A pot of manna",
+        "The tables of stone",
+        "Five smooth stones"
+      ],
+      "explanation": "The passage names the Urim and the Thummim without explaining their mechanism.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "02-28-8",
+      "version": 1,
+      "objective": "02-28-8",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "What inscription belongs on the plate of pure gold?",
+      "answer": "HOLINESS TO THE LORD",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:36–38",
+          "verses": [
+            {
+              "number": 36,
+              "text": "And thou shalt make a plate of pure gold, and grave upon it, like the engravings of a signet, HOLINESS TO THE LORD."
+            },
+            {
+              "number": 37,
+              "text": "And thou shalt put it on a blue lace, that it may be upon the mitre; upon the forefront of the mitre it shall be."
+            },
+            {
+              "number": 38,
+              "text": "And it shall be upon Aaron’s forehead, that Aaron may bear the iniquity of the holy things, which the children of Israel shall hallow in all their holy gifts; and it shall be always upon his forehead, that they may be accepted before the Lord."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "HOLINESS TO THE LORD",
+        "THE LORD IS MY SHEPHERD",
+        "PEACE BE UNTO YOU",
+        "IN THE BEGINNING"
+      ],
+      "explanation": "The engraved plate is attached to the mitre and worn upon Aaron's forehead.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "03-19-1",
+      "version": 1,
+      "objective": "03-19-1",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "What reason is given for the people to be holy?",
+      "answer": "The Lord their God is holy",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:2",
+          "verses": [
+            {
+              "number": 2,
+              "text": "Speak unto all the congregation of the children of Israel, and say unto them, Ye shall be holy: for I the Lord your God am holy."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The Lord their God is holy",
+        "Their harvest is large",
+        "Their cities are strong",
+        "Their neighbors are wealthy"
+      ],
+      "explanation": "The command is grounded in God's holiness.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "03-19-2",
+      "version": 1,
+      "objective": "03-19-2",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "For whom are the gleanings and remaining grapes to be left?",
+      "answer": "The poor and stranger",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:9–10",
+          "verses": [
+            {
+              "number": 9,
+              "text": "And when ye reap the harvest of your land, thou shalt not wholly reap the corners of thy field, neither shalt thou gather the gleanings of thy harvest."
+            },
+            {
+              "number": 10,
+              "text": "And thou shalt not glean thy vineyard, neither shalt thou gather every grape of thy vineyard; thou shalt leave them for the poor and stranger: I am the Lord your God."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The poor and stranger",
+        "Only the landowner",
+        "Only the soldiers",
+        "Only the judges"
+      ],
+      "explanation": "The harvest instructions provide for the poor and stranger.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "03-19-3",
+      "version": 1,
+      "objective": "03-19-3",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "What must not be held back all night until morning?",
+      "answer": "A hired person's wages",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:13",
+          "verses": [
+            {
+              "number": 13,
+              "text": "Thou shalt not defraud thy neighbour, neither rob him: the wages of him that is hired shall not abide with thee all night until the morning."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A hired person's wages",
+        "A priest's garments",
+        "The city's keys",
+        "A judge's staff"
+      ],
+      "explanation": "The instruction concerns prompt payment to a hired worker.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "03-19-4",
+      "version": 1,
+      "objective": "03-19-4",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "What does the passage forbid placing before the blind?",
+      "answer": "A stumblingblock",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:14",
+          "verses": [
+            {
+              "number": 14,
+              "text": "Thou shalt not curse the deaf, nor put a stumblingblock before the blind, but shalt fear thy God: I am the Lord."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A stumblingblock",
+        "A lamp",
+        "A table",
+        "A cup of water"
+      ],
+      "explanation": "The prohibition appears alongside the command not to curse the deaf.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "03-19-5",
+      "version": 1,
+      "objective": "03-19-5",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "How should judgment treat the poor and the mighty?",
+      "answer": "Judge righteously without favoring either",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:15",
+          "verses": [
+            {
+              "number": 15,
+              "text": "Ye shall do no unrighteousness in judgment: thou shalt not respect the person of the poor, nor honour the person of the mighty: but in righteousness shalt thou judge thy neighbour."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Judge righteously without favoring either",
+        "Always favor the poor",
+        "Always favor the mighty",
+        "Avoid judging any dispute"
+      ],
+      "explanation": "The verse forbids partiality toward either poverty or power.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "03-19-6",
+      "version": 1,
+      "objective": "03-19-6",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "How should a person love his neighbor?",
+      "answer": "As himself",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:18",
+          "verses": [
+            {
+              "number": 18,
+              "text": "Thou shalt not avenge, nor bear any grudge against the children of thy people, but thou shalt love thy neighbour as thyself: I am the Lord."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "As himself",
+        "Only if repaid",
+        "Less than his possessions",
+        "Only in public"
+      ],
+      "explanation": "The command accompanies prohibitions against revenge and bearing a grudge.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "03-19-7",
+      "version": 1,
+      "objective": "03-19-7",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "What does “hoary head” refer to in this instruction?",
+      "answer": "An elderly, gray-haired person",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:32",
+          "verses": [
+            {
+              "number": 32,
+              "text": "Thou shalt rise up before the hoary head, and honour the face of the old man, and fear thy God: I am the Lord."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "An elderly, gray-haired person",
+        "A crowned king",
+        "A covered well",
+        "A mountain peak"
+      ],
+      "explanation": "The parallel command to honor the old man clarifies the expression.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "03-19-7-context",
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "03-19-8",
+      "version": 1,
+      "objective": "03-19-8",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "What common quality is required of balances, weights, ephah, and hin?",
+      "answer": "They must be just or honest",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:35–36",
+          "verses": [
+            {
+              "number": 35,
+              "text": "Ye shall do no unrighteousness in judgment, in meteyard, in weight, or in measure."
+            },
+            {
+              "number": 36,
+              "text": "Just balances, just weights, a just ephah, and a just hin, shall ye have: I am the Lord your God, which brought you out of the land of Egypt."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "They must be just or honest",
+        "They must be made of gold",
+        "They must be hidden",
+        "They must be used only at night"
+      ],
+      "explanation": "The measures must be fair; the text does not provide their modern conversions here.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "09-17-1",
+      "version": 1,
+      "objective": "09-17-1",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "By which valley did Saul and Israel camp?",
+      "answer": "Elah",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Geography",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:2",
+          "verses": [
+            {
+              "number": 2,
+              "text": "And Saul and the men of Israel were gathered together, and pitched by the valley of Elah, and set the battle in array against the Philistines."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Elah",
+        "Kidron",
+        "Hinnom",
+        "Achor"
+      ],
+      "explanation": "The chapter identifies the valley of Elah as the setting of the confrontation.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "09-17-2",
+      "version": 1,
+      "objective": "09-17-2",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "Which Philistine city is Goliath associated with?",
+      "answer": "Gath",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:4",
+          "verses": [
+            {
+              "number": 4,
+              "text": "And there went out a champion out of the camp of the Philistines, named Goliath, of Gath, whose height was six cubits and a span."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Gath",
+        "Jericho",
+        "Nazareth",
+        "Bethany"
+      ],
+      "explanation": "Goliath is described as being of Gath.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "09-17-3",
+      "version": 1,
+      "objective": "09-17-3",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "For how many days did the Philistine present himself?",
+      "answer": "Forty",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:16",
+          "verses": [
+            {
+              "number": 16,
+              "text": "And the Philistine drew near morning and evening, and presented himself forty days."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Forty",
+        "Seven",
+        "Twelve",
+        "Thirty"
+      ],
+      "explanation": "He presented himself morning and evening for forty days.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "09-17-4",
+      "version": 1,
+      "objective": "09-17-4",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "Who sent David with food to his brothers?",
+      "answer": "Jesse",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:17–18",
+          "verses": [
+            {
+              "number": 17,
+              "text": "And Jesse said unto David his son, Take now for thy brethren an ephah of this parched corn, and these ten loaves, and run to the camp to thy brethren;"
+            },
+            {
+              "number": 18,
+              "text": "And carry these ten cheeses unto the captain of their thousand, and look how thy brethren fare, and take their pledge."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Jesse",
+        "Samuel",
+        "Jonathan",
+        "Abner"
+      ],
+      "explanation": "Jesse instructed David to carry provisions and inquire about his brothers.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "09-17-5",
+      "version": 1,
+      "objective": "09-17-5",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "Which two animals did David recount overcoming while keeping sheep?",
+      "answer": "A lion and a bear",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:34–37",
+          "verses": [
+            {
+              "number": 34,
+              "text": "And David said unto Saul, Thy servant kept his father’s sheep, and there came a lion, and a bear, and took a lamb out of the flock:"
+            },
+            {
+              "number": 35,
+              "text": "And I went out after him, and smote him, and delivered it out of his mouth: and when he arose against me, I caught him by his beard, and smote him, and slew him."
+            },
+            {
+              "number": 36,
+              "text": "Thy servant slew both the lion and the bear: and this uncircumcised Philistine shall be as one of them, seeing he hath defied the armies of the living God."
+            },
+            {
+              "number": 37,
+              "text": "David said moreover, The Lord that delivered me out of the paw of the lion, and out of the paw of the bear, he will deliver me out of the hand of this Philistine. And Saul said unto David, Go, and the Lord be with thee."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A lion and a bear",
+        "A wolf and a fox",
+        "A leopard and a snake",
+        "An eagle and a raven"
+      ],
+      "explanation": "David recalls the Lord's deliverance from the lion and bear as grounds for his confidence.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "09-17-6",
+      "version": 1,
+      "objective": "09-17-6",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "Why did David put off Saul's armor?",
+      "answer": "He had not proved it",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:39",
+          "verses": [
+            {
+              "number": 39,
+              "text": "And David girded his sword upon his armour, and he assayed to go; for he had not proved it. And David said unto Saul, I cannot go with these; for I have not proved them. And David put them off him."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "He had not proved it",
+        "It belonged to Goliath",
+        "It had been stolen",
+        "It was made of wood"
+      ],
+      "explanation": "David says he cannot go with the armor because he has not proved it, meaning tried or tested it.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "09-17-7",
+      "version": 1,
+      "objective": "09-17-7",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "How many smooth stones did David choose from the brook?",
+      "answer": "Five",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:40",
+          "verses": [
+            {
+              "number": 40,
+              "text": "And he took his staff in his hand, and chose him five smooth stones out of the brook, and put them in a shepherd’s bag which he had, even in a scrip; and his sling was in his hand: and he drew near to the Philistine."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Five",
+        "Three",
+        "Seven",
+        "Twelve"
+      ],
+      "explanation": "The number chosen is five; the passage does not say he used all five against Goliath.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "09-17-8",
+      "version": 1,
+      "objective": "09-17-8",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "What did David say the assembly would learn about the Lord?",
+      "answer": "He does not save with sword and spear",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:47",
+          "verses": [
+            {
+              "number": 47,
+              "text": "And all this assembly shall know that the Lord saveth not with sword and spear: for the battle is the Lord’s, and he will give you into our hands."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "He does not save with sword and spear",
+        "He needs the largest army",
+        "He judges by height",
+        "He favors the strongest armor"
+      ],
+      "explanation": "David declares that the battle is the Lord's.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "19-23-1",
+      "version": 1,
+      "objective": "19-23-1",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "What image describes the Lord in the opening verse?",
+      "answer": "A shepherd",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "The Lord is my shepherd; I shall not want."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A shepherd",
+        "A merchant",
+        "A sailor",
+        "A potter"
+      ],
+      "explanation": "The psalm begins by describing the Lord as the speaker's shepherd.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "19-23-2",
+      "version": 1,
+      "objective": "19-23-2",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "What does “I shall not want” mean here?",
+      "answer": "I shall not lack",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "The Lord is my shepherd; I shall not want."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "I shall not lack",
+        "I shall desire nothing at all",
+        "I shall never ask a question",
+        "I shall not walk"
+      ],
+      "explanation": "Want here concerns lack or need, not a ban on having desires.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "19-23-2-context",
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "19-23-3",
+      "version": 1,
+      "objective": "19-23-3",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "Beside what does the shepherd lead the speaker?",
+      "answer": "Still waters",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:2",
+          "verses": [
+            {
+              "number": 2,
+              "text": "He maketh me to lie down in green pastures: he leadeth me beside the still waters."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Still waters",
+        "A burning mountain",
+        "A crowded marketplace",
+        "An empty well"
+      ],
+      "explanation": "Still waters accompany the image of green pastures.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "19-23-4",
+      "version": 1,
+      "objective": "19-23-4",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "For whose sake does the Lord lead in paths of righteousness?",
+      "answer": "His name's sake",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:3",
+          "verses": [
+            {
+              "number": 3,
+              "text": "He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "His name's sake",
+        "The enemies' sake",
+        "A king's reputation",
+        "The shepherd's wages"
+      ],
+      "explanation": "The verse says that this guidance is for his name's sake.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "19-23-5",
+      "version": 1,
+      "objective": "19-23-5",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "Why does the speaker fear no evil in the valley?",
+      "answer": "The Lord is with him",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:4",
+          "verses": [
+            {
+              "number": 4,
+              "text": "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The Lord is with him",
+        "There are no enemies",
+        "He cannot suffer",
+        "He has an army"
+      ],
+      "explanation": "The confidence is grounded in the Lord's presence, not a statement that dangers do not exist.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "19-23-6",
+      "version": 1,
+      "objective": "19-23-6",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "Which two things comfort the speaker?",
+      "answer": "The rod and staff",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:4",
+          "verses": [
+            {
+              "number": 4,
+              "text": "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The rod and staff",
+        "The bow and sword",
+        "The crown and throne",
+        "The sail and anchor"
+      ],
+      "explanation": "Both the rod and the staff belong to the shepherd imagery.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "19-23-7",
+      "version": 1,
+      "objective": "19-23-7",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "In whose presence is the table prepared?",
+      "answer": "The speaker's enemies",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:5",
+          "verses": [
+            {
+              "number": 5,
+              "text": "Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The speaker's enemies",
+        "Only his family",
+        "Only his friends",
+        "The kings of Egypt"
+      ],
+      "explanation": "The table is prepared even in the presence of enemies.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "19-23-8",
+      "version": 1,
+      "objective": "19-23-8",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "Which two things will follow the speaker all his life?",
+      "answer": "Goodness and mercy",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:6",
+          "verses": [
+            {
+              "number": 6,
+              "text": "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the Lord for ever."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Goodness and mercy",
+        "Fame and wealth",
+        "Power and armies",
+        "Fear and sorrow"
+      ],
+      "explanation": "The psalm closes with goodness, mercy, and dwelling in the house of the Lord.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "23-40-1",
+      "version": 1,
+      "objective": "23-40-1",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "What instruction opens the chapter?",
+      "answer": "Comfort my people",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "Comfort ye, comfort ye my people, saith your God."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Comfort my people",
+        "Build a fleet",
+        "Count the soldiers",
+        "Close the city gates"
+      ],
+      "explanation": "The opening repeats the instruction to comfort God's people.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "23-40-2",
+      "version": 1,
+      "objective": "23-40-2",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "Where does the voice cry to prepare the way of the Lord?",
+      "answer": "In the wilderness",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:3",
+          "verses": [
+            {
+              "number": 3,
+              "text": "The voice of him that crieth in the wilderness, Prepare ye the way of the Lord, make straight in the desert a highway for our God."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "In the wilderness",
+        "In the palace",
+        "In the vineyard",
+        "In the prison"
+      ],
+      "explanation": "The verse pairs wilderness with desert in its highway imagery.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "23-40-3",
+      "version": 1,
+      "objective": "23-40-3",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "What endures in contrast to withering grass and fading flowers?",
+      "answer": "The word of our God",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:6–8",
+          "verses": [
+            {
+              "number": 6,
+              "text": "The voice said, Cry. And he said, What shall I cry? All flesh is grass, and all the goodliness thereof is as the flower of the field:"
+            },
+            {
+              "number": 7,
+              "text": "The grass withereth, the flower fadeth: because the spirit of the Lord bloweth upon it: surely the people is grass."
+            },
+            {
+              "number": 8,
+              "text": "The grass withereth, the flower fadeth: but the word of our God shall stand for ever."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The word of our God",
+        "The strength of youth",
+        "The wealth of nations",
+        "The glory of rulers"
+      ],
+      "explanation": "The text contrasts human frailty with God's enduring word.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "23-40-4",
+      "version": 1,
+      "objective": "23-40-4",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "What figure describes the Lord feeding his flock?",
+      "answer": "A shepherd",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:11",
+          "verses": [
+            {
+              "number": 11,
+              "text": "He shall feed his flock like a shepherd: he shall gather the lambs with his arm, and carry them in his bosom, and shall gently lead those that are with young."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A shepherd",
+        "A fisherman",
+        "A carpenter",
+        "A soldier"
+      ],
+      "explanation": "The verse describes gathering and carrying lambs and gently leading those with young.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "23-40-5",
+      "version": 1,
+      "objective": "23-40-5",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "To what are the nations compared in relation to God?",
+      "answer": "A drop of a bucket",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:15",
+          "verses": [
+            {
+              "number": 15,
+              "text": "Behold, the nations are as a drop of a bucket, and are counted as the small dust of the balance: behold, he taketh up the isles as a very little thing."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A drop of a bucket",
+        "An immovable mountain",
+        "An endless sea",
+        "A blazing sun"
+      ],
+      "explanation": "The comparison emphasizes their smallness before God.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "23-40-6",
+      "version": 1,
+      "objective": "23-40-6",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "What does “cunning workman” mean in the image-making description?",
+      "answer": "A skilled craftsman",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:20",
+          "verses": [
+            {
+              "number": 20,
+              "text": "He that is so impoverished that he hath no oblation chooseth a tree that will not rot; he seeketh unto him a cunning workman to prepare a graven image, that shall not be moved."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A skilled craftsman",
+        "A sleeping servant",
+        "A young shepherd",
+        "An untrained laborer"
+      ],
+      "explanation": "Cunning here describes skill in workmanship, not necessarily deceit.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "23-40-6-context",
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "23-40-7",
+      "version": 1,
+      "objective": "23-40-7",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "What does the chapter say the everlasting God does not do?",
+      "answer": "Faint or grow weary",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:28",
+          "verses": [
+            {
+              "number": 28,
+              "text": "Hast thou not known? hast thou not heard, that the everlasting God, the Lord, the Creator of the ends of the earth, fainteth not, neither is weary? there is no searching of his understanding."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Faint or grow weary",
+        "Create",
+        "Understand",
+        "Give strength"
+      ],
+      "explanation": "God's inexhaustible strength is contrasted with human weakness.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "23-40-8",
+      "version": 1,
+      "objective": "23-40-8",
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "prompt": "Who shall renew their strength?",
+      "answer": "Those who wait upon the Lord",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:31",
+          "verses": [
+            {
+              "number": 31,
+              "text": "But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Those who wait upon the Lord",
+        "Those who trust their own power",
+        "Those who make idols",
+        "Those who refuse counsel"
+      ],
+      "explanation": "The chapter closes with strength renewed for those who wait upon the Lord.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ]
+    },
+    {
+      "id": "40-5-1",
+      "version": 1,
+      "objective": "40-5-1",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "What is promised to the poor in spirit?",
+      "answer": "The kingdom of heaven",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:3",
+          "verses": [
+            {
+              "number": 3,
+              "text": "Blessed are the poor in spirit: for theirs is the kingdom of heaven."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The kingdom of heaven",
+        "A house in Rome",
+        "Earthly riches",
+        "Freedom from all hardship"
+      ],
+      "explanation": "This is the first blessing stated in the chapter.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "40-5-2",
+      "version": 1,
+      "objective": "40-5-2",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "Who shall be called the children of God in this beatitude?",
+      "answer": "The peacemakers",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:9",
+          "verses": [
+            {
+              "number": 9,
+              "text": "Blessed are the peacemakers: for they shall be called the children of God."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The peacemakers",
+        "The merchants",
+        "The conquerors",
+        "The wealthy"
+      ],
+      "explanation": "Jesus connects peacemaking with this promised designation.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "40-5-3",
+      "version": 1,
+      "objective": "40-5-3",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "Which pair of images describes the disciples here?",
+      "answer": "Salt and light",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:13–16",
+          "verses": [
+            {
+              "number": 13,
+              "text": "Ye are the salt of the earth: but if the salt have lost his savour, wherewith shall it be salted? it is thenceforth good for nothing, but to be cast out, and to be trodden under foot of men."
+            },
+            {
+              "number": 14,
+              "text": "Ye are the light of the world. A city that is set on an hill cannot be hid."
+            },
+            {
+              "number": 15,
+              "text": "Neither do men light a candle, and put it under a bushel, but on a candlestick; and it giveth light unto all that are in the house."
+            },
+            {
+              "number": 16,
+              "text": "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Salt and light",
+        "Gold and silver",
+        "Bread and wine",
+        "Seed and rain"
+      ],
+      "explanation": "The images introduce teaching about visible good works and glorifying the Father.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "40-5-4",
+      "version": 1,
+      "objective": "40-5-4",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "What does Jesus say he came to do concerning the law and prophets?",
+      "answer": "Fulfil",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:17",
+          "verses": [
+            {
+              "number": 17,
+              "text": "Think not that I am come to destroy the law, or the prophets: I am not come to destroy, but to fulfil."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Fulfil",
+        "Destroy",
+        "Hide",
+        "Forget"
+      ],
+      "explanation": "He explicitly contrasts fulfilling with destroying.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "40-5-5",
+      "version": 1,
+      "objective": "40-5-5",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "What should happen before offering the gift when a brother has something against you?",
+      "answer": "Be reconciled to the brother",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:23–24",
+          "verses": [
+            {
+              "number": 23,
+              "text": "Therefore if thou bring thy gift to the altar, and there rememberest that thy brother hath ought against thee;"
+            },
+            {
+              "number": 24,
+              "text": "Leave there thy gift before the altar, and go thy way; first be reconciled to thy brother, and then come and offer thy gift."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Be reconciled to the brother",
+        "Publicly shame the brother",
+        "Hire a witness",
+        "Move to another city"
+      ],
+      "explanation": "The gift is left before the altar while reconciliation is pursued first.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "40-5-6",
+      "version": 1,
+      "objective": "40-5-6",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "How should communication be expressed in this instruction?",
+      "answer": "Yea, yea; Nay, nay",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:37",
+          "verses": [
+            {
+              "number": 37,
+              "text": "But let your communication be, Yea, yea; Nay, nay: for whatsoever is more than these cometh of evil."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Yea, yea; Nay, nay",
+        "Only in riddles",
+        "Only through an oath",
+        "Only through silence"
+      ],
+      "explanation": "The instruction concerns plain affirmation and denial in the context of oaths.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "40-5-7",
+      "version": 1,
+      "objective": "40-5-7",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "What number does “twain” mean in “go with him twain”?",
+      "answer": "Two",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:41",
+          "verses": [
+            {
+              "number": 41,
+              "text": "And whosoever shall compel thee to go a mile, go with him twain."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Two",
+        "One",
+        "Three",
+        "Twelve"
+      ],
+      "explanation": "Twain means two; the instruction contrasts one mile with two.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "40-5-7-context",
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "40-5-8",
+      "version": 1,
+      "objective": "40-5-8",
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "prompt": "How does Jesus tell his hearers to treat their enemies?",
+      "answer": "Love them",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:44",
+          "verses": [
+            {
+              "number": 44,
+              "text": "But I say unto you, Love your enemies, bless them that curse you, do good to them that hate you, and pray for them which despitefully use you, and persecute you;"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Love them",
+        "Curse them",
+        "Defraud them",
+        "Refuse all prayer for them"
+      ],
+      "explanation": "Love is accompanied by blessing, doing good, and prayer for persecutors.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "42-24-1",
+      "version": 1,
+      "objective": "42-24-1",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "On which day of the week was the empty sepulchre visited here?",
+      "answer": "The first day",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:1–3",
+          "verses": [
+            {
+              "number": 1,
+              "text": "Now upon the first day of the week, very early in the morning, they came unto the sepulchre, bringing the spices which they had prepared, and certain others with them."
+            },
+            {
+              "number": 2,
+              "text": "And they found the stone rolled away from the sepulchre."
+            },
+            {
+              "number": 3,
+              "text": "And they entered in, and found not the body of the Lord Jesus."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The first day",
+        "The third day",
+        "The fifth day",
+        "The seventh day"
+      ],
+      "explanation": "Luke explicitly identifies the first day of the week, very early in the morning.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "42-24-2",
+      "version": 1,
+      "objective": "42-24-2",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "On what day had Jesus said the Son of man would rise again?",
+      "answer": "The third day",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:6–7",
+          "verses": [
+            {
+              "number": 6,
+              "text": "He is not here, but is risen: remember how he spake unto you when he was yet in Galilee,"
+            },
+            {
+              "number": 7,
+              "text": "Saying, The Son of man must be delivered into the hands of sinful men, and be crucified, and the third day rise again."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The third day",
+        "The first day",
+        "The seventh day",
+        "The fortieth day"
+      ],
+      "explanation": "The men remind the visitors of Jesus' prediction of suffering and resurrection.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "42-24-3",
+      "version": 1,
+      "objective": "42-24-3",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "To which village were two disciples walking?",
+      "answer": "Emmaus",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Geography",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:13",
+          "verses": [
+            {
+              "number": 13,
+              "text": "And, behold, two of them went that same day to a village called Emmaus, which was from Jerusalem about threescore furlongs."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Emmaus",
+        "Bethlehem",
+        "Capernaum",
+        "Cana"
+      ],
+      "explanation": "Luke identifies Emmaus and gives its distance from Jerusalem.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "42-24-4",
+      "version": 1,
+      "objective": "42-24-4",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "Which of the two travelers is named?",
+      "answer": "Cleopas",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:18",
+          "verses": [
+            {
+              "number": 18,
+              "text": "And the one of them, whose name was Cleopas, answering said unto him, Art thou only a stranger in Jerusalem, and hast not known the things which are come to pass there in these days?"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Cleopas",
+        "Zacchaeus",
+        "Nicodemus",
+        "Gamaliel"
+      ],
+      "explanation": "Only Cleopas is named in this account; this exercise does not invent an identity for the other traveler.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "42-24-5",
+      "version": 1,
+      "objective": "42-24-5",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "Beginning at Moses and all the prophets, what did Jesus explain?",
+      "answer": "Things concerning himself in the scriptures",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:27",
+          "verses": [
+            {
+              "number": 27,
+              "text": "And beginning at Moses and all the prophets, he expounded unto them in all the scriptures the things concerning himself."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Things concerning himself in the scriptures",
+        "Roman tax laws",
+        "The city's defenses",
+        "The travelers' family histories"
+      ],
+      "explanation": "The subject of his explanation is what the scriptures say concerning himself.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "42-24-6",
+      "version": 1,
+      "objective": "42-24-6",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "During what action were the travelers' eyes opened to recognize Jesus?",
+      "answer": "Breaking and giving bread",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:30–31",
+          "verses": [
+            {
+              "number": 30,
+              "text": "And it came to pass, as he sat at meat with them, he took bread, and blessed it, and brake, and gave to them."
+            },
+            {
+              "number": 31,
+              "text": "And their eyes were opened, and they knew him; and he vanished out of their sight."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Breaking and giving bread",
+        "Casting a net",
+        "Drawing water",
+        "Writing on the ground"
+      ],
+      "explanation": "Recognition follows his taking, blessing, breaking, and giving bread.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "42-24-7",
+      "version": 1,
+      "objective": "42-24-7",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "What distinction did Jesus state when showing his hands and feet?",
+      "answer": "A spirit does not have flesh and bones as he had",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:39",
+          "verses": [
+            {
+              "number": 39,
+              "text": "Behold my hands and my feet, that it is I myself: handle me, and see; for a spirit hath not flesh and bones, as ye see me have."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A spirit does not have flesh and bones as he had",
+        "A spirit cannot speak",
+        "A spirit must eat fish",
+        "A spirit has no name"
+      ],
+      "explanation": "The passage explicitly appeals to flesh and bones, without requiring additional claims about spirits.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "42-24-8",
+      "version": 1,
+      "objective": "42-24-8",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "Where should preaching of repentance and remission of sins begin?",
+      "answer": "Jerusalem",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:47",
+          "verses": [
+            {
+              "number": 47,
+              "text": "And that repentance and remission of sins should be preached in his name among all nations, beginning at Jerusalem."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Jerusalem",
+        "Rome",
+        "Athens",
+        "Alexandria"
+      ],
+      "explanation": "The preaching extends to all nations, beginning at Jerusalem.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "44-16-1",
+      "version": 1,
+      "objective": "44-16-1",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "Which disciple joined Paul's travels in this chapter?",
+      "answer": "Timotheus",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "Then came he to Derbe and Lystra: and, behold, a certain disciple was there, named Timotheus, the son of a certain woman, which was a Jewess, and believed; but his father was a Greek:"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Timotheus",
+        "Apollos",
+        "Titus",
+        "Mark"
+      ],
+      "explanation": "The KJV names the disciple Timotheus in this account.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "44-16-2",
+      "version": 1,
+      "objective": "44-16-2",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "What prevented the attempted ministry routes into Asia and Bithynia?",
+      "answer": "The Holy Ghost / Spirit",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:6–7",
+          "verses": [
+            {
+              "number": 6,
+              "text": "Now when they had gone throughout Phrygia and the region of Galatia, and were forbidden of the Holy Ghost to preach the word in Asia,"
+            },
+            {
+              "number": 7,
+              "text": "After they were come to Mysia, they assayed to go into Bithynia: but the Spirit suffered them not."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The Holy Ghost / Spirit",
+        "A Roman tax decree",
+        "A broken ship",
+        "A famine"
+      ],
+      "explanation": "The passage attributes the prohibitions to the Holy Ghost and the Spirit, respectively.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "44-16-3",
+      "version": 1,
+      "objective": "44-16-3",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "From which region did the man in Paul's vision ask for help?",
+      "answer": "Macedonia",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Geography",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:9–10",
+          "verses": [
+            {
+              "number": 9,
+              "text": "And a vision appeared to Paul in the night; There stood a man of Macedonia, and prayed him, saying, Come over into Macedonia, and help us."
+            },
+            {
+              "number": 10,
+              "text": "And after he had seen the vision, immediately we endeavoured to go into Macedonia, assuredly gathering that the Lord had called us for to preach the gospel unto them."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Macedonia",
+        "Egypt",
+        "Arabia",
+        "Judaea"
+      ],
+      "explanation": "Paul's company understood the vision as a call to preach the gospel there.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "44-16-4",
+      "version": 1,
+      "objective": "44-16-4",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "What trade is associated with Lydia?",
+      "answer": "Selling purple",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:14",
+          "verses": [
+            {
+              "number": 14,
+              "text": "And a certain woman named Lydia, a seller of purple, of the city of Thyatira, which worshipped God, heard us: whose heart the Lord opened, that she attended unto the things which were spoken of Paul."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Selling purple",
+        "Making tents",
+        "Fishing",
+        "Collecting taxes"
+      ],
+      "explanation": "Lydia is described as a seller of purple from Thyatira.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "44-16-5",
+      "version": 1,
+      "objective": "44-16-5",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "Why did the damsel's masters seize Paul and Silas?",
+      "answer": "Their hope of profit was gone",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:19",
+          "verses": [
+            {
+              "number": 19,
+              "text": "And when her masters saw that the hope of their gains was gone, they caught Paul and Silas, and drew them into the marketplace unto the rulers,"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Their hope of profit was gone",
+        "Their ship was stolen",
+        "Their fields were burned",
+        "Their tax records were lost"
+      ],
+      "explanation": "Their reaction follows the loss of the gain they had received through her divination.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "44-16-6",
+      "version": 1,
+      "objective": "44-16-6",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "What were Paul and Silas doing at midnight?",
+      "answer": "Praying and singing praises to God",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:25",
+          "verses": [
+            {
+              "number": 25,
+              "text": "And at midnight Paul and Silas prayed, and sang praises unto God: and the prisoners heard them."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Praying and singing praises to God",
+        "Planning revenge",
+        "Sleeping in a boat",
+        "Counting their money"
+      ],
+      "explanation": "The prisoners heard their prayers and praises.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "44-16-7",
+      "version": 1,
+      "objective": "44-16-7",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "What immediately accompanied the great earthquake?",
+      "answer": "Doors opened and everyone's bands were loosed",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:26",
+          "verses": [
+            {
+              "number": 26,
+              "text": "And suddenly there was a great earthquake, so that the foundations of the prison were shaken: and immediately all the doors were opened, and every one’s bands were loosed."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Doors opened and everyone's bands were loosed",
+        "The prison burned down",
+        "All prisoners fled",
+        "A ship arrived"
+      ],
+      "explanation": "The doors and bands are described explicitly; Paul later says all are still there.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "44-16-8",
+      "version": 1,
+      "objective": "44-16-8",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "What answer did Paul and Silas give the jailor's question about salvation?",
+      "answer": "Believe on the Lord Jesus Christ",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:31–32",
+          "verses": [
+            {
+              "number": 31,
+              "text": "And they said, Believe on the Lord Jesus Christ, and thou shalt be saved, and thy house."
+            },
+            {
+              "number": 32,
+              "text": "And they spake unto him the word of the Lord, and to all that were in his house."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Believe on the Lord Jesus Christ",
+        "Buy your freedom",
+        "Leave Macedonia",
+        "Become a Roman citizen"
+      ],
+      "explanation": "They then spoke the word of the Lord to him and to all in his house.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "46-13-1",
+      "version": 1,
+      "objective": "46-13-1",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "Speech without charity is compared to what?",
+      "answer": "Sounding brass or a tinkling cymbal",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass, or a tinkling cymbal."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Sounding brass or a tinkling cymbal",
+        "A fruitful tree",
+        "A still fountain",
+        "A bright star"
+      ],
+      "explanation": "The comparison emphasizes the lack of value of speech without charity.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "46-13-2",
+      "version": 1,
+      "objective": "46-13-2",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "What does Paul say he is if he has great gifts and faith but lacks charity?",
+      "answer": "Nothing",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:2",
+          "verses": [
+            {
+              "number": 2,
+              "text": "And though I have the gift of prophecy, and understand all mysteries, and all knowledge; and though I have all faith, so that I could remove mountains, and have not charity, I am nothing."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Nothing",
+        "A king",
+        "A judge",
+        "An angel"
+      ],
+      "explanation": "The verse makes charity essential even alongside the gifts and faith described.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "46-13-3",
+      "version": 1,
+      "objective": "46-13-3",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "What does giving all goods to feed the poor profit the giver without charity?",
+      "answer": "Nothing",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:3",
+          "verses": [
+            {
+              "number": 3,
+              "text": "And though I bestow all my goods to feed the poor, and though I give my body to be burned, and have not charity, it profiteth me nothing."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Nothing",
+        "Everything",
+        "A kingdom",
+        "A long life"
+      ],
+      "explanation": "The verse distinguishes the outward action from charity.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "46-13-4",
+      "version": 1,
+      "objective": "46-13-4",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "In “charity vaunteth not itself,” what does “vaunteth” mean?",
+      "answer": "Boasts",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:4",
+          "verses": [
+            {
+              "number": 4,
+              "text": "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up,"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Boasts",
+        "Sleeps",
+        "Waits",
+        "Listens"
+      ],
+      "explanation": "The phrase is followed by being not puffed up; both concern prideful self-exaltation.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "46-13-4-context",
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "46-13-5",
+      "version": 1,
+      "objective": "46-13-5",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "Which description of charity appears in verse 5?",
+      "answer": "It is not easily provoked",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:5",
+          "verses": [
+            {
+              "number": 5,
+              "text": "Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil;"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "It is not easily provoked",
+        "It seeks only its own",
+        "It behaves unseemly",
+        "It thinks evil"
+      ],
+      "explanation": "The correct choice preserves the statement rather than reversing its negatives.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "46-13-6",
+      "version": 1,
+      "objective": "46-13-6",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "In what does charity rejoice?",
+      "answer": "The truth",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:6",
+          "verses": [
+            {
+              "number": 6,
+              "text": "Rejoiceth not in iniquity, but rejoiceth in the truth;"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The truth",
+        "Iniquity",
+        "Another's shame",
+        "Personal fame"
+      ],
+      "explanation": "The verse contrasts rejoicing in truth with rejoicing in iniquity.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "46-13-7",
+      "version": 1,
+      "objective": "46-13-7",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "What does Paul say he put away when he became a man?",
+      "answer": "Childish things",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:11",
+          "verses": [
+            {
+              "number": 11,
+              "text": "When I was a child, I spake as a child, I understood as a child, I thought as a child: but when I became a man, I put away childish things."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Childish things",
+        "All speech",
+        "All knowledge",
+        "All hope"
+      ],
+      "explanation": "He uses the transition from childhood as an illustration.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "46-13-8",
+      "version": 1,
+      "objective": "46-13-8",
+      "book": "1 Corinthians",
+      "chapter": 13,
+      "testament": "NT",
+      "prompt": "Which is greatest among faith, hope, and charity?",
+      "answer": "Charity",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13,
+          "label": "1 Corinthians 13:13",
+          "verses": [
+            {
+              "number": 13,
+              "text": "And now abideth faith, hope, charity, these three; but the greatest of these is charity."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Charity",
+        "Faith",
+        "Hope",
+        "They are not compared"
+      ],
+      "explanation": "The concluding verse explicitly names charity as greatest.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Corinthians",
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "id": "66-21-1",
+      "version": 1,
+      "objective": "66-21-1",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "What does John see after the first heaven and earth pass away?",
+      "answer": "A new heaven and a new earth",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "And I saw a new heaven and a new earth: for the first heaven and the first earth were passed away; and there was no more sea."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A new heaven and a new earth",
+        "Only an empty sky",
+        "A rebuilt Babel",
+        "A second flood"
+      ],
+      "explanation": "The vision introduces the new heaven and new earth and says there is no more sea.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "66-21-2",
+      "version": 1,
+      "objective": "66-21-2",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "From where does new Jerusalem come down?",
+      "answer": "From God out of heaven",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:2",
+          "verses": [
+            {
+              "number": 2,
+              "text": "And I John saw the holy city, new Jerusalem, coming down from God out of heaven, prepared as a bride adorned for her husband."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "From God out of heaven",
+        "From the sea",
+        "From Egypt",
+        "From beneath the earth"
+      ],
+      "explanation": "The city is described as prepared as a bride adorned for her husband.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "66-21-3",
+      "version": 1,
+      "objective": "66-21-3",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "Which list names things said to be no more?",
+      "answer": "Death, sorrow, crying, and pain",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:4",
+          "verses": [
+            {
+              "number": 4,
+              "text": "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Death, sorrow, crying, and pain",
+        "Water, light, and life",
+        "People, nations, and kings",
+        "Gold, pearls, and stones"
+      ],
+      "explanation": "The verse also says that God will wipe away all tears.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "66-21-4",
+      "version": 1,
+      "objective": "66-21-4",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "Whose names are written on the twelve gates?",
+      "answer": "The twelve tribes of the children of Israel",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:12",
+          "verses": [
+            {
+              "number": 12,
+              "text": "And had a wall great and high, and had twelve gates, and at the gates twelve angels, and names written thereon, which are the names of the twelve tribes of the children of Israel:"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The twelve tribes of the children of Israel",
+        "The kings of Egypt",
+        "The prophets of Baal",
+        "The rulers of Rome"
+      ],
+      "explanation": "The gates bear the tribal names; the foundations bear a different set of names.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "66-21-5",
+      "version": 1,
+      "objective": "66-21-5",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "Whose names are on the twelve foundations?",
+      "answer": "The twelve apostles of the Lamb",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:14",
+          "verses": [
+            {
+              "number": 14,
+              "text": "And the wall of the city had twelve foundations, and in them the names of the twelve apostles of the Lamb."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The twelve apostles of the Lamb",
+        "The sons of Ishmael",
+        "The kings of Babylon",
+        "The judges of Rome"
+      ],
+      "explanation": "The text specifically associates the foundations with the apostles of the Lamb.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "66-21-6",
+      "version": 1,
+      "objective": "66-21-6",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "How do the city's length, breadth, and height compare?",
+      "answer": "They are equal",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:16",
+          "verses": [
+            {
+              "number": 16,
+              "text": "And the city lieth foursquare, and the length is as large as the breadth: and he measured the city with the reed, twelve thousand furlongs. The length and the breadth and the height of it are equal."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "They are equal",
+        "Only the length is measured",
+        "The height is twice the breadth",
+        "The breadth is half the length"
+      ],
+      "explanation": "The verse explicitly states that all three dimensions are equal.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "66-21-7",
+      "version": 1,
+      "objective": "66-21-7",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "Why does John see no temple in the city?",
+      "answer": "The Lord God Almighty and the Lamb are its temple",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:22",
+          "verses": [
+            {
+              "number": 22,
+              "text": "And I saw no temple therein: for the Lord God Almighty and the Lamb are the temple of it."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The Lord God Almighty and the Lamb are its temple",
+        "The city is unfinished",
+        "The gates are closed",
+        "No one worships there"
+      ],
+      "explanation": "The explanation is supplied directly by the verse.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "66-21-8",
+      "version": 1,
+      "objective": "66-21-8",
+      "book": "Revelation",
+      "chapter": 21,
+      "testament": "NT",
+      "prompt": "What gives the city light?",
+      "answer": "The glory of God and the Lamb",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Revelation",
+          "chapter": 21,
+          "label": "Revelation 21:23",
+          "verses": [
+            {
+              "number": 23,
+              "text": "And the city had no need of the sun, neither of the moon, to shine in it: for the glory of God did lighten it, and the Lamb is the light thereof."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "The glory of God and the Lamb",
+        "Torches on its walls",
+        "The sun alone",
+        "The moon alone"
+      ],
+      "explanation": "The city has no need of the sun or moon to shine in it.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Revelation",
+          "chapter": 21
+        }
+      ]
+    },
+    {
+      "id": "creation-order",
+      "version": 1,
+      "objective": "creation-order",
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "prompt": "Arrange these creation-day summaries from day one to day six.",
+      "answer": [
+        "Light and darkness",
+        "Firmament dividing waters",
+        "Dry land and vegetation",
+        "Two great lights and stars",
+        "Water creatures and fowl",
+        "Land animals and mankind"
+      ],
+      "kind": "order",
+      "difficulty": "Hard",
+      "skill": "Sequence",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:3–31",
+          "verses": [
+            {
+              "number": 3,
+              "text": "And God said, Let there be light: and there was light."
+            },
+            {
+              "number": 4,
+              "text": "And God saw the light, that it was good: and God divided the light from the darkness."
+            },
+            {
+              "number": 5,
+              "text": "And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day."
+            },
+            {
+              "number": 6,
+              "text": "And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters."
+            },
+            {
+              "number": 7,
+              "text": "And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so."
+            },
+            {
+              "number": 8,
+              "text": "And God called the firmament Heaven. And the evening and the morning were the second day."
+            },
+            {
+              "number": 9,
+              "text": "And God said, Let the waters under the heaven be gathered together unto one place, and let the dry land appear: and it was so."
+            },
+            {
+              "number": 10,
+              "text": "And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good."
+            },
+            {
+              "number": 11,
+              "text": "And God said, Let the earth bring forth grass, the herb yielding seed, and the fruit tree yielding fruit after his kind, whose seed is in itself, upon the earth: and it was so."
+            },
+            {
+              "number": 12,
+              "text": "And the earth brought forth grass, and herb yielding seed after his kind, and the tree yielding fruit, whose seed was in itself, after his kind: and God saw that it was good."
+            },
+            {
+              "number": 13,
+              "text": "And the evening and the morning were the third day."
+            },
+            {
+              "number": 14,
+              "text": "And God said, Let there be lights in the firmament of the heaven to divide the day from the night; and let them be for signs, and for seasons, and for days, and years:"
+            },
+            {
+              "number": 15,
+              "text": "And let them be for lights in the firmament of the heaven to give light upon the earth: and it was so."
+            },
+            {
+              "number": 16,
+              "text": "And God made two great lights; the greater light to rule the day, and the lesser light to rule the night: he made the stars also."
+            },
+            {
+              "number": 17,
+              "text": "And God set them in the firmament of the heaven to give light upon the earth,"
+            },
+            {
+              "number": 18,
+              "text": "And to rule over the day and over the night, and to divide the light from the darkness: and God saw that it was good."
+            },
+            {
+              "number": 19,
+              "text": "And the evening and the morning were the fourth day."
+            },
+            {
+              "number": 20,
+              "text": "And God said, Let the waters bring forth abundantly the moving creature that hath life, and fowl that may fly above the earth in the open firmament of heaven."
+            },
+            {
+              "number": 21,
+              "text": "And God created great whales, and every living creature that moveth, which the waters brought forth abundantly, after their kind, and every winged fowl after his kind: and God saw that it was good."
+            },
+            {
+              "number": 22,
+              "text": "And God blessed them, saying, Be fruitful, and multiply, and fill the waters in the seas, and let fowl multiply in the earth."
+            },
+            {
+              "number": 23,
+              "text": "And the evening and the morning were the fifth day."
+            },
+            {
+              "number": 24,
+              "text": "And God said, Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind: and it was so."
+            },
+            {
+              "number": 25,
+              "text": "And God made the beast of the earth after his kind, and cattle after their kind, and every thing that creepeth upon the earth after his kind: and God saw that it was good."
+            },
+            {
+              "number": 26,
+              "text": "And God said, Let us make man in our image, after our likeness: and let them have dominion over the fish of the sea, and over the fowl of the air, and over the cattle, and over all the earth, and over every creeping thing that creepeth upon the earth."
+            },
+            {
+              "number": 27,
+              "text": "So God created man in his own image, in the image of God created he him; male and female created he them."
+            },
+            {
+              "number": 28,
+              "text": "And God blessed them, and God said unto them, Be fruitful, and multiply, and replenish the earth, and subdue it: and have dominion over the fish of the sea, and over the fowl of the air, and over every living thing that moveth upon the earth."
+            },
+            {
+              "number": 29,
+              "text": "And God said, Behold, I have given you every herb bearing seed, which is upon the face of all the earth, and every tree, in the which is the fruit of a tree yielding seed; to you it shall be for meat."
+            },
+            {
+              "number": 30,
+              "text": "And to every beast of the earth, and to every fowl of the air, and to every thing that creepeth upon the earth, wherein there is life, I have given every green herb for meat: and it was so."
+            },
+            {
+              "number": 31,
+              "text": "And God saw every thing that he had made, and, behold, it was very good. And the evening and the morning were the sixth day."
+            }
+          ]
+        }
+      ],
+      "choices": [],
+      "explanation": "Each group ends with its numbered day. The seventh day is in Genesis 2 and is not part of this chapter-only exercise.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "conflicts": [
+        "01-1-5"
+      ],
+      "scopeLevel": "chapter",
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "genealogy-tree",
+      "version": 1,
+      "objective": "genealogy-tree",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "Complete this father-to-son line: Jared → [son] → [grandson] → [great-grandson].",
+      "answer": [
+        "Enoch",
+        "Methuselah",
+        "Lamech"
+      ],
+      "kind": "family",
+      "difficulty": "Hard",
+      "skill": "Family",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:18–25",
+          "verses": [
+            {
+              "number": 18,
+              "text": "And Jared lived an hundred sixty and two years, and he begat Enoch:"
+            },
+            {
+              "number": 19,
+              "text": "And Jared lived after he begat Enoch eight hundred years, and begat sons and daughters:"
+            },
+            {
+              "number": 20,
+              "text": "And all the days of Jared were nine hundred sixty and two years: and he died."
+            },
+            {
+              "number": 21,
+              "text": "And Enoch lived sixty and five years, and begat Methuselah:"
+            },
+            {
+              "number": 22,
+              "text": "And Enoch walked with God after he begat Methuselah three hundred years, and begat sons and daughters:"
+            },
+            {
+              "number": 23,
+              "text": "And all the days of Enoch were three hundred sixty and five years:"
+            },
+            {
+              "number": 24,
+              "text": "And Enoch walked with God: and he was not; for God took him."
+            },
+            {
+              "number": 25,
+              "text": "And Methuselah lived an hundred eighty and seven years, and begat Lamech:"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Noah",
+        "Lamech",
+        "Methuselah",
+        "Enoch"
+      ],
+      "explanation": "Jared begat Enoch; Enoch begat Methuselah; Methuselah begat Lamech. The connectors here mean father to son, not simply an unspecified ancestor.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "slots": [
+        "Son of Jared",
+        "Son of the previous person",
+        "Son of the previous person"
+      ],
+      "conflicts": [
+        "01-5-4"
+      ],
+      "scopeLevel": "chapter",
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "genesis-age-recall",
+      "version": 1,
+      "objective": "genesis-age-recall",
+      "book": "Genesis",
+      "chapter": 5,
+      "testament": "OT",
+      "prompt": "How many years did Seth live in total?",
+      "answer": [
+        "912",
+        "912 years",
+        "nine hundred and twelve",
+        "nine hundred and twelve years",
+        "nine hundred twelve",
+        "nine hundred twelve years"
+      ],
+      "kind": "text",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 5,
+          "label": "Genesis 5:8",
+          "verses": [
+            {
+              "number": 8,
+              "text": "And all the days of Seth were nine hundred and twelve years: and he died."
+            }
+          ]
+        }
+      ],
+      "choices": [],
+      "explanation": "The chapter states Seth’s total lifespan as nine hundred and twelve years. Digits or words are both accepted.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "id": "psalm-recall",
+      "version": 1,
+      "objective": "psalm-recall",
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "prompt": "Complete the phrase with the missing word: “he restoreth my ___.”",
+      "answer": [
+        "soul"
+      ],
+      "kind": "text",
+      "difficulty": "Easy",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:3",
+          "verses": [
+            {
+              "number": 3,
+              "text": "He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake."
+            }
+          ]
+        }
+      ],
+      "choices": [],
+      "explanation": "The opening clause of verse 3 says that he restores the speaker’s soul.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ]
+    },
+    {
+      "id": "luke-recall",
+      "version": 1,
+      "objective": "luke-recall",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "Name the village Jesus led the disciples toward before being carried up into heaven.",
+      "answer": [
+        "Bethany"
+      ],
+      "kind": "text",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:50–51",
+          "verses": [
+            {
+              "number": 50,
+              "text": "And he led them out as far as to Bethany, and he lifted up his hands, and blessed them."
+            },
+            {
+              "number": 51,
+              "text": "And it came to pass, while he blessed them, he was parted from them, and carried up into heaven."
+            }
+          ]
+        }
+      ],
+      "choices": [],
+      "explanation": "The closing scene names Bethany. This is distinct from the earlier journey to Emmaus.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "acts-timeline",
+      "version": 1,
+      "objective": "acts-timeline",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "Arrange these events in the order narrated in Acts 16. The spacing does not represent elapsed time.",
+      "answer": [
+        "Paul receives the Macedonian vision",
+        "Lydia hears Paul by the riverside",
+        "Paul and Silas are put in prison",
+        "They pray and sing at midnight",
+        "An earthquake opens the prison doors"
+      ],
+      "kind": "timeline",
+      "difficulty": "Hard",
+      "skill": "Sequence",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:9–15",
+          "verses": [
+            {
+              "number": 9,
+              "text": "And a vision appeared to Paul in the night; There stood a man of Macedonia, and prayed him, saying, Come over into Macedonia, and help us."
+            },
+            {
+              "number": 10,
+              "text": "And after he had seen the vision, immediately we endeavoured to go into Macedonia, assuredly gathering that the Lord had called us for to preach the gospel unto them."
+            },
+            {
+              "number": 11,
+              "text": "Therefore loosing from Troas, we came with a straight course to Samothracia, and the next day to Neapolis;"
+            },
+            {
+              "number": 12,
+              "text": "And from thence to Philippi, which is the chief city of that part of Macedonia, and a colony: and we were in that city abiding certain days."
+            },
+            {
+              "number": 13,
+              "text": "And on the sabbath we went out of the city by a river side, where prayer was wont to be made; and we sat down, and spake unto the women which resorted thither."
+            },
+            {
+              "number": 14,
+              "text": "And a certain woman named Lydia, a seller of purple, of the city of Thyatira, which worshipped God, heard us: whose heart the Lord opened, that she attended unto the things which were spoken of Paul."
+            },
+            {
+              "number": 15,
+              "text": "And when she was baptized, and her household, she besought us, saying, If ye have judged me to be faithful to the Lord, come into my house, and abide there. And she constrained us."
+            }
+          ]
+        },
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:23–26",
+          "verses": [
+            {
+              "number": 23,
+              "text": "And when they had laid many stripes upon them, they cast them into prison, charging the jailor to keep them safely:"
+            },
+            {
+              "number": 24,
+              "text": "Who, having received such a charge, thrust them into the inner prison, and made their feet fast in the stocks."
+            },
+            {
+              "number": 25,
+              "text": "And at midnight Paul and Silas prayed, and sang praises unto God: and the prisoners heard them."
+            },
+            {
+              "number": 26,
+              "text": "And suddenly there was a great earthquake, so that the foundations of the prison were shaken: and immediately all the doors were opened, and every one’s bands were loosed."
+            }
+          ]
+        }
+      ],
+      "choices": [],
+      "explanation": "The narrative supplies this sequence. Only the praying and singing are placed at midnight; no exact interval between the earlier events is assigned.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "conflicts": [
+        "44-16-3",
+        "44-16-6",
+        "44-16-7"
+      ],
+      "scopeLevel": "chapter",
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "id": "gospel-order",
+      "version": 1,
+      "objective": "gospel-order",
+      "book": "Matthew",
+      "chapter": 0,
+      "testament": "NT",
+      "prompt": "Arrange the four Gospels in their order in the KJV Bible.",
+      "answer": [
+        "Matthew",
+        "Mark",
+        "Luke",
+        "John"
+      ],
+      "kind": "order",
+      "difficulty": "Easy",
+      "skill": "Structure",
+      "refs": [],
+      "choices": [],
+      "explanation": "This is the canonical book order, not an assertion of composition dates or the order of every event.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "evidence": "The shipped KJV 66-book catalog.",
+      "scopeLevel": "testament",
+      "conflicts": [],
+      "contexts": []
+    },
+    {
+      "id": "law-order",
+      "version": 1,
+      "objective": "law-order",
+      "book": "Genesis",
+      "chapter": 0,
+      "testament": "OT",
+      "prompt": "Arrange the first five books in their KJV order.",
+      "answer": [
+        "Genesis",
+        "Exodus",
+        "Leviticus",
+        "Numbers",
+        "Deuteronomy"
+      ],
+      "kind": "order",
+      "difficulty": "Easy",
+      "skill": "Structure",
+      "refs": [],
+      "choices": [],
+      "explanation": "The first five books run from Genesis to Deuteronomy.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "evidence": "The shipped KJV 66-book catalog.",
+      "scopeLevel": "testament",
+      "conflicts": [],
+      "contexts": []
+    },
+    {
+      "id": "bible-order",
+      "version": 1,
+      "objective": "bible-order",
+      "book": "Genesis",
+      "chapter": 0,
+      "testament": "OT",
+      "prompt": "Arrange these selected books in their KJV order.",
+      "answer": [
+        "Genesis",
+        "Psalms",
+        "Isaiah",
+        "Matthew",
+        "Acts",
+        "Revelation"
+      ],
+      "kind": "order",
+      "difficulty": "Medium",
+      "skill": "Structure",
+      "refs": [],
+      "choices": [],
+      "explanation": "This samples the whole Bible’s canonical order; books between these selections are omitted.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "evidence": "The shipped KJV 66-book catalog.",
+      "scopeLevel": "bible",
+      "conflicts": [],
+      "contexts": []
+    },
+    {
+      "id": "priest-match",
+      "version": 1,
+      "objective": "priest-match",
+      "book": "Exodus",
+      "chapter": 28,
+      "testament": "OT",
+      "prompt": "Match each feature with the object described in Exodus 28.",
+      "answer": [
+        "Ephod",
+        "Breastplate",
+        "Mitre"
+      ],
+      "kind": "match",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:9–12",
+          "verses": [
+            {
+              "number": 9,
+              "text": "And thou shalt take two onyx stones, and grave on them the names of the children of Israel:"
+            },
+            {
+              "number": 10,
+              "text": "Six of their names on one stone, and the other six names of the rest on the other stone, according to their birth."
+            },
+            {
+              "number": 11,
+              "text": "With the work of an engraver in stone, like the engravings of a signet, shalt thou engrave the two stones with the names of the children of Israel: thou shalt make them to be set in ouches of gold."
+            },
+            {
+              "number": 12,
+              "text": "And thou shalt put the two stones upon the shoulders of the ephod for stones of memorial unto the children of Israel: and Aaron shall bear their names before the Lord upon his two shoulders for a memorial."
+            }
+          ]
+        },
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:15–21",
+          "verses": [
+            {
+              "number": 15,
+              "text": "And thou shalt make the breastplate of judgment with cunning work; after the work of the ephod thou shalt make it; of gold, of blue, and of purple, and of scarlet, and of fine twined linen, shalt thou make it."
+            },
+            {
+              "number": 16,
+              "text": "Foursquare it shall be being doubled; a span shall be the length thereof, and a span shall be the breadth thereof."
+            },
+            {
+              "number": 17,
+              "text": "And thou shalt set in it settings of stones, even four rows of stones: the first row shall be a sardius, a topaz, and a carbuncle: this shall be the first row."
+            },
+            {
+              "number": 18,
+              "text": "And the second row shall be an emerald, a sapphire, and a diamond."
+            },
+            {
+              "number": 19,
+              "text": "And the third row a ligure, an agate, and an amethyst."
+            },
+            {
+              "number": 20,
+              "text": "And the fourth row a beryl, and an onyx, and a jasper: they shall be set in gold in their inclosings."
+            },
+            {
+              "number": 21,
+              "text": "And the stones shall be with the names of the children of Israel, twelve, according to their names, like the engravings of a signet; every one with his name shall they be according to the twelve tribes."
+            }
+          ]
+        },
+        {
+          "book": "Exodus",
+          "chapter": 28,
+          "label": "Exodus 28:36–38",
+          "verses": [
+            {
+              "number": 36,
+              "text": "And thou shalt make a plate of pure gold, and grave upon it, like the engravings of a signet, HOLINESS TO THE LORD."
+            },
+            {
+              "number": 37,
+              "text": "And thou shalt put it on a blue lace, that it may be upon the mitre; upon the forefront of the mitre it shall be."
+            },
+            {
+              "number": 38,
+              "text": "And it shall be upon Aaron’s forehead, that Aaron may bear the iniquity of the holy things, which the children of Israel shall hallow in all their holy gifts; and it shall be always upon his forehead, that they may be accepted before the Lord."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Mitre",
+        "Ephod",
+        "Breastplate"
+      ],
+      "explanation": "The text distinguishes the shoulder stones on the ephod, the breastplate stones, and the inscribed plate on the mitre.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "slots": [
+        "Shoulderpieces bearing the two onyx stones",
+        "Four rows of stones, bearing twelve names",
+        "Headwear bearing the gold plate"
+      ],
+      "conflicts": [
+        "02-28-3",
+        "02-28-4",
+        "02-28-6",
+        "02-28-8"
+      ],
+      "scopeLevel": "chapter",
+      "sense": "priest-match-context",
+      "contexts": [
+        {
+          "book": "Exodus",
+          "chapter": 28
+        }
+      ]
+    },
+    {
+      "id": "ephah",
+      "version": 1,
+      "objective": "ephah",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "What does an ephah measure?",
+      "answer": "Dry capacity, such as grain",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:36",
+          "verses": [
+            {
+              "number": 36,
+              "text": "Just balances, just weights, a just ephah, and a just hin, shall ye have: I am the Lord your God, which brought you out of the land of Egypt."
+            }
+          ]
+        },
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:17",
+          "verses": [
+            {
+              "number": 17,
+              "text": "And Jesse said unto David his son, Take now for thy brethren an ephah of this parched corn, and these ten loaves, and run to the camp to thy brethren;"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Dry capacity, such as grain",
+        "Distance along a road",
+        "The weight of armor",
+        "Hours of daylight"
+      ],
+      "explanation": "An ephah is used for the parched corn in 1 Samuel 17. A common estimate is roughly 0.6 U.S. bushel (22 liters). This estimates capacity, not the weight of every material that fills it.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "measure": "ephah",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "ephah-context",
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        },
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        }
+      ]
+    },
+    {
+      "id": "hin",
+      "version": 1,
+      "objective": "hin",
+      "book": "Leviticus",
+      "chapter": 19,
+      "testament": "OT",
+      "prompt": "What kind of quantity is measured by a hin in the offering instructions?",
+      "answer": "Liquid capacity",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Leviticus",
+          "chapter": 19,
+          "label": "Leviticus 19:36",
+          "verses": [
+            {
+              "number": 36,
+              "text": "Just balances, just weights, a just ephah, and a just hin, shall ye have: I am the Lord your God, which brought you out of the land of Egypt."
+            }
+          ]
+        },
+        {
+          "book": "Numbers",
+          "chapter": 15,
+          "label": "Numbers 15:4–5",
+          "verses": [
+            {
+              "number": 4,
+              "text": "Then shall he that offereth his offering unto the Lord bring a meat offering of a tenth deal of flour mingled with the fourth part of an hin of oil."
+            },
+            {
+              "number": 5,
+              "text": "And the fourth part of an hin of wine for a drink offering shalt thou prepare with the burnt offering or sacrifice, for one lamb."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Liquid capacity",
+        "Length of cloth",
+        "Weight of gold",
+        "Number of people"
+      ],
+      "explanation": "Numbers 15 uses fractions of a hin for oil and wine. A common estimate for one hin is about 1 U.S. liquid gallon (roughly 3.5–3.8 liters). This is an approximation, not an exact conversion given by the text.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "measure": "hin",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "hin-context",
+      "contexts": [
+        {
+          "book": "Leviticus",
+          "chapter": 19
+        },
+        {
+          "book": "Numbers",
+          "chapter": 15
+        }
+      ]
+    },
+    {
+      "id": "furlong",
+      "version": 1,
+      "objective": "furlong",
+      "book": "Luke",
+      "chapter": 24,
+      "testament": "NT",
+      "prompt": "What does “furlongs” measure on the journey to Emmaus?",
+      "answer": "Distance",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 24,
+          "label": "Luke 24:13",
+          "verses": [
+            {
+              "number": 13,
+              "text": "And, behold, two of them went that same day to a village called Emmaus, which was from Jerusalem about threescore furlongs."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Distance",
+        "Weight",
+        "Grain capacity",
+        "Elapsed days"
+      ],
+      "explanation": "Luke gives a distance of about threescore (sixty) furlongs. The ancient stadion represented here is commonly estimated at about 600–607 feet (183–185 meters), rather than assuming the modern English 660-foot furlong.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "measure": "furlong",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "furlong-context",
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 24
+        }
+      ]
+    },
+    {
+      "id": "shekel",
+      "version": 1,
+      "objective": "shekel",
+      "book": "1 Samuel",
+      "chapter": 17,
+      "testament": "OT",
+      "prompt": "In the description of Goliath’s coat of mail, what do shekels measure?",
+      "answer": "Weight",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17,
+          "label": "1 Samuel 17:5",
+          "verses": [
+            {
+              "number": 5,
+              "text": "And he had an helmet of brass upon his head, and he was armed with a coat of mail; and the weight of the coat was five thousand shekels of brass."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Weight",
+        "Distance",
+        "Liquid capacity",
+        "Number of plates"
+      ],
+      "explanation": "This is a weight of brass, not a stated price. A common shekel estimate is about 0.4 avoirdupois ounce (11 grams), with historical variation. It is not a fixed modern currency value.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "measure": "shekel",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "sense": "shekel-context",
+      "contexts": [
+        {
+          "book": "1 Samuel",
+          "chapter": 17
+        }
+      ]
+    },
+    {
+      "id": "vocab-kine",
+      "version": 1,
+      "objective": "vocab-kine",
+      "book": "Genesis",
+      "chapter": 41,
+      "testament": "OT",
+      "prompt": "What animals are called “kine” in Pharaoh’s dream?",
+      "answer": "Cows",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 41,
+          "label": "Genesis 41:2–4",
+          "verses": [
+            {
+              "number": 2,
+              "text": "And, behold, there came up out of the river seven well favoured kine and fatfleshed; and they fed in a meadow."
+            },
+            {
+              "number": 3,
+              "text": "And, behold, seven other kine came up after them out of the river, ill favoured and leanfleshed; and stood by the other kine upon the brink of the river."
+            },
+            {
+              "number": 4,
+              "text": "And the ill favoured and leanfleshed kine did eat up the seven well favoured and fat kine. So Pharaoh awoke."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Cows",
+        "Sheep",
+        "Camels",
+        "Goats"
+      ],
+      "explanation": "Kine is an older plural for cows or cattle; this question concerns the animals in Pharaoh’s dream.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "sense": "kine-cattle",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 41
+        }
+      ]
+    },
+    {
+      "id": "vocab-prevent",
+      "version": 1,
+      "objective": "vocab-prevent",
+      "book": "1 Thessalonians",
+      "chapter": 4,
+      "testament": "NT",
+      "prompt": "In “shall not prevent them which are asleep,” what does “prevent” mean?",
+      "answer": "Precede or go before",
+      "kind": "choice",
+      "difficulty": "Hard",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "1 Thessalonians",
+          "chapter": 4,
+          "label": "1 Thessalonians 4:15–17",
+          "verses": [
+            {
+              "number": 15,
+              "text": "For this we say unto you by the word of the Lord, that we which are alive and remain unto the coming of the Lord shall not prevent them which are asleep."
+            },
+            {
+              "number": 16,
+              "text": "For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first:"
+            },
+            {
+              "number": 17,
+              "text": "Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Precede or go before",
+        "Stop them from rising",
+        "Forget their names",
+        "Cause them to sleep"
+      ],
+      "explanation": "The following sequence clarifies the older sense: the dead in Christ rise first, then the living are caught up together with them.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "sense": "prevent-precede",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "1 Thessalonians",
+          "chapter": 4
+        }
+      ]
+    },
+    {
+      "id": "vocab-conversation",
+      "version": 1,
+      "objective": "vocab-conversation",
+      "book": "Philippians",
+      "chapter": 1,
+      "testament": "NT",
+      "prompt": "What does “conversation” refer to in “let your conversation be as it becometh the gospel of Christ”?",
+      "answer": "Conduct or manner of life",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Philippians",
+          "chapter": 1,
+          "label": "Philippians 1:27",
+          "verses": [
+            {
+              "number": 27,
+              "text": "Only let your conversation be as it becometh the gospel of Christ: that whether I come and see you, or else be absent, I may hear of your affairs, that ye stand fast in one spirit, with one mind striving together for the faith of the gospel;"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Conduct or manner of life",
+        "Only spoken discussion",
+        "A written genealogy",
+        "A measured distance"
+      ],
+      "explanation": "The instruction concerns their manner of life, including standing fast and striving together, rather than only their spoken conversations.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "sense": "conversation-conduct",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Philippians",
+          "chapter": 1
+        }
+      ]
+    },
+    {
+      "id": "vocab-mites",
+      "version": 1,
+      "objective": "vocab-mites",
+      "book": "Mark",
+      "chapter": 12,
+      "testament": "NT",
+      "prompt": "In the account of the widow, what are “mites”?",
+      "answer": "Small coins",
+      "kind": "choice",
+      "difficulty": "Easy",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Mark",
+          "chapter": 12,
+          "label": "Mark 12:41–44",
+          "verses": [
+            {
+              "number": 41,
+              "text": "And Jesus sat over against the treasury, and beheld how the people cast money into the treasury: and many that were rich cast in much."
+            },
+            {
+              "number": 42,
+              "text": "And there came a certain poor widow, and she threw in two mites, which make a farthing."
+            },
+            {
+              "number": 43,
+              "text": "And he called unto him his disciples, and saith unto them, Verily I say unto you, That this poor widow hath cast more in, than all they which have cast into the treasury:"
+            },
+            {
+              "number": 44,
+              "text": "For all they did cast in of their abundance; but she of her want did cast in all that she had, even all her living."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "Small coins",
+        "Tiny insects",
+        "Grains of wheat",
+        "Pieces of clothing"
+      ],
+      "explanation": "The setting is money cast into the treasury. The two mites are coins, not insects.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "sense": "mite-coin",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Mark",
+          "chapter": 12
+        }
+      ]
+    },
+    {
+      "id": "vocab-publican",
+      "version": 1,
+      "objective": "vocab-publican",
+      "book": "Luke",
+      "chapter": 18,
+      "testament": "NT",
+      "prompt": "In the parable of the Pharisee and publican, what is a publican?",
+      "answer": "A tax collector",
+      "kind": "choice",
+      "difficulty": "Medium",
+      "skill": "Vocabulary",
+      "refs": [
+        {
+          "book": "Luke",
+          "chapter": 18,
+          "label": "Luke 18:9–14",
+          "verses": [
+            {
+              "number": 9,
+              "text": "And he spake this parable unto certain which trusted in themselves that they were righteous, and despised others:"
+            },
+            {
+              "number": 10,
+              "text": "Two men went up into the temple to pray; the one a Pharisee, and the other a publican."
+            },
+            {
+              "number": 11,
+              "text": "The Pharisee stood and prayed thus with himself, God, I thank thee, that I am not as other men are, extortioners, unjust, adulterers, or even as this publican."
+            },
+            {
+              "number": 12,
+              "text": "I fast twice in the week, I give tithes of all that I possess."
+            },
+            {
+              "number": 13,
+              "text": "And the publican, standing afar off, would not lift up so much as his eyes unto heaven, but smote upon his breast, saying, God be merciful to me a sinner."
+            },
+            {
+              "number": 14,
+              "text": "I tell you, this man went down to his house justified rather than the other: for every one that exalteth himself shall be abased; and he that humbleth himself shall be exalted."
+            }
+          ]
+        },
+        {
+          "book": "Luke",
+          "chapter": 3,
+          "label": "Luke 3:12–13",
+          "verses": [
+            {
+              "number": 12,
+              "text": "Then came also publicans to be baptized, and said unto him, Master, what shall we do?"
+            },
+            {
+              "number": 13,
+              "text": "And he said unto them, Exact no more than that which is appointed you."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A tax collector",
+        "A priest",
+        "A fisherman",
+        "A shepherd"
+      ],
+      "explanation": "Publican refers to a tax collector. Luke 3 connects their work to collecting appointed amounts.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "sense": "publican-tax-collector",
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Luke",
+          "chapter": 3
+        },
+        {
+          "book": "Luke",
+          "chapter": 18
+        }
+      ]
+    },
+    {
+      "id": "acts-map",
+      "version": 1,
+      "objective": "acts-map",
+      "book": "Acts",
+      "chapter": 16,
+      "testament": "NT",
+      "prompt": "Which marked location represents Samothracia, the island stop between Troas and Neapolis?",
+      "answer": "B",
+      "kind": "map",
+      "difficulty": "Easy",
+      "skill": "Geography",
+      "refs": [
+        {
+          "book": "Acts",
+          "chapter": 16,
+          "label": "Acts 16:11–12",
+          "verses": [
+            {
+              "number": 11,
+              "text": "Therefore loosing from Troas, we came with a straight course to Samothracia, and the next day to Neapolis;"
+            },
+            {
+              "number": 12,
+              "text": "And from thence to Philippi, which is the chief city of that part of Macedonia, and a colony: and we were in that city abiding certain days."
+            }
+          ]
+        }
+      ],
+      "choices": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "Samothracia is the island stop named between departure from Troas and arrival at Neapolis. The point positions come from the app’s geographic dataset; no exact landing site is asserted.",
+      "review": "Pilot: checked against cited passages; independent editorial review pending",
+      "places": [
+        {
+          "name": "Troas",
+          "lon": 26.158255500000003,
+          "lat": 39.751746,
+          "sourceId": "a91c509.geojson"
+        },
+        {
+          "name": "Samothracia",
+          "lon": 25.5715165,
+          "lat": 40.451255,
+          "sourceId": "a68750d.geojson"
+        },
+        {
+          "name": "Neapolis",
+          "lon": 24.415,
+          "lat": 40.935,
+          "sourceId": "a6a7150.geojson"
+        }
+      ],
+      "mapLabels": [
+        "A · Southern mainland departure",
+        "B · Island between the mainland stops",
+        "C · Northern mainland arrival"
+      ],
+      "scopeLevel": "chapter",
+      "conflicts": [],
+      "contexts": [
+        {
+          "book": "Acts",
+          "chapter": 16
+        }
+      ]
+    }
+  ],
+  "featured": [
+    {
+      "book": "Genesis",
+      "chapter": 1
+    },
+    {
+      "book": "Genesis",
+      "chapter": 5
+    },
+    {
+      "book": "Exodus",
+      "chapter": 28
+    },
+    {
+      "book": "Leviticus",
+      "chapter": 19
+    },
+    {
+      "book": "1 Samuel",
+      "chapter": 17
+    },
+    {
+      "book": "Psalms",
+      "chapter": 23
+    },
+    {
+      "book": "Isaiah",
+      "chapter": 40
+    },
+    {
+      "book": "Matthew",
+      "chapter": 5
+    },
+    {
+      "book": "Luke",
+      "chapter": 24
+    },
+    {
+      "book": "Acts",
+      "chapter": 16
+    },
+    {
+      "book": "1 Corinthians",
+      "chapter": 13
+    },
+    {
+      "book": "Revelation",
+      "chapter": 21
+    }
+  ],
+  "books": [
+    "Genesis",
+    "Exodus",
+    "Leviticus",
+    "Numbers",
+    "Deuteronomy",
+    "Joshua",
+    "Judges",
+    "Ruth",
+    "1 Samuel",
+    "2 Samuel",
+    "1 Kings",
+    "2 Kings",
+    "1 Chronicles",
+    "2 Chronicles",
+    "Ezra",
+    "Nehemiah",
+    "Esther",
+    "Job",
+    "Psalms",
+    "Proverbs",
+    "Ecclesiastes",
+    "Song of Solomon",
+    "Isaiah",
+    "Jeremiah",
+    "Lamentations",
+    "Ezekiel",
+    "Daniel",
+    "Hosea",
+    "Joel",
+    "Amos",
+    "Obadiah",
+    "Jonah",
+    "Micah",
+    "Nahum",
+    "Habakkuk",
+    "Zephaniah",
+    "Haggai",
+    "Zechariah",
+    "Malachi",
+    "Matthew",
+    "Mark",
+    "Luke",
+    "John",
+    "Acts",
+    "Romans",
+    "1 Corinthians",
+    "2 Corinthians",
+    "Galatians",
+    "Ephesians",
+    "Philippians",
+    "Colossians",
+    "1 Thessalonians",
+    "2 Thessalonians",
+    "1 Timothy",
+    "2 Timothy",
+    "Titus",
+    "Philemon",
+    "Hebrews",
+    "James",
+    "1 Peter",
+    "2 Peter",
+    "1 John",
+    "2 John",
+    "3 John",
+    "Jude",
+    "Revelation"
+  ]
+}

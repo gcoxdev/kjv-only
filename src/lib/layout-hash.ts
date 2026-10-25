@@ -156,6 +156,8 @@ function serializeLeaf(
     }
   } else if (node.view === "page" && node.pageId) {
     value = `page.${node.pageId}`;
+  } else if (node.view === "quiz") {
+    value = "quiz";
   } else if (node.view === "search") {
     value = "search";
   } else if (node.view === "notes") {
@@ -279,6 +281,9 @@ function parseLeafToken(
     return [null, [], false];
   }
 
+  if (normalizedToken === "quiz") {
+    return [{ ...createReaderLeaf(0, 0, "quiz"), pageId: null }, [], isTargeted];
+  }
   if (normalizedToken === "search") {
     return [{ ...createReaderLeaf(0, 0, "search"), pageId: null }, [], isTargeted];
   }
