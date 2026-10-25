@@ -43,6 +43,7 @@ const REFERENCE_TARGETS = new Set<ReferenceLinkOpenTarget>([
 ])
 const TOOL_REFERENCE_DISPLAY_MODES = new Set<ToolReferenceDisplayMode>([
   "buttons",
+  "dialog",
   "table",
 ])
 

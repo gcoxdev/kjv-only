@@ -70,8 +70,8 @@ for(const width of [390,1280]) test(`sidebar quiz, interactive controls, evidenc
   const quiz=sidebar.getByRole('region',{name:'Bible quiz',exact:true});
   await expect(quiz.getByRole('button',{name:'Start quiz',exact:true})).toBeVisible();
   await quiz.getByRole('button',{name:'Family tree',exact:true}).click();
-  await solveCurrent(page,quiz);await quiz.getByRole('button',{name:'Genesis 5:18–25',exact:true}).click();
-  await expect(page.getByRole('dialog')).toContainText('Jared');await page.getByRole('button',{name:'Close passage',exact:true}).click();
+  await solveCurrent(page,quiz);await quiz.getByRole('button',{name:'Genesis 5:18–25',exact:true}).hover();
+  await expect(page.locator('[data-slot=popover-content]')).toContainText('Jared');await page.keyboard.press('Escape');
   await quiz.getByRole('button',{name:'Finish quiz',exact:true}).click();await expect(quiz.getByText('Session complete',{exact:true})).toBeVisible();
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();await expect(quiz.getByText('Your learning progress',{exact:true})).toBeVisible();
   expect(await quiz.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
@@ -150,4 +150,55 @@ test('damaged progress is preserved for export and can be reset explicitly',asyn
   await page.getByRole('button',{name:'Confirm',exact:true}).click();
   await expect(quiz.getByRole('button',{name:'Start quiz',exact:true})).toBeVisible();
   expect((await readData(page)).sessions).toHaveLength(0);
+});
+
+test('reference display setting offers Popover and Dialog and preserves the selection', async ({page})=>{
+  await quizPanel(page);
+  await page.getByLabel('Open menu').click();
+  await page.getByRole('menuitem',{name:'Settings',exact:true}).click();
+  await page.getByRole('tab',{name:'Other',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Reference popover',exact:true})).toContainText('Popover');
+  await page.getByRole('button',{name:'Reference dialog',exact:true}).click();
+  await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('kjv-display-settings-v1')??'{}').toolReferenceDisplayMode)).toBe('dialog');
+  await page.reload();
+  await page.getByRole('tab',{name:'Other',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Reference dialog',exact:true})).toHaveAttribute('aria-pressed','true');
+});
+
+for(const mobile of [false,true]) test(`quiz uses shared reference dialog with context and Open (${mobile?'touch':'desktop'})`,async({browser})=>{
+  const context=await browser.newContext({baseURL:test.info().project.use.baseURL,viewport:{width:mobile?390:1280,height:900},hasTouch:mobile,isMobile:mobile});
+  const page=await context.newPage();
+  await page.addInitScript(()=>localStorage.setItem('kjv-display-settings-v1',JSON.stringify({toolReferenceDisplayMode:'dialog'})));
+  await page.goto(`${test.info().project.use.baseURL ?? 'http://127.0.0.1:4176'}/#tab=0&tabs=h&layout=Quiz:quiz`);
+  const quiz=page.getByRole('region',{name:'Bible quiz',exact:true}).first();
+  await quiz.getByRole('button',{name:'Family tree',exact:true}).click();
+  await quiz.getByRole('button',{name:'Read passage / hint',exact:true}).click();
+  const reference=quiz.getByRole('button',{name:'Genesis 5:18–25',exact:true});
+  if(mobile) await reference.tap(); else await reference.click();
+  const dialog=page.getByRole('dialog',{name:'Genesis 5:18–25',exact:true});
+  await expect(dialog).toBeVisible();await expect(dialog).toContainText('Jared');
+  await expect(dialog.locator('[data-context-line="surrounding"]')).toHaveCount(0);
+  await dialog.getByRole('button',{name:'Context',exact:true}).click();
+  await expect(dialog.locator('[data-context-line="surrounding"]')).toHaveCount(2);
+  await dialog.getByRole('button',{name:'Close',exact:true}).click();
+  await expect(dialog).not.toBeVisible();
+  await reference.click();await expect(dialog).toBeVisible();
+  const scan=await new AxeBuilder({page}).include('[data-slot="dialog-content"]').analyze();
+  expect(scan.violations.filter(v=>['serious','critical'].includes(v.impact??''))).toEqual([]);
+  await dialog.getByRole('button',{name:'Open',exact:true}).click();
+  await expect(dialog).not.toBeVisible();
+  await expect.poll(()=>page.url()).toMatch(/GEN\.5/);
+  await context.close();
+});
+
+test('quiz references use table mode with expandable context',async({page})=>{
+  await page.addInitScript(()=>localStorage.setItem('kjv-display-settings-v1',JSON.stringify({toolReferenceDisplayMode:'table'})));
+  const quiz=await quizPanel(page);
+  await quiz.getByRole('button',{name:'Family tree',exact:true}).click();
+  await quiz.getByRole('button',{name:'Read passage / hint',exact:true}).click();
+  const table=quiz.locator('[data-tool-reference-display="table"]');
+  await expect(table).toContainText('Jared');
+  await table.getByRole('button',{name:'Context',exact:true}).click();
+  await expect(table.locator('[data-context-line="surrounding"]')).toHaveCount(2);
+  await expect(table.getByRole('button',{name:'Open',exact:true})).toBeVisible();
 });

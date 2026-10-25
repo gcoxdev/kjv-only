@@ -321,7 +321,7 @@ export type PanelDirection = "left" | "right" | "up" | "down";
 export type SplitOrientation = "horizontal" | "vertical";
 export type TabsOrientation = "horizontal" | "vertical";
 export type IconVariant = "bw" | "color";
-export type ToolReferenceDisplayMode = "buttons" | "table";
+export type ToolReferenceDisplayMode = "buttons" | "dialog" | "table";
 
 export type VisualToolOpenTarget = "dialog" | "new-panel" | "new-tab" | "targeted-panel";
 

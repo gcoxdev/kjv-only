@@ -27,6 +27,7 @@ import {
   AArrowDownIcon,
   AArrowUpIcon,
   ListIcon,
+  AppWindowIcon,
   RotateCcwIcon,
   Table2Icon,
 } from "lucide-react";
@@ -712,7 +713,7 @@ export function SettingsPanelContent({
                 value={[toolReferenceDisplayMode]}
                 onValueChange={(value) => {
                   const nextMode = value[0];
-                  if (nextMode === "buttons" || nextMode === "table") {
+                  if (nextMode === "buttons" || nextMode === "dialog" || nextMode === "table") {
                     onToolReferenceDisplayModeChange(nextMode);
                   }
                 }}
@@ -721,15 +722,19 @@ export function SettingsPanelContent({
                   <Table2Icon data-icon="inline-start" />
                   Table
                 </ToggleGroupItem>
-                <ToggleGroupItem value="buttons" aria-label="Reference buttons">
+                <ToggleGroupItem value="buttons" aria-label="Reference popover">
                   <ListIcon data-icon="inline-start" />
-                  Buttons
+                  Popover
+                </ToggleGroupItem>
+                <ToggleGroupItem value="dialog" aria-label="Reference dialog">
+                  <AppWindowIcon data-icon="inline-start" />
+                  Dialog
                 </ToggleGroupItem>
               </ToggleGroup>
             </Field>
             <FieldDescription className="text-xs">
-              Show tool references as compact preview buttons or as verse rows with
-              expandable context.
+              Preview references in a popover, a dialog, or a table with expandable context.
+              All include Open and Context controls.
             </FieldDescription>
           </div>
           <div className="flex flex-col gap-2 border-t pt-3">

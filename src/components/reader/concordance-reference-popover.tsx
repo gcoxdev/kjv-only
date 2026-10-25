@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useOptionalSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { useToolReferenceContext } from "./tool-reference-context";
+import { ReferenceDialog } from "./reference-dialog";
 
-type ConcordanceReferencePopoverProps = {
+export type ConcordanceReferencePopoverProps = {
   reference: string;
   label?: string;
   highlightWord: string;
@@ -28,7 +30,12 @@ type PopoverSide =
   | "inline-end";
 type PopoverAlign = "start" | "center" | "end";
 
-export const ConcordanceReferencePopover = memo(function ConcordanceReferencePopover({
+export const ConcordanceReferencePopover = memo(function ConcordanceReferencePopover(props: ConcordanceReferencePopoverProps) {
+  const { mode } = useToolReferenceContext();
+  return mode === "dialog" ? <ReferenceDialog {...props} /> : <ReferencePopover {...props} />;
+});
+
+const ReferencePopover = memo(function ReferencePopover({
   reference,
   label,
   highlightWord,

@@ -1,8 +1,5 @@
 import {
-  createContext,
   memo,
-  type ReactNode,
-  useContext,
   useId,
   useMemo,
   useState,
@@ -23,18 +20,7 @@ import {
 } from "@/components/ui/table";
 import { useOptionalSidebar } from "@/components/ui/sidebar";
 import { orderToolReferences } from "@/lib/tool-references";
-import type { Book } from "@/types/bible";
-import type { ToolReferenceDisplayMode } from "@/types/reader";
-
-type ReferencePreviewRenderer = (
-  reference: string,
-  highlightWord: string,
-  options?: {
-    includeContext?: boolean;
-    citationActions?: ReactNode;
-    contextId?: string;
-  },
-) => ReactNode;
+import { useToolReferenceContext, type ReferencePreviewRenderer } from "./tool-reference-context";
 
 type ToolReferenceListProps = {
   references: string[];
@@ -48,38 +34,7 @@ type ToolReferenceListProps = {
 const SCROLLABLE_REFERENCE_COUNT = 6;
 const INITIAL_REFERENCE_ROWS = 50;
 const REFERENCE_ROW_BATCH_SIZE = 50;
-const EMPTY_BOOKS: Book[] = [];
 const EMPTY_BOOK_INDEXES = new Set<number>();
-type ToolReferenceDisplayContextValue = {
-  mode: ToolReferenceDisplayMode;
-  books: Book[];
-};
-const ToolReferenceDisplayModeContext =
-  createContext<ToolReferenceDisplayContextValue>({
-    mode: "buttons",
-    books: EMPTY_BOOKS,
-  });
-
-export function ToolReferenceDisplayModeProvider({
-  mode,
-  books,
-  children,
-}: {
-  mode: ToolReferenceDisplayMode;
-  books: Book[];
-  children: ReactNode;
-}) {
-  const value = useMemo(() => ({ mode, books }), [books, mode]);
-  return (
-    <ToolReferenceDisplayModeContext.Provider value={value}>
-      {children}
-    </ToolReferenceDisplayModeContext.Provider>
-  );
-}
-
-function useToolReferenceDisplayMode() {
-  return useContext(ToolReferenceDisplayModeContext);
-}
 
 export const ToolReferenceList = memo(function ToolReferenceList({
   references,
@@ -89,7 +44,7 @@ export const ToolReferenceList = memo(function ToolReferenceList({
   onOpenReference,
   onCloseSidebar,
 }: ToolReferenceListProps) {
-  const { mode: displayMode, books } = useToolReferenceDisplayMode();
+  const { mode: displayMode, books } = useToolReferenceContext();
   const sidebar = useOptionalSidebar();
   const listId = useId().replace(/[^a-zA-Z0-9_-]/g, "-");
   const referenceSignature = useMemo(
@@ -274,10 +229,10 @@ export const ToolReferenceList = memo(function ToolReferenceList({
       );
     }
 
-    if (displayMode === "buttons") {
+    if (displayMode !== "table") {
       return (
         <div
-          data-tool-reference-display="buttons"
+          data-tool-reference-display={displayMode}
           className="flex flex-wrap gap-1.5"
         >
           {filteredReferences.map(({ reference, originalIndex }) => (

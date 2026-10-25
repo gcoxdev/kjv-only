@@ -1,6 +1,13 @@
+import { BIBLE_BOOKS } from "@/lib/bible-books";
+import { BOOK_ICON_CODES } from "@/lib/references";
 import { createId } from "@/lib/reader-layout";
-import type { QuizAction, QuizAnswer, QuizAttempt, QuizBank, QuizEntry, QuizFilters, QuizQuestion, QuizSession, QuizSkill } from "./types";
+import type { QuizAction, QuizAnswer, QuizAttempt, QuizBank, QuizEntry, QuizFilters, QuizQuestion, QuizReference, QuizSession, QuizSkill } from "./types";
 export const QUIZ_BANK_URL = "/data/quiz-pilot-v1.json";
+export function quizReferenceCode(reference: QuizReference) {
+  const code = BOOK_ICON_CODES[BIBLE_BOOKS.findIndex(book => book.name === reference.book)];
+  const start = reference.verses[0].number, end = reference.verses.at(-1)!.number;
+  return `${code}.${reference.chapter}.${start}${end === start ? "" : `-${end}`}`;
+}
 export const DAY = 86_400_000;
 export const QUIZ_SKILLS: Record<QuizSkill, string> = { Comprehension: "Passage comprehension", Vocabulary: "Vocabulary", Structure: "Bible structure", Sequence: "Event sequence", Family: "People and family", Geography: "Geography" };
 export const QUIZ_KINDS = { choice: "Multiple choice", text: "Short answer", order: "Ordering", timeline: "Timeline", family: "Family tree", match: "Matching", map: "Map" };

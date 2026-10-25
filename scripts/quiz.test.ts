@@ -1,11 +1,12 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseQuizBank } from "@/lib/quiz/data";
-import { applyQuizAction, createQuizSession, DAY, filterQuizQuestions, gradeQuizAnswer, quizStats, selectQuizQuestions, validQuizAnswer } from "@/lib/quiz/engine";
+import { applyQuizAction, createQuizSession, DAY, filterQuizQuestions, gradeQuizAnswer, quizReferenceCode, quizStats, selectQuizQuestions, validQuizAnswer } from "@/lib/quiz/engine";
 import { parseQuizBackup, validSnapshot } from "@/lib/quiz/storage";
 import { parseLayoutHash, serializeLayoutHash } from "@/lib/layout-hash";
 import { createInitialTab } from "@/lib/reader-layout";
 import { normalizeStudyWorkspaceTab } from "@/hooks/use-study-workspace-state";
+import { parseBibleReference } from "@/lib/references";
 import { CORE_OFFLINE_URLS } from "@/lib/offline-downloads";
 import type { QuizAttempt, QuizFilters, QuizSnapshot } from "@/lib/quiz/types";
 const bank = parseQuizBank(JSON.parse(readFileSync("public/data/quiz-pilot-v1.json", "utf8")));
@@ -22,7 +23,10 @@ describe("quiz question bank and grading", () => {
       const canonical = question.kind === "text" ? question.answer[0] : question.answer;
       expect(gradeQuizAnswer(question, canonical), question.id).toBe(true);
       expect(gradeQuizAnswer(question, "not an answer"), question.id).toBe(false);
-      for (const r of question.refs) for (const v of r.verses) expect(v.text, `${r.label}:${v.number}`).toBe(verses.get(`${r.book}:${r.chapter}:${v.number}`));
+      for (const r of question.refs) {
+        expect(parseBibleReference(quizReferenceCode(r)), r.label).toMatchObject({ bookIndex: bank.books.indexOf(r.book), startChapterIndex: r.chapter - 1, endChapterIndex: r.chapter - 1, startVerse: r.verses[0].number, endVerse: r.verses.at(-1)!.number });
+        for (const v of r.verses) expect(v.text, `${r.label}:${v.number}`).toBe(verses.get(`${r.book}:${r.chapter}:${v.number}`));
+      }
     }
   });
   it("normalizes short recall without accepting different words", () => {

@@ -29,6 +29,11 @@ describe("reader persistence schemas", () => {
     expect(parsed.toolReferenceDisplayMode).toBe("table")
   })
 
+  it("preserves the legacy popover choice and accepts dialog previews", () => {
+    expect(parseReaderDisplaySettings({ toolReferenceDisplayMode: "buttons" }).toolReferenceDisplayMode).toBe("buttons")
+    expect(parseReaderDisplaySettings({ toolReferenceDisplayMode: "dialog" }).toolReferenceDisplayMode).toBe("dialog")
+  })
+
   it("bounds non-finite and extreme display values", () => {
     const parsed = parseReaderDisplaySettings({
       fontSize: Number.POSITIVE_INFINITY,

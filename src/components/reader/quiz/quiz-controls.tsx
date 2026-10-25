@@ -1,14 +1,16 @@
 import { useId, useRef, useState } from "react";
-import { ArrowDownIcon, ArrowUpIcon, XIcon } from "lucide-react";
+import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ToolReferenceList } from "@/components/reader/tool-reference-list";
+import { useToolReferenceContext } from "@/components/reader/tool-reference-context";
 import { ReaderControlTooltip } from "@/components/reader/reader-control-tooltip";
+import { quizReferenceCode } from "@/lib/quiz/engine";
 import { cn } from "@/lib/utils";
-import type { QuizAnswer, QuizEntry, QuizQuestion, QuizReference } from "@/lib/quiz/types";
+import type { QuizAnswer, QuizEntry, QuizQuestion } from "@/lib/quiz/types";
 export function QuizSelect({ label, value, items, onChange, disabled = false }: { label: string; value: string; items: { value: string; label: string }[]; onChange: (value: string) => void; disabled?: boolean }) {
   const id = useId();
   return <Field><FieldLabel htmlFor={id}>{label}</FieldLabel><Select value={value} items={items} onValueChange={v => { if (v !== null) onChange(v); }} disabled={disabled}>
@@ -16,16 +18,15 @@ export function QuizSelect({ label, value, items, onChange, disabled = false }: 
   </Select></Field>;
 }
 export function QuizEvidence({ question }: { question: QuizQuestion }) {
-  const [reference, setReference] = useState<QuizReference | null>(null);
-  return <><div className="flex flex-wrap gap-2">{question.refs.map(r => <Button key={r.label} size="sm" variant="outline" onClick={() => setReference(r)}>{r.label}</Button>)}</div>
+  const { actions } = useToolReferenceContext();
+  if (!actions) throw new Error("Quiz references require the reader reference provider.");
+  return <>
+    {question.refs.length ? <ToolReferenceList references={question.refs.map(quizReferenceCode)} referenceLabels={Object.fromEntries(question.refs.map(r => [quizReferenceCode(r), r.label]))} highlightWord="" {...actions} /> : null}
     {question.evidence ? <p className="text-xs text-muted-foreground">{question.evidence}</p> : null}
     {question.measure ? <p className="text-xs text-muted-foreground">Modern equivalents are approximate. Measurement sources are listed on Credits.</p> : null}
-    <Dialog open={!!reference} onOpenChange={open => { if (!open) setReference(null); }}><DialogContent showCloseButton={false} className="max-h-[85dvh] overflow-y-auto">
-      <DialogHeader className="pr-10"><DialogTitle>{reference?.label}</DialogTitle><DialogDescription>King James Version</DialogDescription></DialogHeader>
-      <DialogClose render={<Button size="icon-sm" variant="outline" className="absolute top-3 right-3 rounded-full" aria-label="Close passage"><XIcon /></Button>} />
-      {reference?.verses.map(v => <p key={v.number} className="font-reading leading-relaxed"><sup className="mr-2 text-xs text-muted-foreground">{v.number}</sup>{v.text}</p>)}
-    </DialogContent></Dialog></>;
+  </>;
 }
+
 export function QuizAnswerControls({ question: q, entry, answer, onChange, disabled }: { question: QuizQuestion; entry: QuizEntry; answer: QuizAnswer; onChange: (answer: QuizAnswer) => void; disabled: boolean }) {
   const drag = useRef<number | null>(null), [announcement, setAnnouncement] = useState("");
   const inputId = useId();

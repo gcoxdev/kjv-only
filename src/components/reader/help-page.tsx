@@ -385,7 +385,7 @@ const HELP_SECTIONS: HelpSection[] = [
       {
         label: "How to view and preview tool references",
         body:
-          "Study-tool references appear in Bible-book, chapter, and verse order. Longer lists include Filters for including or excluding the Old Testament, New Testament, or any relevant book. Settings > Other can show references as compact preview buttons or a scrollable verse table. Table rows have independent Open and Context controls, and the context-verse setting controls how many surrounding verses both modes and Search results display.",
+          "Study-tool references appear in Bible-book, chapter, and verse order. Longer lists include Filters for including or excluding the Old Testament, New Testament, or any relevant book. Settings > Other > Tool Reference Display offers Popover, Dialog, or Table. Quiz uses the same reference controls. Each offers Open and Context controls; the context-verse setting controls how many surrounding verses previews and Search results display. Popover previews appear on hover on a desktop, where clicking a reference opens it directly. Dialog previews open on click or tap.",
         keywords: ["reference preview", "popover", "table", "buttons", "filter references", "Bible order", "Old Testament", "New Testament", "books", "context", "surrounding verses", "open reference"],
       },
       {

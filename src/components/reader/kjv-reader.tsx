@@ -125,7 +125,7 @@ import { ReaderStatusScreen } from "@/components/reader/reader-status-screen";
 import { ReaderWorkspacePanels } from "@/components/reader/reader-workspace-panels";
 import { ReaderImportControls } from "@/components/reader/reader-import-controls";
 import { PwaUpdateNotice } from "@/components/reader/pwa-update-notice";
-import { ToolReferenceDisplayModeProvider } from "@/components/reader/tool-reference-list";
+import { ToolReferenceDisplayModeProvider } from "@/components/reader/tool-reference-context";
 import { CompletionCelebration } from "@/components/reader/completion-celebration";
 import { GuidedTour } from "@/components/reader/guided-tour";
 import type { StudyToolsPanelProps } from "@/components/reader/study-tools-panel";
@@ -2334,6 +2334,9 @@ export function KJVReader() {
     <ToolReferenceDisplayModeProvider
       mode={toolReferenceDisplayMode}
       books={books}
+      renderPreview={referencePreviewContent}
+      onOpenReference={openConcordanceReference}
+      onCloseSidebar={closeRightSidebarForMobile}
     >
       <div
         className="reader-shell h-screen w-full overflow-hidden bg-background"
