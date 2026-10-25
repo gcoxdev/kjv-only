@@ -23,6 +23,7 @@ import { QuizAnswerControls, QuizEvidence, QuizSelect } from "./quiz-controls";
 
 // Keep a failed-to-save draft available if Home unmounts this view. Never mix it into earned credit.
 const drafts = new Map<string, QuizAnswer>();
+const QUESTION_PAGE_SIZE = 25;
 function download(value: unknown, name: string) { const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: "application/json" })); const a = document.createElement("a"); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
 const item = (value: string) => ({ value, label: value });
 export type QuizPageProps = { initialBook?: string; initialChapter?: number };
@@ -40,11 +41,19 @@ function Feedback({ q, entry, points }: { q: QuizQuestion; entry: QuizEntry; poi
     <QuizEvidence question={q} />{entry.assisted ? <p className="text-xs text-muted-foreground">Assisted practice does not earn unassisted learning or mastery credit.</p> : null}
   </section>;
 }
+function ChapterObjectives({ book, chapter, questions, stats }: { book: string; chapter: number; questions: QuizQuestion[]; stats: ReturnType<typeof quizStats> }) {
+  const [open, setOpen] = useState(false);
+  return <details onToggle={event => setOpen(event.currentTarget.open)}>
+    <summary className="cursor-pointer text-sm font-medium">{book} {chapter}</summary>
+    {open ? <ul className="mt-2 flex flex-col gap-2">{questions.map(q => <li key={q.id} className="text-xs"><strong>{stats.get(q.objective)?.status}{stats.get(q.objective)?.due ? " · Review due" : ""}</strong> — {q.prompt}</li>)}</ul> : null}
+  </details>;
+}
 function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: QuizPageProps & { bank: QuizBank }) {
   const [owner] = useState(createId), [snapshot, setSnapshot] = useState<QuizSnapshot | null>(null), [error, setError] = useState<string | null>(null), [pending, setPending] = useState(0);
   const [view, setView] = useState<"setup" | "quiz" | "progress" | "questions">("setup"), [sessionId, setSessionId] = useState<string | null>(null), [draftVersion, setDraftVersion] = useState(0);
   const [filters, setFilters] = useState<QuizFilters>(() => ({ scope: "chapter", book: initialBook, chapter: initialChapter, skill: "all", difficulty: "all", readOnly: false }));
   const [length, setLength] = useState("10"), [mode, setMode] = useState<QuizSession["mode"]>("practice"), [search, setSearch] = useState("");
+  const [questionPage, setQuestionPage] = useState(0);
   const [confirmAction, setConfirmAction] = useState<{ title: string; description: string; run: () => void } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null), questionRef = useRef<HTMLHeadingElement>(null), queue = useRef(Promise.resolve());
   const { readChapters } = useReadChapters();
@@ -62,6 +71,23 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
   }, []);
   const stats = useMemo(() => quizStats(bank, snapshot?.attempts ?? []), [bank, snapshot]);
   const questions = useMemo(() => new Map(bank.questions.map(q => [q.id, q])), [bank]);
+  const chapterQuestions = useMemo(() => {
+    const grouped = new Map<string, QuizQuestion[]>();
+    for (const q of bank.questions) {
+      const key = `${q.book}:${q.chapter}`;
+      const group = grouped.get(key);
+      if (group) group.push(q); else grouped.set(key, [q]);
+    }
+    return grouped;
+  }, [bank]);
+  const matchingQuestions = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return bank.questions.filter(q => `${q.prompt} ${q.book} ${q.id}`.toLowerCase().includes(query));
+  }, [bank, search]);
+  const lastQuestionPage = Math.max(0, Math.ceil(matchingQuestions.length / QUESTION_PAGE_SIZE) - 1);
+  const currentQuestionPage = Math.min(questionPage, lastQuestionPage);
+  const questionStart = currentQuestionPage * QUESTION_PAGE_SIZE;
+  const visibleQuestions = matchingQuestions.slice(questionStart, questionStart + QUESTION_PAGE_SIZE);
   const pool = useMemo(() => filterQuizQuestions(bank, filters, readChapters), [bank, filters, readChapters]);
   const session = snapshot?.sessions.find(s => s.id === sessionId), entry = session?.entries[session.index], question = entry ? questions.get(entry.id) : undefined;
   const draftKey = session && entry ? `${session.id}:${entry.id}` : "";
@@ -105,7 +131,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
   const confirmReset = () => setConfirmAction({ title: "Reset quiz progress?", description: "This removes all quiz sessions, points, and mastery on this browser. Reading progress is unaffected. Export a backup first if you want to keep your results.", run: () => { void resetQuizData().then(() => { drafts.clear(); setSessionId(null); setError(null); void refresh(); }).catch(e => setError(e.message)); } });
   return <section aria-label="Bible quiz" className="@container flex h-full min-h-0 min-w-0 flex-col overflow-y-auto p-3">
     <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-col gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="flex items-center gap-2 text-lg font-semibold"><GraduationCapIcon className="size-5" />Quiz</h2><Badge variant="secondary">Pilot · {bank.questions.length} objectives</Badge></div>
+      <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="flex items-center gap-2 text-lg font-semibold"><GraduationCapIcon className="size-5" />Quiz</h2><Badge variant="secondary">{bank.questions.length} objectives</Badge></div>
       <ToggleGroup value={[view === "quiz" ? "setup" : view]} onValueChange={values => { const next = values[0]; if (next === "setup" || next === "progress" || next === "questions") setView(next); }} variant="outline" spacing={1} aria-label="Quiz sections" className="flex-wrap">
         <ToggleGroupItem value="setup">Start</ToggleGroupItem><ToggleGroupItem value="progress">Progress</ToggleGroupItem><ToggleGroupItem value="questions" disabled={pendingSessions.length > 0}>Questions</ToggleGroupItem>
       </ToggleGroup>
@@ -125,7 +151,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
           <Field orientation="horizontal"><FieldLabel htmlFor={`${owner}-read`}>Only chapters marked read</FieldLabel><Switch id={`${owner}-read`} checked={filters.readOnly} onCheckedChange={readOnly => filterUpdate({ readOnly })} /></Field>
         </FieldGroup></CardContent><CardFooter className="flex flex-wrap justify-between gap-3"><p className="text-xs text-muted-foreground">{pool.length ? `Up to ${Math.min(Number(length), pool.length)} questions. Overlapping exercises are kept apart.` : "No questions match yet. Try another chapter, a broader scope, or different filters."}</p><Button disabled={!pool.length || pending > 0} onClick={() => start()}>Start quiz</Button></CardFooter></Card>
         <div className="grid grid-cols-2 gap-2 @lg:grid-cols-3">{([['Vocabulary','Vocabulary'],['order','Ordering'],['timeline','Timeline'],['family','Family tree'],['map','Map'],['text','Short answer']] as const).map(([value,label]) => <Button key={value} variant="outline" size="sm" disabled={pending > 0} onClick={() => start(bank.questions.filter(q => value === "Vocabulary" ? q.skill === value : q.kind === value), `${label} · sample`, "practice")}>{label}</Button>)}</div>
-        <p className="text-xs text-muted-foreground">Example buttons use the whole pilot bank and Practice mode. Finish open sessions to browse answers in Questions. Saved progress is local to this device/browser.</p>
+        <p className="text-xs text-muted-foreground">Example buttons use the whole question bank and Practice mode. Finish open sessions to browse answers in Questions. Saved progress is local to this device/browser.</p>
       </> : null}
       {view === "quiz" && session && entry && question ? <>
         <div className="flex flex-wrap items-center justify-between gap-2"><Button size="sm" variant="ghost" onClick={saveAndLeave} disabled={pending > 0}><ArrowLeftIcon data-icon="inline-start" />Save & leave</Button><Badge variant="outline">{session.mode}</Badge></div>
@@ -148,12 +174,22 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
       {view === "progress" && snapshot ? <>
         <Card><CardHeader><CardTitle>Your learning progress</CardTitle><CardDescription>{bank.questions.length} available objectives · Reading progress is separate.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3 pb-4"><div className="grid grid-cols-3 gap-3">{[[total.learned, "Learned"], [total.mastered, "Mastered"], [total.points, "Points"]].map(([n,label]) => <div key={label}><p className="text-2xl font-semibold">{n}</p><p className="text-xs text-muted-foreground">{label}</p></div>)}</div><Progress value={100 * total.mastered / bank.questions.length} aria-label="Available objectives mastered" /><p className="text-xs text-muted-foreground">Learned: one correct unassisted answer. Mastered: correct recall in separate sessions at least seven days apart. Later mistakes prompt review without removing earned mastery.</p>{milestone ? <Badge variant="secondary">Milestone: {milestone} objectives learned</Badge> : <p className="text-xs text-muted-foreground">Learn five objectives to earn your first milestone.</p>}</CardContent><CardFooter className="flex flex-wrap gap-2">{([['missed','Review mistakes'],['due','Practice due items']] as const).map(([key,label]) => <Button key={key} size="sm" variant="outline" disabled={pending > 0 || !bank.questions.some(q => stats.get(q.objective)?.[key])} onClick={() => start(bank.questions.filter(q => stats.get(q.objective)?.[key]), label, "practice")}>{label}</Button>)}</CardFooter></Card>
         <Card><CardHeader><CardTitle>Skills and difficulty</CardTitle></CardHeader><CardContent className="flex flex-col gap-3">{[...Object.entries(QUIZ_SKILLS), ...["Easy", "Medium", "Hard"].map(v => [v,v])].map(([key,label]) => { const group = bank.questions.filter(q => q.skill === key || q.difficulty === key); return <div key={key}><p className="text-sm">{label}: {group.filter(q => stats.get(q.objective)?.learned).length} learned · {group.filter(q => stats.get(q.objective)?.mastered).length}/{group.length} mastered</p><Progress aria-label={`${label} mastery`} value={100 * group.filter(q => stats.get(q.objective)?.mastered).length / group.length} /></div>; })}</CardContent></Card>
-        <Card><CardHeader><CardTitle>Chapter objectives</CardTitle><CardDescription>Featured samples; not complete chapter coverage yet.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3">{bank.featured.map(c => <details key={`${c.book}:${c.chapter}`}><summary className="cursor-pointer text-sm font-medium">{c.book} {c.chapter}</summary><ul className="mt-2 flex flex-col gap-2">{bank.questions.filter(q => q.book === c.book && q.chapter === c.chapter).map(q => <li key={q.id} className="text-xs"><strong>{stats.get(q.objective)?.status}{stats.get(q.objective)?.due ? " · Review due" : ""}</strong> — {q.prompt}</li>)}</ul></details>)}</CardContent></Card>
+        <Card><CardHeader><CardTitle>Chapter objectives</CardTitle><CardDescription>Initial sets in every chapter; individual sets do not test every detail.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3">{bank.featured.map(c => <ChapterObjectives key={`${c.book}:${c.chapter}`} book={c.book} chapter={c.chapter} questions={chapterQuestions.get(`${c.book}:${c.chapter}`) ?? []} stats={stats} />)}</CardContent></Card>
         <div className="flex flex-wrap gap-2"><Button size="sm" variant="outline" onClick={() => void exportData()}><DownloadIcon data-icon="inline-start" />Export progress</Button><Button size="sm" variant="outline" onClick={() => inputRef.current?.click()} disabled={pending > 0}><UploadIcon data-icon="inline-start" />Import progress</Button><Button size="sm" variant="ghost" disabled={pending > 0} onClick={confirmReset}>Reset quiz progress</Button></div><input ref={inputRef} hidden type="file" accept=".json,application/json" aria-label="Import quiz backup" onChange={e => { void importFile(e.target.files?.[0]); e.target.value = ""; }} />
         <p className="text-xs text-muted-foreground">Stored on this device/browser. Export a backup before clearing browser data or moving devices. First learning earns 10/20/30 points by difficulty; correct due reviews earn 5 points at most once per objective per day.</p>
       </> : null}
-      {view === "questions" && !pendingSessions.length ? <><Field><FieldLabel htmlFor={`${owner}-question-search`}>Search questions</FieldLabel><Input id={`${owner}-question-search`} value={search} onChange={e => setSearch(e.target.value)} placeholder="Try ephah, creation, or Acts" /></Field>{bank.questions.filter(q => `${q.prompt} ${q.book} ${q.id}`.toLowerCase().includes(search.toLowerCase())).map(q => <Card key={q.id}><CardHeader><CardDescription>{q.book} {q.chapter || ""} · {q.difficulty} · {QUIZ_KINDS[q.kind]}</CardDescription><CardTitle>{q.prompt}</CardTitle></CardHeader><CardContent><details><summary className="cursor-pointer text-sm">Answer and evidence</summary><div className="mt-3 flex flex-col gap-3"><p className="text-sm font-medium">{quizAnswerLabel(q)}</p><p className="text-sm">{q.explanation}</p><QuizEvidence question={q} /><p className="text-xs text-muted-foreground">Question ID: {q.id}</p></div></details></CardContent></Card>)}</> : null}
-      <Separator /><p className="text-xs text-muted-foreground">Quiz pilot · KJV-based questions and cited passages. Vocabulary includes uncommon biblical terms, not only archaic English. Maps and modern unit estimates use the sources on Credits.</p>
+      {view === "questions" && !pendingSessions.length ? <>
+        <Field><FieldLabel htmlFor={`${owner}-question-search`}>Search questions</FieldLabel><Input id={`${owner}-question-search`} value={search} onChange={e => { setSearch(e.target.value); setQuestionPage(0); }} placeholder="Try ephah, creation, or Acts" /></Field>
+        <nav aria-label="Question pages" className="flex flex-wrap items-center justify-between gap-2">
+          <p role="status" className="text-sm text-muted-foreground">{matchingQuestions.length ? `Questions ${questionStart + 1}–${questionStart + visibleQuestions.length} of ${matchingQuestions.length}` : "No questions match your search."}</p>
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" disabled={currentQuestionPage === 0} onClick={() => setQuestionPage(currentQuestionPage - 1)}>Previous</Button>
+            <Button size="sm" variant="outline" disabled={currentQuestionPage === lastQuestionPage} onClick={() => setQuestionPage(currentQuestionPage + 1)}>Next</Button>
+          </div>
+        </nav>
+        <div role="list" aria-label="Question results" className="flex flex-col gap-4">{visibleQuestions.map(q => <Card key={q.id} role="listitem"><CardHeader><CardDescription>{q.book} {q.chapter || ""} · {q.difficulty} · {QUIZ_KINDS[q.kind]}</CardDescription><CardTitle>{q.prompt}</CardTitle></CardHeader><CardContent><details><summary className="cursor-pointer text-sm">Answer and evidence</summary><div className="mt-3 flex flex-col gap-3"><p className="text-sm font-medium">{quizAnswerLabel(q)}</p><p className="text-sm">{q.explanation}</p><QuizEvidence question={q} /><p className="text-xs text-muted-foreground">Question ID: {q.id}</p></div></details></CardContent></Card>)}</div>
+      </> : null}
+      <Separator /><p className="text-xs text-muted-foreground">Bible quiz · KJV-based questions and cited passages. Vocabulary includes uncommon biblical terms, not only archaic English. Maps and modern unit estimates use the sources on Credits.</p>
       <Dialog open={!!confirmAction} onOpenChange={open => { if (!open) setConfirmAction(null); }}><DialogContent><DialogHeader><DialogTitle>{confirmAction?.title}</DialogTitle><DialogDescription>{confirmAction?.description}</DialogDescription></DialogHeader><DialogFooter><Button size="sm" variant="outline" onClick={() => setConfirmAction(null)}>Cancel</Button><Button size="sm" onClick={() => { const action = confirmAction; setConfirmAction(null); action?.run(); }}>Confirm</Button></DialogFooter></DialogContent></Dialog>
     </div>
   </section>;

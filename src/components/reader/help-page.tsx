@@ -339,7 +339,7 @@ const HELP_SECTIONS: HelpSection[] = [
       },
       {
         label: "How to use Quiz",
-        body: "Open Quiz from panel or sidebar Home. Choose a chapter, book, testament, or whole-Bible sample and a skill or difficulty. The pilot pack samples selected chapters and vocabulary; unavailable chapters are clearly indicated. Practice gives immediate feedback and KJV evidence; Assessment gives feedback at the end. Hints mark an answer assisted. Correct unassisted answers earn learning credit; repeat in another session at least seven days later for mastery. Quiz progress is separate from reading progress and can be exported or imported. Saved sessions can be continued in another view using Take over. Download Bible & tools for offline use.",
+        body: "Open Quiz from panel or sidebar Home. Choose a chapter, book, testament, or whole-Bible sample and a skill or difficulty. Initial question sets cover all 66 books and 1,189 chapters, with selected vocabulary and interactive exercises; these are broad samples, not exhaustive tests of every detail. Practice gives immediate feedback and KJV evidence; Assessment gives feedback at the end. Hints mark an answer assisted. Correct unassisted answers earn learning credit; repeat in another session at least seven days later for mastery. Quiz progress is separate from reading progress and can be exported or imported. Saved sessions can be continued in another view using Take over. Download Bible & tools for offline use.",
         keywords: ["quiz", "vocabulary", "mastery", "points", "assessment", "backup", "offline"],
       },
       {

@@ -18,8 +18,16 @@ describe("quiz question bank and grading", () => {
   it("checks the actual bank and every embedded KJV verse", () => {
     const corpus = JSON.parse(readFileSync("public/data/kjv.json", "utf8")) as { books: { name: string; chapters: { chapter: number; verses: { verse: number; tokens: { text: string }[] }[] }[] }[] };
     const verses = new Map(corpus.books.flatMap(b => b.chapters.flatMap(c => c.verses.map(v => [`${b.name}:${c.chapter}:${v.verse}`, v.tokens.map(t => t.text).join(" ").replace(/\s+([,.;:?!])/g, "$1")] as const))));
-    expect(bank.questions).toHaveLength(180);
-    expect(bank.featured).toHaveLength(20);
+    expect(bank.questions).toHaveLength(8357);
+    expect(bank.featured).toHaveLength(1189);
+    const chapterKeys = corpus.books.flatMap(b => b.chapters.map(c => `${b.name}:${c.chapter}`));
+    expect(bank.featured.map(c => `${c.book}:${c.chapter}`).sort()).toEqual([...chapterKeys].sort());
+    for (const book of corpus.books) {
+      for (const chapter of book.chapters) {
+        const available = filterQuizQuestions(bank, { scope: "chapter", book: book.name, chapter: chapter.chapter, skill: "all", difficulty: "all", readOnly: false }, new Set());
+        expect(available.length, `${book.name} ${chapter.chapter} has playable questions`).toBeGreaterThan(0);
+      }
+    }
     for (const question of bank.questions) {
       const canonical = question.kind === "text" ? question.answer[0] : question.answer;
       expect(gradeQuizAnswer(question, canonical), question.id).toBe(true);
