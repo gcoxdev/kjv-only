@@ -22,7 +22,7 @@ export type QuizSession = {
   entries: QuizEntry[]; done: boolean; created: number; updated: number;
   owner: string | null; leaseUntil: number;
 };
-export type QuizAttempt = { id: string; session: string; qid: string; objective: string; version: number; answer: QuizAnswer; correct: boolean; assisted: boolean; skipped: boolean; time: number; points: number };
+export type QuizAttempt = { id: string; session: string; qid: string; objective: string; version: number; answer: QuizAnswer; correct: boolean; assisted: boolean; skipped: boolean; time: number; points: number; reviewScheduleVersion?: 2 };
 export type QuizSnapshot = { sessions: QuizSession[]; attempts: QuizAttempt[] };
 export type QuizBackup = QuizSnapshot & { type: "kjv-only-quiz"; schema: 1; bank: string; exported: string };
 export type QuizAction =

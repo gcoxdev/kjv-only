@@ -1,4 +1,4 @@
-import { applyQuizAction, gradeQuizAnswer, rebuildQuizAttempts, validQuizAnswer } from "./engine";
+import { applyQuizAction, DAY, gradeQuizAnswer, rebuildQuizAttempts, validQuizAnswer } from "./engine";
 import { record, strings } from "./data";
 import type { QuizAction, QuizAttempt, QuizBackup, QuizBank, QuizSession, QuizSnapshot } from "./types";
 const DATABASE = "kjv-only-quiz-v1";
@@ -77,7 +77,9 @@ export function validSnapshot(value: unknown, bank: QuizBank): value is QuizSnap
   return value.attempts.every(a => {
     if (!record(a) || typeof a.qid !== "string" || typeof a.session !== "string") return false;
     const q = questions.get(a.qid), s = sessions.get(a.session), e = s?.entries.find(e => e.id === a.qid);
-    return !!q && !!s && !!e?.submitted && (s.mode === "practice" || s.done) && a.id === `${s.id}:${q.id}` && a.objective === q.objective && a.version === q.version && validQuizAnswer(q, a.answer) && JSON.stringify(a.answer) === JSON.stringify(e.answer) && a.assisted === e.assisted && a.skipped === e.skipped && a.correct === (!e.skipped && gradeQuizAnswer(q, e.answer)) && typeof a.time === "number" && Number.isFinite(a.time) && a.time > 0 && typeof a.points === "number" && [0, 5, 10, 20, 30].includes(a.points);
+    // Leave room for the longest review interval within JavaScript's Date range.
+    if (typeof a.time !== "number" || !Number.isFinite(a.time) || a.time <= 0 || a.time > 8_640_000_000_000_000 - 30 * DAY) return false;
+    return !!q && !!s && !!e?.submitted && (s.mode === "practice" || s.done) && a.id === `${s.id}:${q.id}` && a.objective === q.objective && a.version === q.version && validQuizAnswer(q, a.answer) && JSON.stringify(a.answer) === JSON.stringify(e.answer) && a.assisted === e.assisted && a.skipped === e.skipped && a.correct === (!e.skipped && gradeQuizAnswer(q, e.answer)) && typeof a.time === "number" && Number.isFinite(a.time) && a.time > 0 && (a.reviewScheduleVersion === undefined || a.reviewScheduleVersion === 2) && typeof a.points === "number" && [0, 5, 10, 20, 30].includes(a.points);
   });
 }
 export function parseQuizBackup(value: unknown, bank: QuizBank): QuizBackup {

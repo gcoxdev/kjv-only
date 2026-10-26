@@ -1,6 +1,8 @@
 import { BIBLE_BOOKS } from "@/lib/bible-books";
 import { BOOK_ICON_CODES } from "@/lib/references";
 import { createId } from "@/lib/reader-layout";
+import { DAY, legacyQuizReviewDue, quizReviewSchedule } from "./review";
+export { DAY } from "./review";
 import type { QuizAction, QuizAnswer, QuizAttempt, QuizBank, QuizEntry, QuizFilters, QuizQuestion, QuizReference, QuizSession, QuizSkill, QuizSnapshot } from "./types";
 export const QUIZ_BANK_URL = "/data/quiz-pilot-v1.json";
 export function quizReferenceCode(reference: QuizReference) {
@@ -8,7 +10,6 @@ export function quizReferenceCode(reference: QuizReference) {
   const start = reference.verses[0].number, end = reference.verses.at(-1)!.number;
   return `${code}.${reference.chapter}.${start}${end === start ? "" : `-${end}`}`;
 }
-export const DAY = 86_400_000;
 export const QUIZ_SKILLS: Record<QuizSkill, string> = { Comprehension: "Passage comprehension", Vocabulary: "Vocabulary", Structure: "Bible structure", Sequence: "Event sequence", Family: "People and family", Geography: "Geography" };
 export const QUIZ_KINDS = { choice: "Multiple choice", text: "Short answer", order: "Ordering", timeline: "Timeline", family: "Family tree", match: "Matching", map: "Map" };
 export function quizScopeLabel(q: QuizQuestion) {
@@ -34,11 +35,10 @@ export function quizStats(bank: QuizBank, attempts: QuizAttempt[], now = Date.no
   const groups = new Map<string, QuizAttempt[]>();
   for (const a of attempts) { const list = groups.get(a.objective) ?? []; list.push(a); groups.set(a.objective, list); }
   return new Map(quizObjectives(bank.questions).map(q => {
-    const history = (groups.get(q.objective) ?? []).filter(a => a.version === q.version).sort((a, b) => a.time - b.time);
+    const history = (groups.get(q.objective) ?? []).filter(a => a.version === q.version).sort((a, b) => a.time - b.time || a.id.localeCompare(b.id));
     const successes = history.filter(a => a.correct && !a.assisted), first = successes[0], last = history.at(-1);
     const mastered = !!first && successes.some(a => a.session !== first.session && a.time - first.time >= 7 * DAY);
-    const due = !!last && (!last.correct || last.assisted || now - last.time >= (mastered ? 30 : successes.length > 1 ? 7 : 1) * DAY);
-    return [q.objective, { learned: !!first, mastered, due, missed: !!last && !last.correct, attempts: history, status: mastered ? "Mastered" : first ? "Learned" : last ? "Practicing" : "Not started" }];
+    return [q.objective, { learned: !!first, mastered, ...quizReviewSchedule(history, now), missed: !!last && !last.correct, attempts: history, status: mastered ? "Mastered" : first ? "Learned" : last ? "Practicing" : "Not started" }];
   }));
 }
 export function filterQuizQuestions(bank: QuizBank, filters: QuizFilters, readChapters: ReadonlySet<string>) {
@@ -109,7 +109,7 @@ export function validQuizAnswer(q: QuizQuestion, answer: unknown): answer is Qui
   return answer.every(a => a === "" || q.choices.includes(a));
 }
 export function hasQuizAnswer(q: QuizQuestion, answer: QuizAnswer) { return validQuizAnswer(q, answer) && (Array.isArray(answer) ? answer.every(Boolean) : !!answer.trim()); }
-function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, attempts: QuizAttempt[], now: number, historicalPoints?: number) {
+function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, attempts: QuizAttempt[], now: number, historical?: QuizAttempt) {
   const id = `${session.id}:${entry.id}`;
   if (attempts.some(a => a.id === id)) return;
   const q = bank.questions.find(q => q.id === entry.id)!;
@@ -121,11 +121,11 @@ function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, a
       points = { Easy: 10, Medium: 20, Hard: 30 }[q.difficulty];
       // Older/offline releases may have awarded a former difficulty's value.
       // Preserve it only for the first qualifying reward in the merged history.
-      if (historicalPoints !== undefined && q.previousLearningPoints?.includes(historicalPoints)) points = historicalPoints;
+      if (historical && q.previousLearningPoints?.includes(historical.points)) points = historical.points;
     }
-    else if (stats.due && !stats.attempts.some(a => a.points === 5 && new Date(a.time).toDateString() === new Date(now).toDateString())) points = 5;
+    else if ((historical && historical.reviewScheduleVersion === undefined ? legacyQuizReviewDue(stats.attempts, now) : stats.due) && !stats.attempts.some(a => a.points === 5 && new Date(a.time).toDateString() === new Date(now).toDateString())) points = 5;
   }
-  attempts.push({ id, session: session.id, qid: q.id, objective: q.objective, version: q.version, answer: structuredClone(entry.answer), correct, assisted: entry.assisted, skipped: entry.skipped, time: now, points });
+  attempts.push({ id, session: session.id, qid: q.id, objective: q.objective, version: q.version, answer: structuredClone(entry.answer), correct, assisted: entry.assisted, skipped: entry.skipped, time: now, points, ...(!historical || historical.reviewScheduleVersion === 2 ? { reviewScheduleVersion: 2 as const } : {}) });
 }
 // Replay validated evidence without trusting duplicate rewards or changing saved sessions.
 export function rebuildQuizAttempts(bank: QuizBank, snapshot: QuizSnapshot) {
@@ -136,7 +136,7 @@ export function rebuildQuizAttempts(bank: QuizBank, snapshot: QuizSnapshot) {
     const entry = session.entries.find(entry => entry.id === attempt.qid)!;
     const question = bank.questions.find(question => question.id === entry.id)!;
     if (!entry.skipped && !hasQuizAnswer(question, entry.answer)) throw new Error("Incomplete submitted answer in quiz history.");
-    creditAttempt(bank, session, entry, attempts, attempt.time, attempt.points);
+    creditAttempt(bank, session, entry, attempts, attempt.time, attempt);
   }
   return attempts;
 }

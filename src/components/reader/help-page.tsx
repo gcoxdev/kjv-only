@@ -343,6 +343,11 @@ const HELP_SECTIONS: HelpSection[] = [
         keywords: ["quiz", "vocabulary", "mastery", "points", "assessment", "backup", "offline"],
       },
       {
+        label: "How quiz reviews work",
+        body: "Quiz → Progress shows reviews due now and upcoming review dates. After first learning an objective, review it after one day. Successful due reviews in later sessions extend the interval to seven, then thirty days. Practicing early does not postpone the review. Missed, skipped, or assisted answers prompt more practice; successful recovery restarts the one-day interval without removing earned mastery. Practice due items and Review mistakes draw from all your attempted objectives, using the session length on Start. Correct due reviews earn five points at most once per objective per day. These are local reminders in Quiz, not device notifications.",
+        keywords: ["quiz", "review", "schedule", "due", "mastery", "mistakes", "points"],
+      },
+      {
         label: "How tool accordions behave",
         body:
           "Study tools use accordion sections, with Expand All and Collapse All controls. Clicking a word or verse can automatically open relevant sections and load matching entries; tools still allow their own manual searches.",

@@ -20,6 +20,7 @@ import { useReadChapters } from "@/hooks/use-read-chapters";
 import { cn } from "@/lib/utils";
 import type { QuizAction, QuizAnswer, QuizBackup, QuizBank, QuizEntry, QuizFilters, QuizQuestion, QuizSession, QuizSnapshot } from "@/lib/quiz/types";
 import { QuizAnswerControls, QuizEvidence, QuizSelect } from "./quiz-controls";
+import { QuizReview, QuizReviewDate } from "./quiz-review";
 
 // Keep a failed-to-save draft available if Home unmounts this view. Never mix it into earned credit.
 const drafts = new Map<string, QuizAnswer>();
@@ -45,7 +46,7 @@ function ObjectiveGroup({ label, questions, stats }: { label: string; questions:
   const [open, setOpen] = useState(false);
   return <details onToggle={event => setOpen(event.currentTarget.open)}>
     <summary className="cursor-pointer text-sm font-medium">{label}</summary>
-    {open ? <ul className="mt-2 flex flex-col gap-2">{questions.map(q => <li key={q.id} className="text-xs"><strong>{stats.get(q.objective)?.status}{stats.get(q.objective)?.due ? " · Review due" : ""}</strong> — {q.prompt}</li>)}</ul> : null}
+    {open ? <ul className="mt-2 flex flex-col gap-2">{questions.map(q => <li key={q.id} className="flex flex-col gap-1 text-xs"><p><strong>{stats.get(q.objective)?.status}</strong> — {q.prompt}</p><p className="text-muted-foreground"><QuizReviewDate progress={stats.get(q.objective)} /></p></li>)}</ul> : null}
   </details>;
 }
 function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: QuizPageProps & { bank: QuizBank }) {
@@ -54,11 +55,20 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
   const [filters, setFilters] = useState<QuizFilters>(() => ({ scope: "chapter", book: initialBook, chapter: initialChapter, skill: "all", difficulty: "all", readOnly: false }));
   const [length, setLength] = useState("10"), [mode, setMode] = useState<QuizSession["mode"]>("practice"), [search, setSearch] = useState("");
   const [questionPage, setQuestionPage] = useState(0);
+  const [reviewNow, setReviewNow] = useState(Date.now);
   const [confirmAction, setConfirmAction] = useState<{ title: string; description: string; run: () => void } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null), questionRef = useRef<HTMLHeadingElement>(null), queue = useRef(Promise.resolve());
   const { readChapters } = useReadChapters();
-  const refresh = useCallback(() => readQuizSnapshot(bank).then(setSnapshot).catch(e => setError(e.message)), [bank]);
+  const refresh = useCallback(() => readQuizSnapshot(bank).then(value => { setSnapshot(value); setReviewNow(Date.now()); }).catch(e => setError(e.message)), [bank]);
   useEffect(() => { void refresh(); return subscribeQuiz(() => { void refresh(); }); }, [refresh]);
+  useEffect(() => {
+    if (view !== "progress") return;
+    const tick = () => { if (document.visibilityState === "visible") setReviewNow(Date.now()); };
+    const interval = window.setInterval(tick, 60_000);
+    window.addEventListener("focus", tick);
+    document.addEventListener("visibilitychange", tick);
+    return () => { window.clearInterval(interval); window.removeEventListener("focus", tick); document.removeEventListener("visibilitychange", tick); };
+  }, [view]);
   useEffect(() => {
     if (!sessionId) return;
     const id = sessionId;
@@ -69,7 +79,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
     setPending(n => n + 1);
     queue.current = queue.current.then(async () => { try { const next = await task(); setSnapshot(next); setError(null); after?.(next); } catch (e) { setError(e instanceof Error ? e.message : "Quiz operation failed."); } finally { setPending(n => n - 1); } });
   }, []);
-  const stats = useMemo(() => quizStats(bank, snapshot?.attempts ?? []), [bank, snapshot]);
+  const stats = useMemo(() => quizStats(bank, snapshot?.attempts ?? [], reviewNow), [bank, snapshot, reviewNow]);
   const questions = useMemo(() => new Map(bank.questions.map(q => [q.id, q])), [bank]);
   const objectives = useMemo(() => quizObjectives(bank.questions), [bank]);
   const chapterQuestions = useMemo(() => {
@@ -136,7 +146,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
   return <section aria-label="Bible quiz" className="@container flex h-full min-h-0 min-w-0 flex-col overflow-y-auto p-3">
     <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="flex items-center gap-2 text-lg font-semibold"><GraduationCapIcon className="size-5" />Quiz</h2><Badge variant="secondary">{objectives.length} objectives</Badge></div>
-      <ToggleGroup value={[view === "quiz" ? "setup" : view]} onValueChange={values => { const next = values[0]; if (next === "setup" || next === "progress" || next === "questions") setView(next); }} variant="outline" spacing={1} aria-label="Quiz sections" className="flex-wrap">
+      <ToggleGroup value={[view === "quiz" ? "setup" : view]} onValueChange={values => { const next = values[0]; if (next === "setup" || next === "progress" || next === "questions") { setReviewNow(Date.now()); setView(next); } }} variant="outline" spacing={1} aria-label="Quiz sections" className="flex-wrap">
         <ToggleGroupItem value="setup">Start</ToggleGroupItem><ToggleGroupItem value="progress">Progress</ToggleGroupItem><ToggleGroupItem value="questions" disabled={pendingSessions.length > 0}>Questions</ToggleGroupItem>
       </ToggleGroup>
       {error ? <div role="alert" className="flex flex-col gap-2 rounded-lg border border-destructive p-3 text-sm"><p>{error}</p><p>Keep Quiz open if an answer has not saved. Your draft remains available for retry or export.</p><div className="flex flex-wrap gap-2"><Button size="sm" variant="outline" onClick={() => { if (entry && drafts.has(draftKey)) changeAnswer(drafts.get(draftKey)!); else { setError(null); void refresh(); } }}>Retry</Button><Button size="sm" variant="outline" onClick={() => void exportData()}>Export backup</Button>{!snapshot ? <Button size="sm" variant="ghost" disabled={pending > 0} onClick={confirmReset}>Reset quiz progress</Button> : null}</div></div> : null}
@@ -177,7 +187,12 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1 }: Qu
         </>}
       </> : null}
       {view === "progress" && snapshot ? <>
-        <Card><CardHeader><CardTitle>Your learning progress</CardTitle><CardDescription>{objectives.length} available objectives · Reading progress is separate.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3 pb-4"><div className="grid grid-cols-3 gap-3">{[[total.learned, "Learned"], [total.mastered, "Mastered"], [total.points, "Points"]].map(([n,label]) => <div key={label}><p className="text-2xl font-semibold">{n}</p><p className="text-xs text-muted-foreground">{label}</p></div>)}</div><Progress value={100 * total.mastered / objectives.length} aria-label="Available objectives mastered" /><p className="text-xs text-muted-foreground">Learned: one correct unassisted answer. Mastered: correct recall in separate sessions at least seven days apart. Later mistakes prompt review without removing earned mastery.</p>{milestone ? <Badge variant="secondary">Milestone: {milestone} objectives learned</Badge> : <p className="text-xs text-muted-foreground">Learn five objectives to earn your first milestone.</p>}</CardContent><CardFooter className="flex flex-wrap gap-2">{([['missed','Review mistakes'],['due','Practice due items']] as const).map(([key,label]) => <Button key={key} size="sm" variant="outline" disabled={pending > 0 || !bank.questions.some(q => stats.get(q.objective)?.[key])} onClick={() => start(bank.questions.filter(q => stats.get(q.objective)?.[key]), label, "practice")}>{label}</Button>)}</CardFooter></Card>
+        <Card><CardHeader><CardTitle>Your learning progress</CardTitle><CardDescription>{objectives.length} available objectives · Reading progress is separate.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3 pb-4"><div className="grid grid-cols-3 gap-3">{[[total.learned, "Learned"], [total.mastered, "Mastered"], [total.points, "Points"]].map(([n,label]) => <div key={label}><p className="text-2xl font-semibold">{n}</p><p className="text-xs text-muted-foreground">{label}</p></div>)}</div><Progress value={100 * total.mastered / objectives.length} aria-label="Available objectives mastered" /><p className="text-xs text-muted-foreground">Learned: one correct unassisted answer. Mastered: correct recall in separate sessions at least seven days apart. Later mistakes prompt review without removing earned mastery.</p>{milestone ? <Badge variant="secondary">Milestone: {milestone} objectives learned</Badge> : <p className="text-xs text-muted-foreground">Learn five objectives to earn your first milestone.</p>}</CardContent></Card>
+        <QuizReview objectives={objectives} stats={stats} now={reviewNow} pending={pending > 0} onReview={key => {
+          // Recheck at click time: the visible schedule refreshes once a minute.
+          const current = quizStats(bank, snapshot.attempts);
+          start(bank.questions.filter(q => current.get(q.objective)?.[key]), key === "due" ? "Practice due items" : "Review mistakes", "practice");
+        }} />
         <Card><CardHeader><CardTitle>Skills and difficulty</CardTitle></CardHeader><CardContent className="flex flex-col gap-3">{[...Object.entries(QUIZ_SKILLS), ...["Easy", "Medium", "Hard"].map(v => [v,v])].map(([key,label]) => { const group = objectives.filter(q => q.skill === key || q.difficulty === key); return <div key={key}><p className="text-sm">{label}: {group.filter(q => stats.get(q.objective)?.learned).length} learned · {group.filter(q => stats.get(q.objective)?.mastered).length}/{group.length} mastered</p><Progress aria-label={`${label} mastery`} value={100 * group.filter(q => stats.get(q.objective)?.mastered).length / group.length} /></div>; })}</CardContent></Card>
         <Card><CardHeader><CardTitle>Chapter objectives</CardTitle><CardDescription>Initial sets in every chapter; individual sets do not test every detail.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3">{bank.featured.map(c => <ObjectiveGroup key={`${c.book}:${c.chapter}`} label={`${c.book} ${c.chapter}`} questions={chapterQuestions.get(`${c.book}:${c.chapter}`) ?? []} stats={stats} />)}</CardContent></Card>
         {broaderQuestions.length ? <Card><CardHeader><CardTitle>Broader connections</CardTitle><CardDescription>Book, testament, and whole-Bible objectives are tracked separately from individual chapter sets. Alternate question forms share one objective and its rewards.</CardDescription></CardHeader><CardContent><ObjectiveGroup label={`${broaderQuestions.length} broader objectives`} questions={broaderQuestions} stats={stats} /></CardContent></Card> : null}

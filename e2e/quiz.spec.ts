@@ -66,6 +66,58 @@ async function solveCurrent(page: Page, quiz: ReturnType<Page['getByRole']>) {
   return q;
 }
 
+for (const width of [390, 1280]) test(`review schedule updates across time and survives resume at ${width}px`, async ({page}) => {
+  const time = Date.now(), day = 86_400_000;
+  await page.clock.setFixedTime(new Date(time));
+  const quiz = await quizPanel(page, width);
+  const bank: QuizBank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const reviewed = bank.questions.find(q => q.id === 'psalm-recall')!;
+  const missed = bank.questions.find(q => q.id === '08-1-4')!;
+  const fixture: QuizSnapshot = {sessions: [], attempts: []};
+  for (const [i, q] of [reviewed, missed].entries()) {
+    const id = `scheduled-${i}`, timestamp = i === 0 ? time - day + 120_000 : time - 1000;
+    const answer = i === 0 ? q.answer[0] : q.choices.find(c => c !== q.answer)!;
+    fixture.sessions.push({id, bank:bank.version, label:'Review schedule fixture', mode:'practice', index:0, done:true, created:timestamp, updated:timestamp, owner:null, leaseUntil:0,
+      entries:[{id:q.id,version:q.version,answer,initial:'',choices:q.choices,submitted:true,assisted:false,skipped:false,help:'none'}]});
+    fixture.attempts.push({id:`${id}:${q.id}`,session:id,qid:q.id,objective:q.objective,version:q.version,answer,correct:i===0,assisted:false,skipped:false,time:timestamp,points:i===0?({Easy:10,Medium:20,Hard:30}[q.difficulty]):0});
+  }
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles({name:'schedule.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({type:'kjv-only-quiz',schema:1,bank:bank.version,...fixture}))});
+  await page.getByRole('button',{name:'Confirm',exact:true}).click();
+  const card = quiz.locator('[data-slot=card]').filter({has:page.getByText('Review schedule',{exact:true})});
+  const count = (label:string) => card.getByText(label,{exact:true}).locator('..');
+  await expect(count('Due now')).toHaveText('1Due now');
+  await expect(count('Due in next 7 days')).toHaveText('1Due in next 7 days');
+  await card.locator('summary').click();
+  await expect(card).toContainText('Next review:');
+  await expect(card).toContainText('Review a missed answer');
+  // Returning from another app/window refreshes eligibility without a reload.
+  await page.clock.setFixedTime(new Date(time + 180_000));
+  await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+  await expect(count('Due now')).toHaveText('2Due now');
+  await expect(count('Due in next 7 days')).toHaveText('0Due in next 7 days');
+  await card.getByRole('button',{name:'Practice due items',exact:true}).click();
+  const session = (await readData(page)).sessions.find(s => !s.done)!;
+  expect(session.entries).toHaveLength(2);
+  for (let i=0;i<2;i++) {
+    await solveCurrent(page,quiz);
+    await quiz.getByRole('button',{name:i===1?'Finish quiz':'Next',exact:true}).click();
+  }
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await expect(card).toContainText('You’re caught up on scheduled reviews.');
+  await expect(card.getByRole('button',{name:'Practice due items',exact:true})).toBeDisabled();
+  const saved = await readData(page);
+  expect(saved.attempts.filter(a => a.reviewScheduleVersion === 2)).toHaveLength(2);
+  await page.reload();
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await expect(card).toContainText('You’re caught up on scheduled reviews.');
+  expect((await readData(page)).attempts).toEqual(saved.attempts);
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  const scan = await new AxeBuilder({page}).include('[aria-label="Bible quiz"]').analyze();
+  expect(scan.violations.filter(v => ['serious','critical'].includes(v.impact??''))).toEqual([]);
+  await card.screenshot({path:test.info().outputPath(`review-schedule-${width}.png`)});
+});
+
 test('panel Home opens Quiz, answers persist across reload, and navigation restores', async ({page})=>{
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/#tab=0&tabs=h&layout=Study:picker');
