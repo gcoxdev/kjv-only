@@ -11,21 +11,24 @@ export function quizReferenceCode(reference: QuizReference) {
   return `${code}.${reference.chapter}.${start}${end === start ? "" : `-${end}`}`;
 }
 export const QUIZ_SKILLS: Record<QuizSkill, string> = { Comprehension: "Passage comprehension", Vocabulary: "Vocabulary", Structure: "Bible structure", Sequence: "Event sequence", Family: "People and family", Geography: "Geography" };
-export const QUIZ_KINDS = { choice: "Multiple choice", text: "Short answer", order: "Ordering", timeline: "Timeline", family: "Family tree", match: "Matching", map: "Map" };
+export const QUIZ_KINDS = { choice: "Multiple choice", text: "Short answer", memory: "Verse memory", order: "Ordering", timeline: "Timeline", family: "Family tree", match: "Matching", map: "Map" };
 export function quizScopeLabel(q: QuizQuestion) {
   if (q.scopeLevel === "chapter") return `${q.book} ${q.chapter}`;
   if (q.scopeLevel === "book") return `${q.book} · book connections`;
   return q.scopeLevel === "bible" ? "Whole Bible" : q.testament === "OT" ? "Old Testament" : "New Testament";
 }
 export function normalizeQuizAnswer(value: string) { return value.normalize("NFKC").toLowerCase().replace(/[’‘]/g, "'").replace(/[.,!?;:"']/g, "").replace(/\s+/g, " ").trim(); }
+// Keep word boundaries and actual words; punctuation is not a spelling substitute.
+export function normalizeMemoryAnswer(value: string) { return value.normalize("NFKC").toLowerCase().replace(/[’‘']/g, "").replace(/\p{P}/gu, " ").replace(/\s+/g, " ").trim(); }
 export function isArrangement(q: QuizQuestion) { return ["order", "timeline", "family", "match"].includes(q.kind); }
 export function quizFamilyRoot(q: QuizQuestion) { return q.kind === "family" ? q.slots?.[0].match(/^Son of (.+)$/)?.[1] : undefined; }
 export function gradeQuizAnswer(q: QuizQuestion, answer: QuizAnswer) {
+  if (q.kind === "memory") return typeof answer === "string" && Array.isArray(q.answer) && normalizeMemoryAnswer(q.answer[0]) === normalizeMemoryAnswer(answer);
   if (q.kind === "text") return typeof answer === "string" && Array.isArray(q.answer) && q.answer.some(a => normalizeQuizAnswer(a) === normalizeQuizAnswer(answer));
   if (isArrangement(q)) return Array.isArray(answer) && Array.isArray(q.answer) && answer.length === q.answer.length && q.answer.every((a, i) => a === answer[i]);
   return answer === q.answer;
 }
-export function quizAnswerLabel(q: QuizQuestion) { return q.kind === "text" ? q.answer[0] : Array.isArray(q.answer) ? q.answer.join(["match"].includes(q.kind) ? "; " : " → ") : q.answer; }
+export function quizAnswerLabel(q: QuizQuestion) { return q.kind === "text" || q.kind === "memory" ? q.answer[0] : Array.isArray(q.answer) ? q.answer.join(["match"].includes(q.kind) ? "; " : " → ") : q.answer; }
 // A reviewed alternate form assesses the same objective and earns the same credit.
 export function quizObjectives(questions: readonly QuizQuestion[]) {
   const seen = new Set<string>();
@@ -43,6 +46,7 @@ export function quizStats(bank: QuizBank, attempts: QuizAttempt[], now = Date.no
 }
 export function filterQuizQuestions(bank: QuizBank, filters: QuizFilters, readChapters: ReadonlySet<string>) {
   return bank.questions.filter(q => {
+    if (q.practiceSet) return false;
     if (filters.skill !== "all" && q.skill !== filters.skill || filters.difficulty !== "all" && q.difficulty !== filters.difficulty) return false;
     if (filters.scope !== "chapter" && filters.content === "connections" && q.scopeLevel === "chapter") return false;
     if (filters.readOnly && (q.contexts.length === 0 || q.contexts.some(c => !readChapters.has(`${bank.books.indexOf(c.book)}:${c.chapter - 1}`)))) return false;
@@ -103,7 +107,7 @@ export function createQuizSession(bank: QuizBank, questions: QuizQuestion[], lab
     }) };
 }
 export function validQuizAnswer(q: QuizQuestion, answer: unknown): answer is QuizAnswer {
-  if (!isArrangement(q)) return typeof answer === "string" && answer.length <= 500 && (q.kind === "text" || answer === "" || q.choices.includes(answer));
+  if (!isArrangement(q)) return typeof answer === "string" && answer.length <= 500 && (q.kind === "text" || q.kind === "memory" || answer === "" || q.choices.includes(answer));
   if (!Array.isArray(answer) || !Array.isArray(q.answer) || answer.length !== q.answer.length || !answer.every(a => typeof a === "string")) return false;
   if (q.kind === "order" || q.kind === "timeline") return new Set(answer).size === answer.length && answer.every(a => q.answer.includes(a));
   return answer.every(a => a === "" || q.choices.includes(a));

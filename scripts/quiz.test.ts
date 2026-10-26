@@ -19,9 +19,9 @@ describe("quiz question bank and grading", () => {
   it("checks the actual bank and every embedded KJV verse", () => {
     const corpus = JSON.parse(readFileSync("public/data/kjv.json", "utf8")) as { books: { name: string; chapters: { chapter: number; verses: { verse: number; tokens: { text: string }[] }[] }[] }[] };
     const verses = new Map(corpus.books.flatMap(b => b.chapters.flatMap(c => c.verses.map(v => [`${b.name}:${c.chapter}:${v.verse}`, v.tokens.map(t => t.text).join(" ").replace(/\s+([,.;:?!])/g, "$1")] as const))));
-    expect(bank.questions).toHaveLength(8971);
+    expect(bank.questions).toHaveLength(8986);
     expect(bank.featured).toHaveLength(1189);
-    expect(quizObjectives(bank.questions)).toHaveLength(8965);
+    expect(quizObjectives(bank.questions)).toHaveLength(8980);
     for (const book of bank.books) expect(bank.questions.some(q => q.book === book && q.scopeLevel === "book"), `${book} has dedicated connections`).toBe(true);
     const chapterKeys = corpus.books.flatMap(b => b.chapters.map(c => `${b.name}:${c.chapter}`));
     expect(bank.featured.map(c => `${c.book}:${c.chapter}`).sort()).toEqual([...chapterKeys].sort());
@@ -32,7 +32,7 @@ describe("quiz question bank and grading", () => {
       }
     }
     for (const question of bank.questions) {
-      const canonical = question.kind === "text" ? question.answer[0] : question.answer;
+      const canonical = (question.kind === "text" || question.kind === "memory") ? question.answer[0] : question.answer;
       expect(gradeQuizAnswer(question, canonical), question.id).toBe(true);
       expect(gradeQuizAnswer(question, "not an answer"), question.id).toBe(false);
       for (const r of question.refs) {

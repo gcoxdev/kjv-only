@@ -47,7 +47,7 @@ async function solveCurrent(page: Page, quiz: ReturnType<Page['getByRole']>) {
   const entry = session.entries[session.index];
   const bank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
   const q = bank.questions.find((q: { id: string }) => q.id === entry.id);
-  if(q.kind === 'text') await quiz.getByLabel('Your answer', { exact: true }).fill(q.answer[0]);
+  if(q.kind === 'text' || q.kind === 'memory') await quiz.getByLabel('Your answer', { exact: true }).fill(q.answer[0]);
   else if(q.kind === 'choice') await quiz.getByRole('button', { name: new RegExp(`^[A-D]\\. ${q.answer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`) }).click();
   else if(q.kind === 'map') await quiz.locator('svg [role=button]').filter({hasText:q.answer}).click();
   else if(q.kind === 'family' || q.kind === 'match') {
@@ -209,10 +209,10 @@ test('large-bank browsing pages results, searches all questions, and opens chapt
   const results = quiz.getByRole('list', {name:'Question results'});
   const pages = quiz.getByRole('navigation', {name:'Question pages'});
   await expect(results.getByRole('listitem')).toHaveCount(25);
-  await expect(pages).toContainText('Questions 1–25 of 8971');
+  await expect(pages).toContainText('Questions 1–25 of 8986');
   await expect(pages.getByRole('button', {name:'Previous', exact:true})).toBeDisabled();
   await pages.getByRole('button', {name:'Next', exact:true}).click();
-  await expect(pages).toContainText('Questions 26–50 of 8971');
+  await expect(pages).toContainText('Questions 26–50 of 8986');
   await expect(results.getByRole('listitem')).toHaveCount(25);
 
   // An objective near the end of the bank must be searchable from any page.
@@ -228,7 +228,7 @@ test('large-bank browsing pages results, searches all questions, and opens chapt
   await expect(pages).toContainText('No questions match your search.');
   await expect(pages.getByRole('button', {name:'Next', exact:true})).toBeDisabled();
   await search.fill('');
-  await expect(pages).toContainText('Questions 1–25 of 8971');
+  await expect(pages).toContainText('Questions 1–25 of 8986');
 
   await quiz.getByRole('button', {name:'Progress', exact:true}).click();
   const explorer = quiz.locator('[aria-label="Mastery explorer"]');
@@ -337,7 +337,7 @@ for (const sample of [
   { book: 'Zechariah', chapter: '14', count: 8, prefix: '38-14-' },
 ]) test(`${sample.book} expanded chapter coverage is selectable and uses shared KJV evidence`,async({page})=>{
   const quiz=await quizPanel(page);
-  await expect(quiz).toContainText('8965 objectives');
+  await expect(quiz).toContainText('8980 objectives');
   await quiz.getByRole('combobox',{name:'Book',exact:true}).click();
   await page.getByRole('option',{name:sample.book,exact:true}).click();
   await quiz.getByRole('combobox',{name:'Chapter',exact:true}).click();
@@ -522,7 +522,7 @@ test('alternate recall preserves existing credit, deduplicates progress, and sur
   }), original);
   await page.reload();
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
-  await expect(quiz).toContainText('8965 available objectives');
+  await expect(quiz).toContainText('8980 available objectives');
   await quiz.getByRole('button',{name:'Practice due items',exact:true}).click();
   expect((await readData(page)).sessions.find(s => !s.done)!.entries.map(e => e.id)).toEqual(['08-1-4-recall']);
   await solveCurrent(page,quiz);

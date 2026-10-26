@@ -1,7 +1,7 @@
 import type { QuizMapRegion } from "./map-regions";
 
 export type QuizSkill = "Comprehension" | "Vocabulary" | "Structure" | "Sequence" | "Family" | "Geography";
-export type QuizKind = "choice" | "text" | "order" | "timeline" | "family" | "match" | "map";
+export type QuizKind = "choice" | "text" | "memory" | "order" | "timeline" | "family" | "match" | "map";
 export type QuizDifficulty = "Easy" | "Medium" | "Hard";
 export type QuizAnswer = string | string[];
 export type QuizReference = { book: string; chapter: number; label: string; verses: { number: number; text: string }[] };
@@ -12,6 +12,7 @@ export type QuizQuestion = {
   refs: QuizReference[]; contexts: { book: string; chapter: number }[]; choices: string[];
   explanation: string; conflicts: string[]; slots?: string[]; evidence?: string; measure?: string;
   previousLearningPoints?: number[];
+  practiceSet?: "memory" | "book-order";
   places?: { name: string; lon: number; lat: number; sourceId: string }[]; mapLabels?: string[]; mapRegion?: QuizMapRegion;
 };
 export type QuizBank = { version: string; books: string[]; featured: { book: string; chapter: number }[]; questions: QuizQuestion[] };

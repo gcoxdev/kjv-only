@@ -26,7 +26,7 @@ describe('mastery scopes and versioned release badges',()=>{
   });
   it('counts each objective once overall and includes every child plus broader connections',()=>{
     const root=quizMasteryTree(bank);
-    expect(root.objectives).toHaveLength(8965);expect(new Set(root.objectives.map(q=>q.objective)).size).toBe(8965);
+    expect(root.objectives).toHaveLength(8980);expect(new Set(root.objectives.map(q=>q.objective)).size).toBe(8980);
     expect([root.coveredChapters,root.totalChapters]).toEqual([1189,1189]);
     expect(root.children.map(t=>t.totalChapters)).toEqual([929,260]);
     for(const testament of root.children) for(const book of testament.children){
@@ -73,7 +73,7 @@ describe('mastery scopes and versioned release badges',()=>{
     const awards=quizCompletionBadges([release,extended],[...mastered,bad]);
     expect(awards.filter(b=>b.release===release.id)).toEqual(quizCompletionBadges([release],mastered));
     expect(awards.some(b=>b.release==='next'&&['chapter:0:1','book:0','OT','bible'].includes(b.scope))).toBe(false);
-    expect(masteryCounts(objectives,quizStats(bank,[...mastered,bad],time+10*DAY))).toMatchObject({learned:8965,mastered:8965});
+    expect(masteryCounts(objectives,quizStats(bank,[...mastered,bad],time+10*DAY))).toMatchObject({learned:8980,mastered:8980});
   });
   it('does not change badge requirements when viewing a skill or difficulty subset',()=>{
     const subset=objectives.filter(q=>q.skill==='Vocabulary'&&q.difficulty==='Easy');

@@ -14,7 +14,7 @@ function complete(state: QuizSnapshot, sessionId: string) {
   const index = state.sessions.findIndex(s => s.id === sessionId);
   for (const entry of state.sessions[index].entries) {
     const q = bank.questions.find(q => q.id === entry.id)!;
-    const result = applyQuizAction(bank, state.sessions[index], state.attempts, { type: "submit", qid: q.id, answer: q.kind === "text" ? q.answer[0] : q.answer });
+    const result = applyQuizAction(bank, state.sessions[index], state.attempts, { type: "submit", qid: q.id, answer: (q.kind === "text" || q.kind === "memory") ? q.answer[0] : q.answer });
     state.sessions[index] = result.session; state.attempts = result.attempts;
   }
   const result = applyQuizAction(bank, state.sessions[index], state.attempts, { type: "finish" });

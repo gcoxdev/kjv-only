@@ -17,7 +17,7 @@ async function saved(page:Page):Promise<QuizSnapshot> {
 function judeBackup(bank:QuizBank):QuizBackup {
   const questions=bank.questions.filter(q=>q.id===q.objective&&q.book==='Jude'&&['chapter','book'].includes(q.scopeLevel));
   const first=Date.now()-10*86400000, second=first+7*86400000;
-  const correctAnswer=(q:QuizQuestion)=>q.kind==='text'?q.answer[0]:q.answer;
+  const correctAnswer=(q:QuizQuestion)=>(q.kind==='text'||q.kind==='memory')?q.answer[0]:q.answer;
   const session=(id:string,time:number,qs:QuizQuestion[],wrong=false):QuizSession=>({id,bank:bank.version,label:'Jude saved progress',mode:'practice',index:0,done:true,created:time,updated:time,owner:null,leaseUntil:0,
     entries:qs.map(q=>({id:q.id,version:q.version,answer:wrong?q.choices.find(c=>c!==q.answer)!:correctAnswer(q),initial:Array.isArray(correctAnswer(q))?correctAnswer(q):'',choices:q.choices,submitted:true,assisted:false,skipped:false,help:'none'}))});
   const wrong=questions.find(q=>q.kind==='choice')!;

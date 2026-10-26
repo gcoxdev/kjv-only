@@ -34,7 +34,7 @@ function ScopeBody({ node, stats, groups, pending, onPractice }: BranchProps) {
   return <div className="mt-3 flex flex-col gap-3">
     <Progress value={counts.total ? 100 * counts.mastered / counts.total : 0} aria-label={`${node.label} available objectives mastered`} />
     <p className="text-xs text-muted-foreground">{counts.notStarted} not started · {counts.due} due for review · {counts.learned - counts.mastered} learned, not yet mastered</p>
-    {node.level !== "chapter" ? <p className="text-xs text-muted-foreground">Chapter sets available: {node.coveredChapters}/{node.totalChapters}. Totals include broader connections in this scope.</p> : null}
+    {node.level !== "chapter" && questions.some(q => !q.practiceSet) ? <p className="text-xs text-muted-foreground">Chapter sets available: {node.coveredChapters}/{node.totalChapters}. Totals include broader connections in this scope.</p> : null}
     <div className="flex flex-wrap gap-2">
       <Button size="sm" variant="outline" className="h-auto min-h-7 max-w-full whitespace-normal text-left" disabled={pending || !questions.length} onClick={() => onPractice(questions, `${node.label} · mastery practice`)}>Practice {node.label}</Button>
       <Button size="sm" variant="outline" className="h-auto min-h-7 max-w-full whitespace-normal text-left" disabled={pending || !counts.due} onClick={() => onPractice(questions.filter(q => stats.get(q.objective)?.due), `${node.label} · due review`)}>Review due in {node.label}</Button>
@@ -57,8 +57,10 @@ export function QuizMastery({ bank, attempts, stats, pending, onPractice }: {
   onPractice: BranchProps["onPractice"];
 }) {
   const [skill, setSkill] = useState("all"), [difficulty, setDifficulty] = useState("all");
+  const [exerciseSet, setExerciseSet] = useState("core");
   const [badgeLevel, setBadgeLevel] = useState("all"), [badgeKind, setBadgeKind] = useState("all"), [badgeLimit, setBadgeLimit] = useState(10);
-  const tree = useMemo(() => quizMasteryTree(bank), [bank]);
+  const coreTree = useMemo(() => quizMasteryTree({ ...bank, questions: bank.questions.filter(q => !q.practiceSet) }), [bank]);
+  const tree = useMemo(() => exerciseSet === "core" ? coreTree : quizMasteryTree({ ...bank, questions: bank.questions.filter(q => q.practiceSet === exerciseSet) }), [bank, coreTree, exerciseSet]);
   const groups = useMemo(() => {
     const result = new Map<string, { questions: QuizQuestion[]; own: QuizQuestion[]; counts: Counts }>();
     const matches = (q: QuizQuestion) => (skill === "all" || q.skill === skill) && (difficulty === "all" || q.difficulty === difficulty);
@@ -77,6 +79,7 @@ export function QuizMastery({ bank, attempts, stats, pending, onPractice }: {
       <CardHeader><CardTitle>Mastery explorer</CardTitle><CardDescription>Browse published objectives by testament, book, and chapter. Cross-chapter or cross-book objectives appear under the broader scope that contains their passages.</CardDescription></CardHeader>
       <CardContent className="flex flex-col gap-4 pb-4">
         <FieldGroup className="grid @lg:grid-cols-2">
+          <QuizSelect label="Mastery exercise set" value={exerciseSet} onChange={setExerciseSet} items={[{ value: "core", label: "Core quizzes" }, { value: "memory", label: "Optional verse memory" }, { value: "book-order", label: "Optional book ordering" }]} />
           <QuizSelect label="Mastery skill" value={skill} onChange={setSkill} items={[{ value: "all", label: "All skills" }, ...Object.entries(QUIZ_SKILLS).map(([value, label]) => ({ value, label }))]} />
           <QuizSelect label="Mastery difficulty" value={difficulty} onChange={setDifficulty} items={[{ value: "all", label: "All difficulties" }, ...["Easy", "Medium", "Hard"].map(value => ({ value, label: value }))]} />
         </FieldGroup>
@@ -89,7 +92,7 @@ export function QuizMastery({ bank, attempts, stats, pending, onPractice }: {
       <CardHeader><CardTitle className="flex items-center gap-2"><AwardIcon className="size-5" />Completion badges</CardTitle><CardDescription>Learned and Mastered badges recognize all objectives in a named coverage release. Later questions do not remove an earned release badge.</CardDescription></CardHeader>
       <CardContent className="flex flex-col gap-4 pb-4">
         <p className="text-sm">{badges.filter(b => b.kind === "Learned").length} Learned badges · {badges.filter(b => b.kind === "Mastered").length} Mastered badges</p>
-        <p className="text-xs text-muted-foreground">{QUIZ_COVERAGE_RELEASES.at(-1)!.label} release · {tree.coveredChapters}/{tree.totalChapters} chapter sets currently available. Badges measure the published quiz curriculum, not exhaustive knowledge of Scripture. Broader badges require every chapter set and all broader objectives in that release.</p>
+        <p className="text-xs text-muted-foreground">{QUIZ_COVERAGE_RELEASES.at(-1)!.label} release · {coreTree.coveredChapters}/{coreTree.totalChapters} core chapter sets currently available. Badges measure the published quiz curriculum, not exhaustive knowledge of Scripture. Broader badges require every chapter set and all broader objectives in that release.</p>
         <FieldGroup className="grid @lg:grid-cols-2">
           <QuizSelect label="Badge level" value={badgeLevel} onChange={v => { setBadgeLevel(v); setBadgeLimit(10); }} items={[{ value: "all", label: "All levels" }, { value: "chapter", label: "Chapter" }, { value: "book", label: "Book" }, { value: "testament", label: "Testament" }, { value: "bible", label: "Whole Bible" }]} />
           <QuizSelect label="Badge achievement" value={badgeKind} onChange={v => { setBadgeKind(v); setBadgeLimit(10); }} items={[{ value: "all", label: "Learned and Mastered" }, { value: "Learned", label: "Learned" }, { value: "Mastered", label: "Mastered" }]} />

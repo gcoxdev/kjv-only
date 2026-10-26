@@ -358,6 +358,11 @@ const HELP_SECTIONS: HelpSection[] = [
         keywords: ["quiz", "mastery", "badge", "completion", "release", "skill", "difficulty", "chapter", "book", "testament"],
       },
       {
+        label: "Optional verse memory and book ordering",
+        body: "Quiz → Start → Optional challenges offers 12 selected verses for KJV memory practice and complete Old Testament, New Testament, or whole-Bible book-order exercises. These use Practice mode across the whole Bible independently of the scope, skill, difficulty, and read-chapter filters; memory uses the selected session length. Memory requires every KJV word in order, ignoring capitalization, punctuation, and extra spaces. Opening the passage or revealing the answer marks that attempt assisted. Book ordering follows the app's table of contents, not historical chronology. Drag, move up/down, or choose a book and target position to move it directly. These exercises stay out of ordinary and after-reading quizzes. Select their exercise set in the Mastery explorer to browse and practice them; attempted challenges also appear in due reviews. Existing coverage badges retain their original requirements.",
+        keywords: ["quiz", "memory", "verse", "optional", "book order", "drag", "position"],
+      },
+      {
         label: "How tool accordions behave",
         body:
           "Study tools use accordion sections, with Expand All and Collapse All controls. Clicking a word or verse can automatically open relevant sections and load matching entries; tools still allow their own manual searches.",

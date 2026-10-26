@@ -513134,6 +513134,747 @@
         "45-9-2",
         "58-11-6"
       ]
+    },
+    {
+      "id": "memory-01-1-1",
+      "objective": "memory-01-1-1",
+      "version": 1,
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Genesis 1:1 from memory using the KJV wording.",
+      "answer": [
+        "In the beginning God created the heaven and the earth."
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Genesis",
+          "chapter": 1,
+          "label": "Genesis 1:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "In the beginning God created the heaven and the earth."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Genesis",
+          "chapter": 1
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "01-1-1"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-19-23-1",
+      "objective": "memory-19-23-1",
+      "version": 1,
+      "book": "Psalms",
+      "chapter": 23,
+      "testament": "OT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Psalms 23:1 from memory using the KJV wording.",
+      "answer": [
+        "The Lord is my shepherd; I shall not want."
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "label": "Psalms 23:1",
+          "verses": [
+            {
+              "number": 1,
+              "text": "The Lord is my shepherd; I shall not want."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 23
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "19-23-1",
+        "19-23-2",
+        "connections-psalms-images"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-19-119-105",
+      "objective": "memory-19-119-105",
+      "version": 1,
+      "book": "Psalms",
+      "chapter": 119,
+      "testament": "OT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Psalms 119:105 from memory using the KJV wording.",
+      "answer": [
+        "Thy word is a lamp unto my feet, and a light unto my path."
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Psalms",
+          "chapter": 119,
+          "label": "Psalms 119:105",
+          "verses": [
+            {
+              "number": 105,
+              "text": "Thy word is a lamp unto my feet, and a light unto my path."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Psalms",
+          "chapter": 119
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "19-119-15"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-20-3-5",
+      "objective": "memory-20-3-5",
+      "version": 1,
+      "book": "Proverbs",
+      "chapter": 3,
+      "testament": "OT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Proverbs 3:5 from memory using the KJV wording.",
+      "answer": [
+        "Trust in the Lord with all thine heart; and lean not unto thine own understanding."
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Proverbs",
+          "chapter": 3,
+          "label": "Proverbs 3:5",
+          "verses": [
+            {
+              "number": 5,
+              "text": "Trust in the Lord with all thine heart; and lean not unto thine own understanding."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Proverbs",
+          "chapter": 3
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "20-3-1",
+        "connections-proverbs-planning-trust"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-23-40-8",
+      "objective": "memory-23-40-8",
+      "version": 1,
+      "book": "Isaiah",
+      "chapter": 40,
+      "testament": "OT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Isaiah 40:8 from memory using the KJV wording.",
+      "answer": [
+        "The grass withereth, the flower fadeth: but the word of our God shall stand for ever."
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Isaiah",
+          "chapter": 40,
+          "label": "Isaiah 40:8",
+          "verses": [
+            {
+              "number": 8,
+              "text": "The grass withereth, the flower fadeth: but the word of our God shall stand for ever."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Isaiah",
+          "chapter": 40
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "23-40-3",
+        "60-1-6"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-33-6-8",
+      "objective": "memory-33-6-8",
+      "version": 1,
+      "book": "Micah",
+      "chapter": 6,
+      "testament": "OT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Micah 6:8 from memory using the KJV wording.",
+      "answer": [
+        "He hath shewed thee, O man, what is good; and what doth the Lord require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?"
+      ],
+      "kind": "memory",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Micah",
+          "chapter": 6,
+          "label": "Micah 6:8",
+          "verses": [
+            {
+              "number": 8,
+              "text": "He hath shewed thee, O man, what is good; and what doth the Lord require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?"
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Micah",
+          "chapter": 6
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "33-6-4",
+        "connections-micah-connections",
+        "connections-ot-worship-and-justice",
+        "connections-micah-required-conduct-and-practical-abuses"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-40-5-14",
+      "objective": "memory-40-5-14",
+      "version": 1,
+      "book": "Matthew",
+      "chapter": 5,
+      "testament": "NT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Matthew 5:14 from memory using the KJV wording.",
+      "answer": [
+        "Ye are the light of the world. A city that is set on an hill cannot be hid."
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Matthew",
+          "chapter": 5,
+          "label": "Matthew 5:14",
+          "verses": [
+            {
+              "number": 14,
+              "text": "Ye are the light of the world. A city that is set on an hill cannot be hid."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Matthew",
+          "chapter": 5
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "40-5-3"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-43-3-16",
+      "objective": "memory-43-3-16",
+      "version": 1,
+      "book": "John",
+      "chapter": 3,
+      "testament": "NT",
+      "scopeLevel": "chapter",
+      "prompt": "Write John 3:16 from memory using the KJV wording.",
+      "answer": [
+        "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
+      ],
+      "kind": "memory",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "John",
+          "chapter": 3,
+          "label": "John 3:16",
+          "verses": [
+            {
+              "number": 16,
+              "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "John",
+          "chapter": 3
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "43-3-5",
+        "connections-bible-serpent-comparison",
+        "43-3-4",
+        "62-4-4"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-45-3-23",
+      "objective": "memory-45-3-23",
+      "version": 1,
+      "book": "Romans",
+      "chapter": 3,
+      "testament": "NT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Romans 3:23 from memory using the KJV wording.",
+      "answer": [
+        "For all have sinned, and come short of the glory of God;"
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Romans",
+          "chapter": 3,
+          "label": "Romans 3:23",
+          "verses": [
+            {
+              "number": 23,
+              "text": "For all have sinned, and come short of the glory of God;"
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Romans",
+          "chapter": 3
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "45-3-6",
+        "connections-romans-boasting-and-abrahams-example"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-49-2-8",
+      "objective": "memory-49-2-8",
+      "version": 1,
+      "book": "Ephesians",
+      "chapter": 2,
+      "testament": "NT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Ephesians 2:8 from memory using the KJV wording.",
+      "answer": [
+        "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God:"
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Ephesians",
+          "chapter": 2,
+          "label": "Ephesians 2:8",
+          "verses": [
+            {
+              "number": 8,
+              "text": "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God:"
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Ephesians",
+          "chapter": 2
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "49-2-3",
+        "49-2-4",
+        "connections-nt-grace-and-good-works",
+        "connections-ephesians-gifted-life-and-changed-walk"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-50-4-6",
+      "objective": "memory-50-4-6",
+      "version": 1,
+      "book": "Philippians",
+      "chapter": 4,
+      "testament": "NT",
+      "scopeLevel": "chapter",
+      "prompt": "Write Philippians 4:6 from memory using the KJV wording.",
+      "answer": [
+        "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God."
+      ],
+      "kind": "memory",
+      "difficulty": "Hard",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "Philippians",
+          "chapter": 4,
+          "label": "Philippians 4:6",
+          "verses": [
+            {
+              "number": 6,
+              "text": "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "Philippians",
+          "chapter": 4
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "50-4-3",
+        "50-4-4",
+        "connections-nt-prayer-in-need",
+        "connections-philippians-gospel-advance-and-conduct-under-pressure"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "memory-52-5-18",
+      "objective": "memory-52-5-18",
+      "version": 1,
+      "book": "1 Thessalonians",
+      "chapter": 5,
+      "testament": "NT",
+      "scopeLevel": "chapter",
+      "prompt": "Write 1 Thessalonians 5:18 from memory using the KJV wording.",
+      "answer": [
+        "In every thing give thanks: for this is the will of God in Christ Jesus concerning you."
+      ],
+      "kind": "memory",
+      "difficulty": "Medium",
+      "skill": "Comprehension",
+      "practiceSet": "memory",
+      "refs": [
+        {
+          "book": "1 Thessalonians",
+          "chapter": 5,
+          "label": "1 Thessalonians 5:18",
+          "verses": [
+            {
+              "number": 18,
+              "text": "In every thing give thanks: for this is the will of God in Christ Jesus concerning you."
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "book": "1 Thessalonians",
+          "chapter": 5
+        }
+      ],
+      "choices": [],
+      "explanation": "Use every word in the order given in the cited KJV verse. Capitalization, punctuation, and extra spaces do not affect the score.",
+      "conflicts": [
+        "52-5-7",
+        "connections-thessalonians-life"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "book-order-ot",
+      "objective": "book-order-ot",
+      "version": 1,
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "scopeLevel": "testament",
+      "prompt": "Arrange all 39 books of the Old Testament in the order used in this app’s KJV table of contents.",
+      "answer": [
+        "Genesis",
+        "Exodus",
+        "Leviticus",
+        "Numbers",
+        "Deuteronomy",
+        "Joshua",
+        "Judges",
+        "Ruth",
+        "1 Samuel",
+        "2 Samuel",
+        "1 Kings",
+        "2 Kings",
+        "1 Chronicles",
+        "2 Chronicles",
+        "Ezra",
+        "Nehemiah",
+        "Esther",
+        "Job",
+        "Psalms",
+        "Proverbs",
+        "Ecclesiastes",
+        "Song of Solomon",
+        "Isaiah",
+        "Jeremiah",
+        "Lamentations",
+        "Ezekiel",
+        "Daniel",
+        "Hosea",
+        "Joel",
+        "Amos",
+        "Obadiah",
+        "Jonah",
+        "Micah",
+        "Nahum",
+        "Habakkuk",
+        "Zephaniah",
+        "Haggai",
+        "Zechariah",
+        "Malachi"
+      ],
+      "kind": "order",
+      "difficulty": "Hard",
+      "skill": "Structure",
+      "practiceSet": "book-order",
+      "refs": [],
+      "contexts": [],
+      "choices": [],
+      "explanation": "This is the printed book order used in this app, not the chronological order of the events or the order in which the books were written.",
+      "evidence": "Source: the app’s 66-book KJV table of contents (src/lib/bible-books.ts).",
+      "conflicts": [
+        "gospel-order",
+        "law-order",
+        "bible-order",
+        "book-order-nt",
+        "book-order-bible"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "book-order-nt",
+      "objective": "book-order-nt",
+      "version": 1,
+      "book": "Matthew",
+      "chapter": 1,
+      "testament": "NT",
+      "scopeLevel": "testament",
+      "prompt": "Arrange all 27 books of the New Testament in the order used in this app’s KJV table of contents.",
+      "answer": [
+        "Matthew",
+        "Mark",
+        "Luke",
+        "John",
+        "Acts",
+        "Romans",
+        "1 Corinthians",
+        "2 Corinthians",
+        "Galatians",
+        "Ephesians",
+        "Philippians",
+        "Colossians",
+        "1 Thessalonians",
+        "2 Thessalonians",
+        "1 Timothy",
+        "2 Timothy",
+        "Titus",
+        "Philemon",
+        "Hebrews",
+        "James",
+        "1 Peter",
+        "2 Peter",
+        "1 John",
+        "2 John",
+        "3 John",
+        "Jude",
+        "Revelation"
+      ],
+      "kind": "order",
+      "difficulty": "Hard",
+      "skill": "Structure",
+      "practiceSet": "book-order",
+      "refs": [],
+      "contexts": [],
+      "choices": [],
+      "explanation": "This is the printed book order used in this app, not the chronological order of the events or the order in which the books were written.",
+      "evidence": "Source: the app’s 66-book KJV table of contents (src/lib/bible-books.ts).",
+      "conflicts": [
+        "gospel-order",
+        "law-order",
+        "bible-order",
+        "book-order-ot",
+        "book-order-bible"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
+    },
+    {
+      "id": "book-order-bible",
+      "objective": "book-order-bible",
+      "version": 1,
+      "book": "Genesis",
+      "chapter": 1,
+      "testament": "OT",
+      "scopeLevel": "bible",
+      "prompt": "Arrange all 66 books of the whole Bible in the order used in this app’s KJV table of contents.",
+      "answer": [
+        "Genesis",
+        "Exodus",
+        "Leviticus",
+        "Numbers",
+        "Deuteronomy",
+        "Joshua",
+        "Judges",
+        "Ruth",
+        "1 Samuel",
+        "2 Samuel",
+        "1 Kings",
+        "2 Kings",
+        "1 Chronicles",
+        "2 Chronicles",
+        "Ezra",
+        "Nehemiah",
+        "Esther",
+        "Job",
+        "Psalms",
+        "Proverbs",
+        "Ecclesiastes",
+        "Song of Solomon",
+        "Isaiah",
+        "Jeremiah",
+        "Lamentations",
+        "Ezekiel",
+        "Daniel",
+        "Hosea",
+        "Joel",
+        "Amos",
+        "Obadiah",
+        "Jonah",
+        "Micah",
+        "Nahum",
+        "Habakkuk",
+        "Zephaniah",
+        "Haggai",
+        "Zechariah",
+        "Malachi",
+        "Matthew",
+        "Mark",
+        "Luke",
+        "John",
+        "Acts",
+        "Romans",
+        "1 Corinthians",
+        "2 Corinthians",
+        "Galatians",
+        "Ephesians",
+        "Philippians",
+        "Colossians",
+        "1 Thessalonians",
+        "2 Thessalonians",
+        "1 Timothy",
+        "2 Timothy",
+        "Titus",
+        "Philemon",
+        "Hebrews",
+        "James",
+        "1 Peter",
+        "2 Peter",
+        "1 John",
+        "2 John",
+        "3 John",
+        "Jude",
+        "Revelation"
+      ],
+      "kind": "order",
+      "difficulty": "Hard",
+      "skill": "Structure",
+      "practiceSet": "book-order",
+      "refs": [],
+      "contexts": [],
+      "choices": [],
+      "explanation": "This is the printed book order used in this app, not the chronological order of the events or the order in which the books were written.",
+      "evidence": "Source: the app’s 66-book KJV table of contents (src/lib/bible-books.ts).",
+      "conflicts": [
+        "gospel-order",
+        "law-order",
+        "bible-order",
+        "book-order-ot",
+        "book-order-nt"
+      ],
+      "review": "Independent Stage 5 content review complete; exact KJV quotations and canonical book order verified; overlap corrections applied."
     }
   ],
   "featured": [

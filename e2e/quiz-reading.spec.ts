@@ -43,7 +43,7 @@ async function finishCurrent(page:Page, quiz:ReturnType<Page['getByRole']>) {
   // Comprehension-only fixtures use ordinary choice/text questions.
   for(let i=0;i<session.entries.length;i++) {
     const q=bank.questions.find(q=>q.id===session.entries[i].id)!;
-    if(q.kind==='text') await quiz.getByRole('textbox',{name:'Your answer',exact:true}).fill(q.answer[0]);
+    if(q.kind==='text'||q.kind==='memory') await quiz.getByRole('textbox',{name:q.kind==='memory'?'Verse from memory':'Your answer',exact:true}).fill(q.answer[0]);
     else {
       expect(q.kind).toBe('choice');
       const escaped=(q.answer as string).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');

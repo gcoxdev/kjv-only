@@ -10,6 +10,11 @@ export function parseQuizBank(value: unknown): QuizBank {
   for (const q of value.questions) {
     if (!record(q) || typeof q.id !== "string" || !q.id || ids.has(q.id) || typeof q.objective !== "string" || !q.objective || q.version !== 1 || !books.includes(String(q.book)) || !Number.isInteger(q.chapter) || typeof q.prompt !== "string" || !q.prompt || typeof q.explanation !== "string" || !Object.hasOwn(QUIZ_KINDS, String(q.kind)) || !Object.hasOwn(QUIZ_SKILLS, String(q.skill)) || !["Easy", "Medium", "Hard"].includes(String(q.difficulty)) || !["OT", "NT"].includes(String(q.testament)) || !["chapter", "book", "testament", "bible"].includes(String(q.scopeLevel)) || !strings(q.choices) || !strings(q.conflicts) || !Array.isArray(q.refs) || !Array.isArray(q.contexts)) throw new Error("Invalid quiz question.");
     ids.add(q.id);
+    if (q.practiceSet !== undefined && !["memory", "book-order"].includes(String(q.practiceSet))) throw new Error("Invalid optional quiz set.");
+    if (q.kind === "memory" || q.practiceSet === "memory") {
+      if (q.kind !== "memory" || q.practiceSet !== "memory" || !strings(q.answer) || q.answer.length !== 1 || !q.answer[0].trim() || q.answer[0].length > 500 || q.choices.length || q.refs.length !== 1) throw new Error("Invalid memory exercise.");
+    }
+    if (q.practiceSet === "book-order" && (q.kind !== "order" || !["testament", "bible"].includes(String(q.scopeLevel)) || !strings(q.answer) || q.answer.join("|") !== (q.scopeLevel === "bible" ? books : q.testament === "OT" ? books.slice(0, 39) : books.slice(39)).join("|"))) throw new Error("Invalid book-order challenge.");
     if (q.previousLearningPoints !== undefined && (!Array.isArray(q.previousLearningPoints) || !q.previousLearningPoints.every(points => [10, 20, 30].includes(points)) || new Set(q.previousLearningPoints).size !== q.previousLearningPoints.length)) throw new Error("Invalid quiz reward history.");
     for (const r of q.refs) if (!record(r) || !books.includes(String(r.book)) || !Number.isInteger(r.chapter) || typeof r.label !== "string" || !Array.isArray(r.verses) || !r.verses.length || !r.verses.every(v => record(v) && Number.isInteger(v.number) && typeof v.text === "string")) throw new Error("Invalid quiz evidence.");
     for (const c of q.contexts) if (!record(c) || !books.includes(String(c.book)) || !Number.isInteger(c.chapter)) throw new Error("Invalid quiz context.");
@@ -38,7 +43,7 @@ export function parseQuizBank(value: unknown): QuizBank {
     const primary = byId.get(q.objective);
     // Keep a stable, playable primary form. Alternate forms cannot move an objective
     // between scopes, versions, difficulty rewards, or reading-progress requirements.
-    if (!primary || primary.objective !== primary.id || ["version", "book", "chapter", "testament", "scopeLevel", "skill", "difficulty"].some(key => q[key as keyof QuizQuestion] !== primary[key as keyof QuizQuestion]) || contextKey(q) !== contextKey(primary)) throw new Error("Invalid quiz alternate form.");
+    if (!primary || primary.objective !== primary.id || ["version", "book", "chapter", "testament", "scopeLevel", "skill", "difficulty", "practiceSet"].some(key => q[key as keyof QuizQuestion] !== primary[key as keyof QuizQuestion]) || contextKey(q) !== contextKey(primary)) throw new Error("Invalid quiz alternate form.");
     if (rewardHistoryKey(q) !== rewardHistoryKey(primary)) throw new Error("Invalid quiz alternate reward history.");
   }
   return value as QuizBank;
