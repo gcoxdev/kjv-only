@@ -1,3 +1,4 @@
+import type { QuizAfterReadingMode } from "@/lib/quiz/types";
 import { defaultHighlightColor, normalizeHighlightColor } from "@/lib/highlight-color"
 import {
   MAX_CONTEXT_VERSE_COUNT,
@@ -55,6 +56,7 @@ export type ReaderDisplaySettings = {
   verseSpacing: number
   contextVerseCount: number
   toolReferenceDisplayMode: ToolReferenceDisplayMode
+  quizAfterReading: QuizAfterReadingMode
   hideReadModeVerseNumbers: boolean
   readModeParagraphIndent: boolean
   flowVersesByParagraph: boolean
@@ -109,6 +111,7 @@ export function defaultReaderDisplaySettings(): ReaderDisplaySettings {
     verseSpacing: 0,
     contextVerseCount: 1,
     toolReferenceDisplayMode: "buttons",
+    quizAfterReading: "off",
     hideReadModeVerseNumbers: false,
     readModeParagraphIndent: false,
     flowVersesByParagraph: false,
@@ -171,6 +174,7 @@ export function parseReaderDisplaySettings(
       MIN_CONTEXT_VERSE_COUNT,
       MAX_CONTEXT_VERSE_COUNT,
     ),
+    quizAfterReading: value.quizAfterReading === "chapter" || value.quizAfterReading === "milestones" ? value.quizAfterReading : "off",
     toolReferenceDisplayMode: isOneOf(
       value.toolReferenceDisplayMode,
       TOOL_REFERENCE_DISPLAY_MODES,

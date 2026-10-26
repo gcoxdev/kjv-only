@@ -27,7 +27,7 @@ Quiz → Mastery → Testament → Book → Chapter → Learning objectives
 
 Keep the existing panel header and sidebar Home behavior. Going Home, changing tabs, closing the mobile sidebar, or reloading saves the session. Reading another chapter must not silently change an active quiz. In the narrow sidebar, use a single column and a compact question header, with an option to continue the same session in a normal panel.
 
-## Planned: quizzes after marking a chapter read
+## Quizzes after marking a chapter read
 
 Add a **Quiz after reading** preference in Settings, with **Off** (default), **Chapter only**, and **Chapter and milestone quizzes**. When enabled, explicitly marking an unread chapter as read opens its quiz. Reading progress is saved immediately; taking or passing the quiz is optional and never a condition of marking the chapter read.
 
@@ -46,7 +46,7 @@ These are **canonical end-of-book/testament/Bible triggers**, not proof that eve
 
 Only an explicit individual chapter transition from unread to read triggers this flow. Importing/restoring progress, bulk marking, synchronization, reload, and marking a chapter unread must not launch quizzes. Repeated clicks or another open tab must not duplicate the same queue. Deliberately marking the chapter unread and then read can offer practice again, without duplicate first-learning rewards. If a quiz is already in progress, offer to resume it or save it before starting the reading quiz; never overwrite it or interrupt an answer. Save the queue and its current step across navigation/reload, and let the reader dismiss it. Turning the setting off stops new automatic prompts while existing saved quizzes remain manually accessible.
 
-**Status:** Planned for Stage 5; not implemented. Confirm the preference wording and transition experience during implementation.
+**Status:** Implemented as Stage 5 increment 2. Settings → Other includes the three options. Pending sequences are saved with quiz progress, support skip/resume/dismiss, and preserve existing sessions. Broader scopes use the saved quiz filters; empty pools are explicitly skipped. Final validation is recorded in the Stage 5 status file.
 
 ## Scopes and question selection
 
@@ -232,7 +232,7 @@ Provide a versioned quiz-progress export/import, validated before changes are ap
 | 2. App foundation | Home buttons, shared quiz page, all scope/skill selectors, Practice and Assessment, vocabulary and matching/ordering, autosave/resume, evidence links, local progress, basic rewards, backup, and offline packs. Integrate timeline/tree/map interactions once their pilot designs pass review. Clearly mark content not yet available. |
 | 3. Broad Bible coverage | **Done — 66 books, 1,189 chapters, 8,357 reviewed objectives.** Publish reviewed batches covering all 66 books and 1,189 chapters. Track chapters remaining and avoid concentrating the entire early bank in Genesis. Prioritize at least representative coverage in every book, then complete chapters. |
 | 4. Depth and broader understanding | **Done — 608 new reviewed objectives and six shared-credit alternate forms.** Completed the planned dense-chapter reviews, all 66 book-depth reviews, vocabulary and broader-scope expansion, visual formats, and editorial difficulty adjustments. Totals: 357 book exercises, 57 testament/Bible exercises, 146 vocabulary objectives, 35 timelines, 142 matches, eight family trees, and 12 maps. Completion records distinguish this reviewed depth pass from exhaustive future coverage. |
-| 5. Full mastery path | **In progress — spaced review scheduling and due-date display implemented and validated.** Remaining: versioned completion badges, richer scope/skill mastery breakdowns, optional memory practice, full-book-order challenges, and the optional chapter-read quiz flow through chapter, book, testament, and whole-Bible scopes at their canonical boundaries. See [Stage 5 status](quiz-stage5-status.md). |
+| 5. Full mastery path | **In progress — spaced review scheduling, due-date display, and optional quizzes after reading implemented.** Remaining: versioned completion badges, richer scope/skill mastery breakdowns, optional memory practice, and full-book-order challenges. See [Stage 5 status](quiz-stage5-status.md). |
 
 Basic progress recording and the objective/version model belong in Stage 2 even if the richer mastery display comes later. Content authoring and independent review are likely the largest ongoing effort; estimate their throughput from the pilot before promising a completion date. Technical completion and question-bank completion should be reported separately.
 

@@ -1,3 +1,4 @@
+import type { QuizReadingRequest } from "@/lib/quiz/types";
 import type { AncientMapEntry } from "@/lib/maps";
 import { VisualToolTargetContext, VisualToolNavigateContext } from "@/hooks/use-visual-tool-target";
 import { routeVisualTool } from "@/lib/visual-tool-routing";
@@ -33,6 +34,7 @@ import {
 } from "@/lib/highlight-color";
 import { chapterProgressKey, panelViewportElement } from "@/lib/reader-view";
 import {
+  createId,
   collectLeafIds,
   findLeafNode,
   updateLeafNode,
@@ -138,6 +140,8 @@ import { useShortcutPreferences } from "@/hooks/use-keyboard-shortcuts";
 import { useReaderShortcuts } from "@/hooks/use-reader-shortcuts";
 import type { SettingsTab } from "@/components/reader/settings-dialog";
 
+const LazyReadingQuizDialog = lazy(async () => ({ default: (await import("@/components/reader/quiz/reading-quiz-dialog")).ReadingQuizDialog }));
+
 const LazyReaderStudySidebar = lazy(async () => {
   const module = await import("@/components/reader/reader-study-sidebar");
   return { default: module.ReaderStudySidebar };
@@ -170,6 +174,7 @@ export function KJVReader() {
   const [pendingReaderScrollTargets, setPendingReaderScrollTargets] = useState<
     PendingReaderScrollTarget[]
   >([]);
+  const [readingQuizRequest, setReadingQuizRequest] = useState<QuizReadingRequest | null>(null);
   const [sidebarOpenRequestKey, setSidebarOpenRequestKey] = useState(0);
   const [sidebarCloseRequestKey, setSidebarCloseRequestKey] = useState(0);
   const [isReferenceCommandOpen, setIsReferenceCommandOpen] = useState(false);
@@ -223,6 +228,8 @@ export function KJVReader() {
       setVerseSpacing,
       contextVerseCount,
       setContextVerseCount,
+      quizAfterReading,
+      setQuizAfterReading,
       toolReferenceDisplayMode,
       setToolReferenceDisplayMode,
       hideReadModeVerseNumbers,
@@ -1247,15 +1254,19 @@ export function KJVReader() {
 
   function toggleChapterRead(bookIndex: number, chapterIndex: number) {
     const key = chapterProgressKey(bookIndex, chapterIndex);
+    let becameRead = false;
     setReadChapters((current) => {
       const next = new Set(current);
       if (next.has(key)) {
         next.delete(key);
       } else {
         next.add(key);
+        becameRead = true;
       }
       return next;
     });
+    // Trigger only this explicit interaction, never a progress subscription.
+    if (becameRead && quizAfterReading !== "off") setReadingQuizRequest({ id: createId(), bookIndex, chapterIndex, mode: quizAfterReading });
   }
 
   function resetAllProgress() {
@@ -2026,6 +2037,8 @@ export function KJVReader() {
     onVerseSpacingChange: setVerseSpacing,
     contextVerseCount,
     onContextVerseCountChange: setContextVerseCount,
+    quizAfterReading,
+    onQuizAfterReadingChange: setQuizAfterReading,
     toolReferenceDisplayMode,
     onToolReferenceDisplayModeChange: setToolReferenceDisplayMode,
     hideReadModeVerseNumbers,
@@ -2490,6 +2503,7 @@ export function KJVReader() {
       ) : null}
 
       <CompletionCelebration {...completionCelebrationProps} />
+      {readingQuizRequest && !completionCelebrationProps.open ? <Suspense fallback={null}><LazyReadingQuizDialog request={readingQuizRequest} readChapters={readChapters} onClose={() => setReadingQuizRequest(null)} /></Suspense> : null}
 
       {isGenealogyTreeOpen ? (
         <Suspense fallback={null}>

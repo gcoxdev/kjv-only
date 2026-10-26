@@ -1,3 +1,4 @@
+import type { QuizAfterReadingMode } from "@/lib/quiz/types";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -86,6 +87,8 @@ export type SettingsPanelContentProps = {
   onVerseSpacingChange: (value: number) => void;
   contextVerseCount: number;
   onContextVerseCountChange: (value: number) => void;
+  quizAfterReading: QuizAfterReadingMode;
+  onQuizAfterReadingChange: (mode: QuizAfterReadingMode) => void;
   toolReferenceDisplayMode: ToolReferenceDisplayMode;
   onToolReferenceDisplayModeChange: (mode: ToolReferenceDisplayMode) => void;
   hideReadModeVerseNumbers: boolean;
@@ -144,6 +147,8 @@ export function SettingsPanelContent({
   onVerseSpacingChange,
   contextVerseCount,
   onContextVerseCountChange,
+  quizAfterReading,
+  onQuizAfterReadingChange,
   toolReferenceDisplayMode,
   onToolReferenceDisplayModeChange,
   hideReadModeVerseNumbers,
@@ -700,6 +705,14 @@ export function SettingsPanelContent({
               onCheckedChange={onShowWelcomeHomeAtStartupChange}
             />
           </div>
+          <Field className="border-t pt-3">
+            <FieldLabel htmlFor="quiz-after-reading">Quiz after reading</FieldLabel>
+            <Select value={quizAfterReading} onValueChange={value => { if (value === "off" || value === "chapter" || value === "milestones") onQuizAfterReadingChange(value); }}>
+              <SelectTrigger id="quiz-after-reading" className="w-full"><SelectValue>{quizAfterReading === "off" ? "Off" : quizAfterReading === "chapter" ? "Chapter only" : "Chapter and milestone quizzes"}</SelectValue></SelectTrigger>
+              <SelectContent><SelectGroup><SelectItem value="off">Off</SelectItem><SelectItem value="chapter">Chapter only</SelectItem><SelectItem value="milestones">Chapter and milestone quizzes</SelectItem></SelectGroup></SelectContent>
+            </Select>
+            <FieldDescription>Offer a quiz when you mark a chapter read. Milestones add book, testament, and whole-Bible quizzes at their final chapters. You can skip or continue later. Bulk progress changes do not open quizzes.</FieldDescription>
+          </Field>
           <WorkspaceRecovery />
           <div className="flex flex-col gap-2 border-t pt-3">
             <Field orientation="responsive">

@@ -348,6 +348,11 @@ const HELP_SECTIONS: HelpSection[] = [
         keywords: ["quiz", "review", "schedule", "due", "mastery", "mistakes", "points"],
       },
       {
+        label: "Quizzes after reading",
+        body: "Settings → Other → Quiz after reading offers Off (default), Chapter only, or Chapter and milestone quizzes. Explicitly marking a chapter read can open an optional quiz. At a book's last chapter, milestone mode also offers the book; Malachi 4 adds Old Testament, and Revelation 22 adds New Testament and Whole Bible. These are offers based on KJV book order, not proof that earlier chapters have been read. Sequences use your saved quiz length, mode, difficulty, skill, and Only chapters marked read setting. Empty question pools are skipped. Continue, skip a level, or Finish for now; resume saved sequences from Quiz → Start. Existing quizzes stay saved, and progress exports include the sequence. Turning the setting off stops new prompts. Bulk updates, imports, reload, and synchronization do not launch quizzes, and quiz results never change reading progress.",
+        keywords: ["quiz", "after reading", "mark read", "milestone", "sequence", "skip", "resume"],
+      },
+      {
         label: "How tool accordions behave",
         body:
           "Study tools use accordion sections, with Expand All and Collapse All controls. Clicking a word or verse can automatically open relevant sections and load matching entries; tools still allow their own manual searches.",

@@ -1,12 +1,13 @@
 import { applyQuizAction, DAY, gradeQuizAnswer, rebuildQuizAttempts, validQuizAnswer } from "./engine";
 import { record, strings } from "./data";
-import type { QuizAction, QuizAttempt, QuizBackup, QuizBank, QuizSession, QuizSnapshot } from "./types";
+import { enqueueReadingQuiz, nextReadingQuizStep, prepareReadingQuizStep, skipReadingQuizStep, validReadingFlows } from "./reading";
+import type { QuizAction, QuizAttempt, QuizBackup, QuizBank, QuizPracticeOptions, QuizReadingFlow, QuizReadingRequest, QuizSession, QuizSnapshot } from "./types";
 const DATABASE = "kjv-only-quiz-v1";
 let database: Promise<IDBDatabase> | undefined;
 function openDatabase() {
   return database ??= new Promise<IDBDatabase>((resolve, reject) => {
-    const request = indexedDB.open(DATABASE, 1);
-    request.onupgradeneeded = () => { request.result.createObjectStore("sessions", { keyPath: "id" }); request.result.createObjectStore("attempts", { keyPath: "id" }); };
+    const request = indexedDB.open(DATABASE, 2);
+    request.onupgradeneeded = () => { for (const name of ["sessions", "attempts", "readingFlows"]) if (!request.result.objectStoreNames.contains(name)) request.result.createObjectStore(name, { keyPath: "id" }); };
     request.onerror = () => reject(new Error("Quiz storage is unavailable. Your existing data has not been changed."));
     request.onblocked = () => reject(new Error("Close other app windows and retry opening quiz storage."));
     request.onsuccess = () => { const db = request.result; db.onversionchange = () => { db.close(); database = undefined; }; resolve(db); };
@@ -19,29 +20,30 @@ channel?.addEventListener("message", notify);
 export function subscribeQuiz(listener: () => void) { listeners.add(listener); return () => { listeners.delete(listener); }; }
 function readStore<T>(store: IDBObjectStore): Promise<T[]> { return new Promise((resolve, reject) => { const request = store.getAll(); request.onsuccess = () => resolve(request.result as T[]); request.onerror = () => reject(request.error); }); }
 export async function readQuizSnapshot(bank: QuizBank): Promise<QuizSnapshot> {
-  const db = await openDatabase(), tx = db.transaction(["sessions", "attempts"], "readonly");
-  const [sessions, attempts] = await Promise.all([readStore<QuizSession>(tx.objectStore("sessions")), readStore<QuizAttempt>(tx.objectStore("attempts"))]);
-  if (!validSnapshot({ sessions, attempts }, bank)) throw new Error("Saved quiz data is incompatible or damaged. It has not been overwritten. Export a backup before resetting.");
-  return { sessions, attempts };
+  const db = await openDatabase(), tx = db.transaction(["sessions", "attempts", "readingFlows"], "readonly");
+  const [sessions, attempts, readingFlows] = await Promise.all([readStore<QuizSession>(tx.objectStore("sessions")), readStore<QuizAttempt>(tx.objectStore("attempts")), readStore<QuizReadingFlow>(tx.objectStore("readingFlows"))]);
+  if (!validSnapshot({ sessions, attempts, readingFlows }, bank)) throw new Error("Saved quiz data is incompatible or damaged. It has not been overwritten. Export a backup before resetting.");
+  return { sessions, attempts, readingFlows };
 }
 // Read, validate, grade, and commit within one transaction. Two tabs cannot double-award an attempt.
 async function change(bank: QuizBank, mutation: (state: QuizSnapshot) => void): Promise<QuizSnapshot> {
   const db = await openDatabase();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(["sessions", "attempts"], "readwrite"), sr = tx.objectStore("sessions").getAll(), ar = tx.objectStore("attempts").getAll();
+    const tx = db.transaction(["sessions", "attempts", "readingFlows"], "readwrite"), sr = tx.objectStore("sessions").getAll(), ar = tx.objectStore("attempts").getAll(), fr = tx.objectStore("readingFlows").getAll();
     let next: QuizSnapshot, failure: unknown, completed = 0;
     function ready() {
-      if (++completed !== 2) return;
+      if (++completed !== 3) return;
       try {
-        next = { sessions: sr.result, attempts: ar.result };
+        next = { sessions: sr.result, attempts: ar.result, readingFlows: fr.result };
         if (!validSnapshot(next, bank)) throw new Error("Saved quiz data is incompatible. Nothing was changed.");
         mutation(next);
         if (!validSnapshot(next, bank)) throw new Error("Quiz update failed validation. Nothing was changed.");
         for (const session of next.sessions) tx.objectStore("sessions").put(session);
         for (const attempt of next.attempts) tx.objectStore("attempts").put(attempt);
+        for (const flow of next.readingFlows ?? []) tx.objectStore("readingFlows").put(flow);
       } catch (error) { failure = error; tx.abort(); }
     }
-    sr.onsuccess = ready; ar.onsuccess = ready;
+    sr.onsuccess = ready; ar.onsuccess = ready; fr.onsuccess = ready;
     tx.oncomplete = () => { notify(); channel?.postMessage("changed"); resolve(next); };
     tx.onabort = () => reject(failure ?? new Error("Could not save quiz progress. Keep this page open and retry or export a backup."));
     tx.onerror = () => { /* onabort reports the failed atomic transaction. */ };
@@ -73,6 +75,7 @@ export function validSnapshot(value: unknown, bank: QuizBank): value is QuizSnap
     });
   })) return false;
   if (new Set(value.sessions.map(s => s.id)).size !== value.sessions.length || new Set(value.attempts.map(a => record(a) ? a.id : null)).size !== value.attempts.length) return false;
+  if (!validReadingFlows(value.readingFlows, value.sessions as QuizSession[])) return false;
   const sessions = new Map((value.sessions as QuizSession[]).map(s => [s.id, s]));
   return value.attempts.every(a => {
     if (!record(a) || typeof a.qid !== "string" || typeof a.session !== "string") return false;
@@ -107,8 +110,45 @@ export function importQuizBackup(bank: QuizBank, backup: QuizBackup) { return ch
   state.sessions.push(...backup.sessions.filter(s => !existing.has(s.id)).map(s => ({ ...s, owner: null, leaseUntil: 0 })));
   const ids = new Set(state.attempts.map(a => a.id));
   state.attempts.push(...backup.attempts.filter(a => !ids.has(a.id) && !existing.has(a.session)));
+  const flowIds = new Set(state.readingFlows?.map(f => f.id));
+  const linked = new Set(state.readingFlows?.flatMap(f => f.steps.map(step => step.sessionId).filter(Boolean)));
+  state.readingFlows ??= [];
+  for (const flow of backup.readingFlows ?? []) {
+    if (flowIds.has(flow.id) || flow.steps.some(step => step.sessionId && linked.has(step.sessionId))) continue;
+    state.readingFlows.push(structuredClone(flow));
+    flow.steps.forEach(step => { if (step.sessionId) linked.add(step.sessionId); });
+    flowIds.add(flow.id);
+  }
   // Recompute points over the merged evidence so two devices' first-learning rewards cannot stack.
   state.attempts = rebuildQuizAttempts(bank, state);
 }); }
-export async function exportQuizData(): Promise<QuizSnapshot> { const db = await openDatabase(), tx = db.transaction(["sessions", "attempts"], "readonly"); const [sessions, attempts] = await Promise.all([readStore<QuizSession>(tx.objectStore("sessions")), readStore<QuizAttempt>(tx.objectStore("attempts"))]); return { sessions, attempts }; }
-export async function resetQuizData() { const db = await openDatabase(); await new Promise<void>((resolve, reject) => { const tx = db.transaction(["sessions", "attempts"], "readwrite"); tx.objectStore("sessions").clear(); tx.objectStore("attempts").clear(); tx.oncomplete = () => { notify(); channel?.postMessage("changed"); resolve(); }; tx.onabort = () => reject(tx.error); }); }
+export async function exportQuizData(): Promise<QuizSnapshot> { const db = await openDatabase(), tx = db.transaction(["sessions", "attempts", "readingFlows"], "readonly"); const [sessions, attempts, readingFlows] = await Promise.all([readStore<QuizSession>(tx.objectStore("sessions")), readStore<QuizAttempt>(tx.objectStore("attempts")), readStore<QuizReadingFlow>(tx.objectStore("readingFlows"))]); return { sessions, attempts, readingFlows }; }
+export async function resetQuizData() { const db = await openDatabase(); await new Promise<void>((resolve, reject) => { const tx = db.transaction(["sessions", "attempts", "readingFlows"], "readwrite"); tx.objectStore("sessions").clear(); tx.objectStore("attempts").clear(); tx.objectStore("readingFlows").clear(); tx.oncomplete = () => { notify(); channel?.postMessage("changed"); resolve(); }; tx.onabort = () => reject(tx.error); }); }
+
+export async function offerReadingQuiz(bank: QuizBank, request: QuizReadingRequest, options: QuizPracticeOptions, owner: string, readChapters: ReadonlySet<string>) {
+  let flowId = "", sessionId: string | null = null;
+  const snapshot = await change(bank, state => {
+    const { flow, created } = enqueueReadingQuiz(state, request, options);
+    flowId = flow.id;
+    if (created && !state.sessions.some(s => !s.done)) sessionId = prepareReadingQuizStep(bank, state, flow, 0, owner, readChapters);
+  });
+  return { snapshot, flowId, sessionId };
+}
+export async function beginReadingQuiz(bank: QuizBank, id: string, expectedStep: number, owner: string, readChapters: ReadonlySet<string>) {
+  let sessionId: string | null = null;
+  const snapshot = await change(bank, state => {
+    const flow = state.readingFlows?.find(f => f.id === id);
+    if (!flow) throw new Error("Reading quiz sequence no longer exists.");
+    sessionId = prepareReadingQuizStep(bank, state, flow, expectedStep, owner, readChapters);
+  });
+  return { snapshot, sessionId };
+}
+export function skipReadingQuiz(bank: QuizBank, id: string, expectedStep: number, owner: string) { return change(bank, state => {
+  const flow = state.readingFlows?.find(f => f.id === id);
+  if (!flow) throw new Error("Reading quiz sequence no longer exists.");
+  skipReadingQuizStep(state, flow, expectedStep, owner);
+}); }
+export function dismissReadingQuiz(bank: QuizBank, id: string) { return change(bank, state => {
+  const flow = state.readingFlows?.find(f => f.id === id);
+  if (flow && nextReadingQuizStep(flow, state.sessions) >= 0) flow.closed = true;
+}); }

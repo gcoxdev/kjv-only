@@ -11,7 +11,7 @@ async function quizPanel(page: Page, width = 1280) {
 }
 async function readData(page: Page): Promise<QuizSnapshot> {
   return page.evaluate(() => new Promise<QuizSnapshot>((resolve, reject) => {
-    const request = indexedDB.open('kjv-only-quiz-v1', 1);
+    const request = indexedDB.open('kjv-only-quiz-v1');
     request.onerror = () => reject(request.error);
     request.onsuccess = () => {
       const db = request.result, tx = db.transaction(['sessions', 'attempts']);
@@ -257,7 +257,7 @@ for (const example of ['Ordering', 'Timeline', 'Short answer']) test(`${example}
 test('damaged progress is preserved for export and can be reset explicitly',async({page})=>{
   const quiz=await quizPanel(page);
   await page.evaluate(()=>new Promise<void>((resolve,reject)=>{
-    const request=indexedDB.open('kjv-only-quiz-v1',1);
+    const request=indexedDB.open('kjv-only-quiz-v1');
     request.onsuccess=()=>{
       const db=request.result,tx=db.transaction('sessions','readwrite');
       tx.objectStore('sessions').put({id:'damaged-session',bank:'unknown'});
@@ -499,7 +499,7 @@ test('alternate recall preserves existing credit, deduplicates progress, and sur
     attempts:[{id:`old-ruth-session:${q.id}`,session:'old-ruth-session',qid:q.id,objective:q.objective,version:q.version,answer:q.answer,correct:true,assisted:false,skipped:false,time,points:10}],
   };
   await page.evaluate(data => new Promise<void>((resolve,reject) => {
-    const request = indexedDB.open('kjv-only-quiz-v1',1);
+    const request = indexedDB.open('kjv-only-quiz-v1');
     request.onsuccess = () => {
       const db = request.result, tx = db.transaction(['sessions','attempts'],'readwrite');
       for (const s of data.sessions) tx.objectStore('sessions').put(s);

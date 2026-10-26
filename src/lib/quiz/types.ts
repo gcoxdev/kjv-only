@@ -23,7 +23,14 @@ export type QuizSession = {
   owner: string | null; leaseUntil: number;
 };
 export type QuizAttempt = { id: string; session: string; qid: string; objective: string; version: number; answer: QuizAnswer; correct: boolean; assisted: boolean; skipped: boolean; time: number; points: number; reviewScheduleVersion?: 2 };
-export type QuizSnapshot = { sessions: QuizSession[]; attempts: QuizAttempt[] };
+export type QuizAfterReadingMode = "off" | "chapter" | "milestones";
+export type QuizPracticeOptions = Pick<QuizFilters, "skill" | "difficulty" | "readOnly"> & { length: 5 | 10 | 20 | 30; mode: QuizSession["mode"] };
+export type QuizReadingRequest = { id: string; bookIndex: number; chapterIndex: number; mode: Exclude<QuizAfterReadingMode, "off"> };
+export type QuizReadingFlow = QuizReadingRequest & {
+  options: QuizPracticeOptions; created: number; closed: boolean;
+  steps: { scope: QuizFilters["scope"]; sessionId: string | null; skipped: false | "reader" | "empty" }[];
+};
+export type QuizSnapshot = { sessions: QuizSession[]; attempts: QuizAttempt[]; readingFlows?: QuizReadingFlow[] };
 export type QuizBackup = QuizSnapshot & { type: "kjv-only-quiz"; schema: 1; bank: string; exported: string };
 export type QuizAction =
   | { type: "answer"; qid: string; answer: QuizAnswer }

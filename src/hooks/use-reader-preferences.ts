@@ -47,6 +47,7 @@ export function useReaderPreferences({ tabsOrientation, setTabsOrientation }: Us
       setDarkHighlightColor: setter("darkHighlightColor"),
       setVerseSpacing: setter("verseSpacing"),
       setContextVerseCount: setter("contextVerseCount"),
+      setQuizAfterReading: setter("quizAfterReading"),
       setToolReferenceDisplayMode: setter("toolReferenceDisplayMode"),
       setHideReadModeVerseNumbers: setter("hideReadModeVerseNumbers"),
       setReadModeParagraphIndent: setter("readModeParagraphIndent"),
