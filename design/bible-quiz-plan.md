@@ -1,6 +1,6 @@
 # Bible Quiz and Mastery Plan
 
-Draft for review · October 24, 2026
+Draft for review · Updated October 26, 2026
 
 **Implementation status (October 25, 2026): Stages 3 and 4 complete.** The app has **8,965 independently reviewed objectives in 8,971 question forms**, retaining all **1,189 initial chapter sets**. Stage 4 added **608 objectives and six shared-credit alternate forms**. Coverage includes 357 book exercises across all 66 books, 57 testament/Bible exercises, 146 vocabulary objectives, 35 timelines, 142 matches, eight family trees, and 12 maps. All 285 book-depth recommendations and the dense-chapter decision queue are resolved; four shorter-chapter supplements were also reviewed and published. All original 8,357 IDs, answers, and versions remain, with historical reward compatibility for two difficulty corrections. Final validation passed: 29 unit tests, 10 browser scenarios, scoped lint, and production/package checks. See [current inventory](quiz-stage4-coverage.md), [Stage 4 completion details](quiz-stage4-status.md), and [final publication ledger](quiz-stage4-completion-publication.json). Stage 5 is next.
 
@@ -26,6 +26,27 @@ Quiz → Mastery → Testament → Book → Chapter → Learning objectives
 ```
 
 Keep the existing panel header and sidebar Home behavior. Going Home, changing tabs, closing the mobile sidebar, or reloading saves the session. Reading another chapter must not silently change an active quiz. In the narrow sidebar, use a single column and a compact question header, with an option to continue the same session in a normal panel.
+
+## Planned: quizzes after marking a chapter read
+
+Add a **Quiz after reading** preference in Settings, with **Off** (default), **Chapter only**, and **Chapter and milestone quizzes**. When enabled, explicitly marking an unread chapter as read opens its quiz. Reading progress is saved immediately; taking or passing the quiz is optional and never a condition of marking the chapter read.
+
+With milestone quizzes enabled, offer a sequence from the narrowest scope to the broadest:
+
+| Chapter marked read | Quiz sequence |
+|---|---|
+| Ordinary chapter | Chapter |
+| Last chapter of a book | Chapter → Book |
+| Malachi 4, the last chapter of the Old Testament | Chapter → Malachi → Old Testament |
+| Revelation 22, the last chapter of the Bible and New Testament | Chapter → Revelation → New Testament → Whole Bible |
+
+Show the pending scopes up front. After each quiz, offer **Continue to [next scope]**, **Skip this quiz**, or **Finish for now**, with the remaining sequence saved for later. Use the existing session length, difficulty, scope selection, and shared objective/reward rules; broader quizzes remain manageable samples rather than exhaustive examinations. Preserve the reader's place and provide an easy return to reading.
+
+These are **canonical end-of-book/testament/Bible triggers**, not proof that every preceding chapter has been read. A reader opening Revelation 22 out of order can still be offered all four levels, but must not receive a reading-completion or mastery badge merely for reaching that boundary. Keep the existing **Only chapters marked read** filter effective, explain restricted coverage, and skip any scope with no eligible questions rather than silently widening it. Detect true reading completion separately from these boundary prompts.
+
+Only an explicit individual chapter transition from unread to read triggers this flow. Importing/restoring progress, bulk marking, synchronization, reload, and marking a chapter unread must not launch quizzes. Repeated clicks or another open tab must not duplicate the same queue. Deliberately marking the chapter unread and then read can offer practice again, without duplicate first-learning rewards. If a quiz is already in progress, offer to resume it or save it before starting the reading quiz; never overwrite it or interrupt an answer. Save the queue and its current step across navigation/reload, and let the reader dismiss it. Turning the setting off stops new automatic prompts while existing saved quizzes remain manually accessible.
+
+**Status:** Planned for Stage 5; not implemented. Confirm the preference wording and transition experience during implementation.
 
 ## Scopes and question selection
 
@@ -211,7 +232,7 @@ Provide a versioned quiz-progress export/import, validated before changes are ap
 | 2. App foundation | Home buttons, shared quiz page, all scope/skill selectors, Practice and Assessment, vocabulary and matching/ordering, autosave/resume, evidence links, local progress, basic rewards, backup, and offline packs. Integrate timeline/tree/map interactions once their pilot designs pass review. Clearly mark content not yet available. |
 | 3. Broad Bible coverage | **Done — 66 books, 1,189 chapters, 8,357 reviewed objectives.** Publish reviewed batches covering all 66 books and 1,189 chapters. Track chapters remaining and avoid concentrating the entire early bank in Genesis. Prioritize at least representative coverage in every book, then complete chapters. |
 | 4. Depth and broader understanding | **Done — 608 new reviewed objectives and six shared-credit alternate forms.** Completed the planned dense-chapter reviews, all 66 book-depth reviews, vocabulary and broader-scope expansion, visual formats, and editorial difficulty adjustments. Totals: 357 book exercises, 57 testament/Bible exercises, 146 vocabulary objectives, 35 timelines, 142 matches, eight family trees, and 12 maps. Completion records distinguish this reviewed depth pass from exhaustive future coverage. |
-| 5. Full mastery path | Complete review scheduling, versioned completion badges, richer scope/skill mastery breakdowns, optional memory practice, and the full-book-order challenges. |
+| 5. Full mastery path | Complete review scheduling, versioned completion badges, richer scope/skill mastery breakdowns, optional memory practice, and the full-book-order challenges. Add the optional chapter-read quiz flow, progressing through chapter, book, testament, and whole-Bible scopes at their canonical boundaries. |
 
 Basic progress recording and the objective/version model belong in Stage 2 even if the richer mastery display comes later. Content authoring and independent review are likely the largest ongoing effort; estimate their throughput from the pilot before promising a completion date. Technical completion and question-bank completion should be reported separately.
 
@@ -228,6 +249,7 @@ Before authoring questions, check that page against reliable historical sources 
 - Refresh, offline use, multiple tabs, repeated submission, export/import, and storage failure do not lose answers or duplicate rewards.
 - Scope sampling respects requested books, skills, difficulty, available content, and the optional read-chapter filter. Cross-chapter exercises require all of their cited chapter contexts to qualify for that filter.
 - Progress distinguishes reading, authored coverage, learned objectives, earned mastery, and review needs.
+- With Quiz after reading enabled, verify ordinary chapters, book endings, Malachi 4, and Revelation 22 offer the intended scopes in order. Verify Off/Chapter only settings, out-of-order reading, the read-chapter filter, empty pools, skip/resume, existing sessions, repeated clicks, and multiple tabs. Imports, bulk updates, reload, and synchronization must not launch quizzes or duplicate queues/rewards; reading remains marked read even when quizzes are declined.
 - Answer options work on narrow mobile screens and by keyboard; feedback is announced accessibly and is not conveyed by color alone. Every sorting, tree, timeline, and map exercise has a non-drag accessible alternative with equivalent scoring.
 - Vocabulary grading distinguishes word senses; ordering accepts every permitted solution; maps accept the defined region; family trees preserve person identity and relationship type. Saving and resuming preserves unfinished placements.
 - The large bank does not delay reader startup; only needed content is loaded, and offline packs report their size before download.
