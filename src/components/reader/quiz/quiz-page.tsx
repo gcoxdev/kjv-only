@@ -17,6 +17,8 @@ import { createId } from "@/lib/reader-layout";
 import { createQuizSession, filterQuizQuestions, gradeQuizAnswer, hasQuizAnswer, QUIZ_KINDS, QUIZ_SKILLS, quizAnswerLabel, quizObjectives, quizScopeLabel, quizStats, selectQuizQuestions } from "@/lib/quiz/engine";
 import { addQuizSession, claimQuizSession, exportQuizData, importQuizBackup, parseQuizBackup, readQuizSnapshot, releaseQuizSession, renewQuizSession, resetQuizData, subscribeQuiz, updateQuizSession } from "@/lib/quiz/storage";
 import { useQuizOptions } from "@/hooks/use-quiz-options";
+import { useQuizRewards } from "@/hooks/use-quiz-rewards";
+import { QUIZ_MILESTONE_TARGETS, quizCompletionReward, type QuizCompletionReward } from "@/lib/quiz/rewards";
 import { nextReadingQuizStep } from "@/lib/quiz/reading";
 import { beginReadingQuiz, dismissReadingQuiz, offerReadingQuiz, skipReadingQuiz } from "@/lib/quiz/storage";
 import { QuizReadingFlowCard } from "./quiz-reading-flow";
@@ -28,6 +30,8 @@ import { QuizReview } from "./quiz-review";
 
 // Keep a failed-to-save draft available if Home unmounts this view. Never mix it into earned credit.
 const LazyQuizMastery = lazy(async () => ({ default: (await import("./quiz-mastery")).QuizMastery }));
+const LazyQuizRewards = lazy(async () => ({ default: (await import("./quiz-rewards")).QuizRewards }));
+const LazyQuizCelebration = lazy(async () => ({ default: (await import("./quiz-rewards")).QuizCelebration }));
 const drafts = new Map<string, QuizAnswer>();
 const QUESTION_PAGE_SIZE = 25;
 function download(value: unknown, name: string) { const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: "application/json" })); const a = document.createElement("a"); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
@@ -51,6 +55,8 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
   const [owner] = useState(createId), [snapshot, setSnapshot] = useState<QuizSnapshot | null>(null), [error, setError] = useState<string | null>(null), [pending, setPending] = useState(0);
   const [view, setView] = useState<"setup" | "quiz" | "progress" | "questions">("setup"), [sessionId, setSessionId] = useState<string | null>(null), [draftVersion, setDraftVersion] = useState(0);
   const [options, setOptions] = useQuizOptions();
+  const [rewardPreferences] = useQuizRewards();
+  const [celebration, setCelebration] = useState<{ reward: QuizCompletionReward; expiresAt: number } | null>(null);
   const [scopeFilters, setFilters] = useState<QuizFilters>(() => ({ scope: "chapter", book: initialBook, chapter: initialChapter, skill: "all", difficulty: "all", readOnly: false }));
   const filters = useMemo(() => ({ ...scopeFilters, skill: options.skill, difficulty: options.difficulty, readOnly: options.readOnly }), [scopeFilters, options]);
   const length = String(options.length), mode = options.mode;
@@ -117,7 +123,13 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
   void draftVersion;
   const locked = !!session && !session.done && session.owner !== owner;
   const answer = entry ? !locked && drafts.has(draftKey) ? drafts.get(draftKey)! : entry.answer : "";
-  const mutate = (action: QuizAction, after?: () => void) => { if (!session) return; run(() => updateQuizSession(bank, session.id, owner, action), () => after?.()); };
+  const mutate = (action: QuizAction, after?: (value: QuizSnapshot) => void) => { if (!session) return; run(() => updateQuizSession(bank, session.id, owner, action), value => after?.(value)); };
+  const finishQuiz = () => mutate({ type: "finish" }, value => {
+    if (!rewardPreferences.celebrations || !session) return;
+    const completed = value.sessions.find(s => s.id === session.id)!;
+    const reward = quizCompletionReward(bank, completed, value.attempts);
+    if (reward) setCelebration({ reward, expiresAt: Date.now() + 4200 });
+  });
   const changeAnswer = (value: QuizAnswer) => { if (!session || !entry) return; const key = draftKey; drafts.set(key, value); setDraftVersion(n => n + 1); mutate({ type: "answer", qid: entry.id, answer: value }, () => { if (JSON.stringify(drafts.get(key)) === JSON.stringify(value)) { drafts.delete(key); setDraftVersion(n => n + 1); } }); };
   const start = (selected: QuizQuestion[] = pool, label = filters.scope === "chapter" ? `${filters.book} ${filters.chapter}` : filters.scope === "book" ? `${filters.book} · ${filters.content === "connections" ? "connections sample" : "sample"}` : `${filters.scope === "OT" ? "Old Testament" : filters.scope === "NT" ? "New Testament" : "Whole Bible"} · ${filters.content === "connections" ? "connections sample" : "sample"}`, selectedMode = mode) => {
     const picked = selectQuizQuestions(bank, selected, snapshot?.attempts ?? [], Number(length));
@@ -151,7 +163,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
     setFilters(current => ({ ...current, ...patch }));
     setOptions(current => ({ ...current, ...(patch.skill !== undefined ? { skill: patch.skill } : {}), ...(patch.difficulty !== undefined ? { difficulty: patch.difficulty } : {}), ...(patch.readOnly !== undefined ? { readOnly: patch.readOnly } : {}) }));
   };
-  const milestone = [5, 10, 25, 50, 100].filter(n => n <= total.learned).at(-1);
+  const milestone = QUIZ_MILESTONE_TARGETS.filter(n => n >= 5 && n <= total.learned).at(-1);
   const saveAndLeave = () => { setView("setup"); setSessionId(null); };
   const finishReadingForNow = () => { saveAndLeave(); setReadingFlowId(null); onFinishReading?.(); };
   const continueReadingFlow = (flow: QuizReadingFlow, index: number) => {
@@ -203,6 +215,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
       {view === "quiz" && session && entry && question ? <>
         <div className="flex flex-wrap items-center justify-between gap-2"><Button size="sm" variant="ghost" onClick={saveAndLeave} disabled={pending > 0}><ArrowLeftIcon data-icon="inline-start" />Save & leave</Button><Badge variant="outline">{session.mode}</Badge></div>
         {session.done ? <>
+          {rewardPreferences.celebrations && celebration?.reward.sessionId === session.id ? <Suspense fallback={null}><LazyQuizCelebration key={session.id} {...celebration} /></Suspense> : null}
           <Card><CardHeader><CardTitle>Session complete</CardTitle><CardDescription>{session.label}</CardDescription></CardHeader><CardContent className="pb-4"><p className="text-2xl font-semibold">{session.entries.filter(e => !e.skipped && gradeQuizAnswer(questions.get(e.id)!, e.answer)).length} / {session.entries.length} correct</p><p className="text-sm text-muted-foreground">{session.entries.filter(e => e.assisted).length} assisted · +{snapshot!.attempts.filter(a => a.session === session.id).reduce((n, a) => n + a.points, 0)} points</p></CardContent><CardFooter><Button onClick={saveAndLeave}>Start another quiz</Button></CardFooter></Card>
           {session.entries.map(e => <Card key={e.id}><CardHeader><CardTitle>{questions.get(e.id)!.prompt}</CardTitle><CardDescription>Your answer: {e.skipped ? "Skipped" : Array.isArray(e.answer) ? e.answer.join(" → ") : e.answer}</CardDescription></CardHeader><CardContent><Feedback q={questions.get(e.id)!} entry={e} points={snapshot!.attempts.find(a => a.id === `${session.id}:${e.id}`)?.points ?? 0} /></CardContent></Card>)}
         </> : <>
@@ -214,7 +227,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
             {entry.submitted && session.mode === "practice" ? <Feedback q={question} entry={entry} points={snapshot!.attempts.find(a => a.id === `${session.id}:${entry.id}`)?.points ?? 0} /> : entry.submitted ? <p role="status" className="text-sm">Answer saved. Feedback appears after finishing the assessment.</p> : null}
           </CardContent><CardFooter className="flex flex-wrap gap-2">
             {session.mode === "practice" && !entry.submitted ? <><Button size="sm" variant="ghost" disabled={locked || pending > 0} onClick={() => mutate({ type: "help", qid: entry.id, help: "passage" })}>Read passage / hint</Button><Button size="sm" variant="ghost" disabled={locked || pending > 0} onClick={() => mutate({ type: "help", qid: entry.id, help: "answer" })}>Reveal answer</Button></> : null}
-            <div className="flex w-full flex-wrap items-center justify-between gap-2"><Button size="sm" variant="outline" disabled={locked || pending > 0 || session.index === 0} onClick={() => mutate({ type: "navigate", index: session.index - 1 })}>Previous</Button><div className="flex gap-2">{entry.submitted ? <Button size="sm" disabled={locked || pending > 0} onClick={() => { if (session.index < session.entries.length - 1) mutate({ type: "navigate", index: session.index + 1 }, () => questionRef.current?.focus()); else { const missing = session.entries.findIndex(e => !e.submitted); mutate(missing >= 0 ? { type: "navigate", index: missing } : { type: "finish" }); } }}>{session.index === session.entries.length - 1 ? "Finish quiz" : "Next"}</Button> : <><Button size="sm" variant="ghost" disabled={locked || pending > 0} onClick={() => mutate({ type: "submit", qid: entry.id, answer, skip: true })}>Skip</Button><Button size="sm" disabled={locked || pending > 0 || !hasQuizAnswer(question, answer)} onClick={() => mutate({ type: "submit", qid: entry.id, answer })}>Submit answer</Button></>}</div></div>
+            <div className="flex w-full flex-wrap items-center justify-between gap-2"><Button size="sm" variant="outline" disabled={locked || pending > 0 || session.index === 0} onClick={() => mutate({ type: "navigate", index: session.index - 1 })}>Previous</Button><div className="flex gap-2">{entry.submitted ? <Button size="sm" disabled={locked || pending > 0} onClick={() => { if (session.index < session.entries.length - 1) mutate({ type: "navigate", index: session.index + 1 }, () => questionRef.current?.focus()); else { const missing = session.entries.findIndex(e => !e.submitted); if (missing >= 0) mutate({ type: "navigate", index: missing }); else finishQuiz(); } }}>{session.index === session.entries.length - 1 ? "Finish quiz" : "Next"}</Button> : <><Button size="sm" variant="ghost" disabled={locked || pending > 0} onClick={() => mutate({ type: "submit", qid: entry.id, answer, skip: true })}>Skip</Button><Button size="sm" disabled={locked || pending > 0 || !hasQuizAnswer(question, answer)} onClick={() => mutate({ type: "submit", qid: entry.id, answer })}>Submit answer</Button></>}</div></div>
           </CardFooter></Card><p role="status" className="text-xs text-muted-foreground">{pending > 0 ? "Saving…" : error ? "Some changes may be unsaved." : "Progress saved"} · {question.id}</p>
         </>}
       </> : null}
@@ -225,6 +238,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
           const current = quizStats(bank, snapshot.attempts);
           start(bank.questions.filter(q => current.get(q.objective)?.[key]), key === "due" ? "Practice due items" : "Review mistakes", "practice");
         }} />
+        <Suspense fallback={<p role="status">Loading practice rewards…</p>}><LazyQuizRewards bank={bank} attempts={snapshot.attempts} stats={stats} now={reviewNow} /></Suspense>
         <Card><CardHeader><CardTitle>Skills and difficulty</CardTitle></CardHeader><CardContent className="flex flex-col gap-3">{[...Object.entries(QUIZ_SKILLS), ...["Easy", "Medium", "Hard"].map(v => [v,v])].map(([key,label]) => { const group = objectives.filter(q => q.skill === key || q.difficulty === key); return <div key={key}><p className="text-sm">{label}: {group.filter(q => stats.get(q.objective)?.learned).length} learned · {group.filter(q => stats.get(q.objective)?.mastered).length}/{group.length} mastered</p><Progress aria-label={`${label} mastery`} value={100 * group.filter(q => stats.get(q.objective)?.mastered).length / group.length} /></div>; })}</CardContent></Card>
         <Suspense fallback={<p role="status">Loading mastery progress…</p>}><LazyQuizMastery bank={bank} attempts={snapshot.attempts} stats={stats} pending={pending > 0} onPractice={(selected, label) => {
           const wanted = new Set(selected.map(q => q.objective));

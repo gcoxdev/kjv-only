@@ -1,4 +1,5 @@
 import type { QuizAfterReadingMode } from "@/lib/quiz/types";
+import { QuizRewardPreferences } from "./quiz/quiz-reward-preferences";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -713,6 +714,7 @@ export function SettingsPanelContent({
             </Select>
             <FieldDescription>Offer a quiz when you mark a chapter read. Milestones add book, testament, and whole-Bible quizzes at their final chapters. You can skip or continue later. Bulk progress changes do not open quizzes.</FieldDescription>
           </Field>
+          <QuizRewardPreferences />
           <WorkspaceRecovery />
           <div className="flex flex-col gap-2 border-t pt-3">
             <Field orientation="responsive">
