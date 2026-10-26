@@ -206,7 +206,12 @@ export const STATIC_PAGES: StaticPageDefinition[] = [
           label: "OpenBible.info",
           href: "https://www.openbible.info/geo/",
           description:
-            "Place, topic, cross-reference, and Bible reference-parser data. Quiz map points are adapted under CC BY 4.0; coast shapes are schematic.",
+            "Place, topic, cross-reference, and Bible reference-parser data. Quiz map points and simplified outlines are adapted under CC BY 4.0; underlying OpenStreetMap geography is under ODbL. Maps do not reconstruct historical shorelines.",
+        },
+        {
+          label: "OpenStreetMap contributors",
+          href: "https://www.openstreetmap.org/copyright",
+          description: "Underlying geography used in maps and adapted quiz outlines, licensed under ODbL.",
         },
         {
           label: "Crossway",

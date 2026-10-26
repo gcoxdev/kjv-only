@@ -1,4 +1,4 @@
-import { applyQuizAction, gradeQuizAnswer, validQuizAnswer } from "./engine";
+import { applyQuizAction, gradeQuizAnswer, rebuildQuizAttempts, validQuizAnswer } from "./engine";
 import { record, strings } from "./data";
 import type { QuizAction, QuizAttempt, QuizBackup, QuizBank, QuizSession, QuizSnapshot } from "./types";
 const DATABASE = "kjv-only-quiz-v1";
@@ -66,7 +66,7 @@ export function validSnapshot(value: unknown, bank: QuizBank): value is QuizSnap
   const questions = new Map(bank.questions.map(q => [q.id, q]));
   if (!value.sessions.every(s => {
     if (!record(s) || typeof s.id !== "string" || s.bank !== bank.version || typeof s.label !== "string" || s.label.length > 200 || !["practice", "assessment"].includes(String(s.mode)) || typeof s.done !== "boolean" || !Number.isFinite(s.created) || !Number.isFinite(s.updated) || !Number.isFinite(s.leaseUntil) || (s.owner !== null && typeof s.owner !== "string") || !Array.isArray(s.entries) || !s.entries.length || s.entries.length > 30 || !Number.isInteger(s.index) || (s.index as number) < 0 || (s.index as number) >= s.entries.length) return false;
-    return new Set(s.entries.map(e => record(e) ? e.id : null)).size === s.entries.length && s.entries.every(e => {
+    return new Set(s.entries.map(e => record(e) ? questions.get(String(e.id))?.objective : null)).size === s.entries.length && s.entries.every(e => {
       if (!record(e) || typeof e.id !== "string") return false;
       const q = questions.get(e.id);
       return !!q && e.version === q.version && validQuizAnswer(q, e.answer) && validQuizAnswer(q, e.initial) && strings(e.choices) && e.choices.length === q.choices.length && new Set(e.choices).size === q.choices.length && e.choices.every(c => q.choices.includes(c)) && typeof e.submitted === "boolean" && typeof e.assisted === "boolean" && typeof e.skipped === "boolean" && ["none", "passage", "answer"].includes(String(e.help)) && (!s.done || e.submitted);
@@ -106,13 +106,7 @@ export function importQuizBackup(bank: QuizBank, backup: QuizBackup) { return ch
   const ids = new Set(state.attempts.map(a => a.id));
   state.attempts.push(...backup.attempts.filter(a => !ids.has(a.id) && !existing.has(a.session)));
   // Recompute points over the merged evidence so two devices' first-learning rewards cannot stack.
-  const evidence = [...state.attempts].sort((a, b) => a.time - b.time || a.id.localeCompare(b.id));
-  state.attempts = [];
-  for (const a of evidence) {
-    const s = state.sessions.find(s => s.id === a.session)!, e = s.entries.find(e => e.id === a.qid)!;
-    const replay = { ...s, done: false, mode: "practice" as const, entries: s.entries.map(item => item === e ? { ...item, submitted: false } : item) };
-    state.attempts = applyQuizAction(bank, replay, state.attempts, { type: "submit", qid: a.qid, answer: a.answer, skip: a.skipped }, a.time).attempts;
-  }
+  state.attempts = rebuildQuizAttempts(bank, state);
 }); }
 export async function exportQuizData(): Promise<QuizSnapshot> { const db = await openDatabase(), tx = db.transaction(["sessions", "attempts"], "readonly"); const [sessions, attempts] = await Promise.all([readStore<QuizSession>(tx.objectStore("sessions")), readStore<QuizAttempt>(tx.objectStore("attempts"))]); return { sessions, attempts }; }
 export async function resetQuizData() { const db = await openDatabase(); await new Promise<void>((resolve, reject) => { const tx = db.transaction(["sessions", "attempts"], "readwrite"); tx.objectStore("sessions").clear(); tx.objectStore("attempts").clear(); tx.oncomplete = () => { notify(); channel?.postMessage("changed"); resolve(); }; tx.onabort = () => reject(tx.error); }); }

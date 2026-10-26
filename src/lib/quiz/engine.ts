@@ -1,7 +1,7 @@
 import { BIBLE_BOOKS } from "@/lib/bible-books";
 import { BOOK_ICON_CODES } from "@/lib/references";
 import { createId } from "@/lib/reader-layout";
-import type { QuizAction, QuizAnswer, QuizAttempt, QuizBank, QuizEntry, QuizFilters, QuizQuestion, QuizReference, QuizSession, QuizSkill } from "./types";
+import type { QuizAction, QuizAnswer, QuizAttempt, QuizBank, QuizEntry, QuizFilters, QuizQuestion, QuizReference, QuizSession, QuizSkill, QuizSnapshot } from "./types";
 export const QUIZ_BANK_URL = "/data/quiz-pilot-v1.json";
 export function quizReferenceCode(reference: QuizReference) {
   const code = BOOK_ICON_CODES[BIBLE_BOOKS.findIndex(book => book.name === reference.book)];
@@ -11,18 +11,29 @@ export function quizReferenceCode(reference: QuizReference) {
 export const DAY = 86_400_000;
 export const QUIZ_SKILLS: Record<QuizSkill, string> = { Comprehension: "Passage comprehension", Vocabulary: "Vocabulary", Structure: "Bible structure", Sequence: "Event sequence", Family: "People and family", Geography: "Geography" };
 export const QUIZ_KINDS = { choice: "Multiple choice", text: "Short answer", order: "Ordering", timeline: "Timeline", family: "Family tree", match: "Matching", map: "Map" };
+export function quizScopeLabel(q: QuizQuestion) {
+  if (q.scopeLevel === "chapter") return `${q.book} ${q.chapter}`;
+  if (q.scopeLevel === "book") return `${q.book} · book connections`;
+  return q.scopeLevel === "bible" ? "Whole Bible" : q.testament === "OT" ? "Old Testament" : "New Testament";
+}
 export function normalizeQuizAnswer(value: string) { return value.normalize("NFKC").toLowerCase().replace(/[’‘]/g, "'").replace(/[.,!?;:"']/g, "").replace(/\s+/g, " ").trim(); }
 export function isArrangement(q: QuizQuestion) { return ["order", "timeline", "family", "match"].includes(q.kind); }
+export function quizFamilyRoot(q: QuizQuestion) { return q.kind === "family" ? q.slots?.[0].match(/^Son of (.+)$/)?.[1] : undefined; }
 export function gradeQuizAnswer(q: QuizQuestion, answer: QuizAnswer) {
   if (q.kind === "text") return typeof answer === "string" && Array.isArray(q.answer) && q.answer.some(a => normalizeQuizAnswer(a) === normalizeQuizAnswer(answer));
   if (isArrangement(q)) return Array.isArray(answer) && Array.isArray(q.answer) && answer.length === q.answer.length && q.answer.every((a, i) => a === answer[i]);
   return answer === q.answer;
 }
 export function quizAnswerLabel(q: QuizQuestion) { return q.kind === "text" ? q.answer[0] : Array.isArray(q.answer) ? q.answer.join(["match"].includes(q.kind) ? "; " : " → ") : q.answer; }
+// A reviewed alternate form assesses the same objective and earns the same credit.
+export function quizObjectives(questions: readonly QuizQuestion[]) {
+  const seen = new Set<string>();
+  return questions.filter(q => { if (seen.has(q.objective)) return false; seen.add(q.objective); return true; });
+}
 export function quizStats(bank: QuizBank, attempts: QuizAttempt[], now = Date.now()) {
   const groups = new Map<string, QuizAttempt[]>();
   for (const a of attempts) { const list = groups.get(a.objective) ?? []; list.push(a); groups.set(a.objective, list); }
-  return new Map(bank.questions.map(q => {
+  return new Map(quizObjectives(bank.questions).map(q => {
     const history = (groups.get(q.objective) ?? []).filter(a => a.version === q.version).sort((a, b) => a.time - b.time);
     const successes = history.filter(a => a.correct && !a.assisted), first = successes[0], last = history.at(-1);
     const mastered = !!first && successes.some(a => a.session !== first.session && a.time - first.time >= 7 * DAY);
@@ -33,25 +44,56 @@ export function quizStats(bank: QuizBank, attempts: QuizAttempt[], now = Date.no
 export function filterQuizQuestions(bank: QuizBank, filters: QuizFilters, readChapters: ReadonlySet<string>) {
   return bank.questions.filter(q => {
     if (filters.skill !== "all" && q.skill !== filters.skill || filters.difficulty !== "all" && q.difficulty !== filters.difficulty) return false;
+    if (filters.scope !== "chapter" && filters.content === "connections" && q.scopeLevel === "chapter") return false;
     if (filters.readOnly && (q.contexts.length === 0 || q.contexts.some(c => !readChapters.has(`${bank.books.indexOf(c.book)}:${c.chapter - 1}`)))) return false;
     if (filters.scope === "bible") return true;
     if (filters.scope === "OT" || filters.scope === "NT") return q.scopeLevel !== "bible" && q.testament === filters.scope && q.contexts.every(c => (bank.books.indexOf(c.book) < 39 ? "OT" : "NT") === filters.scope);
-    return q.scopeLevel === "chapter" && q.book === filters.book && q.contexts.every(c => c.book === filters.book && (filters.scope === "book" || c.chapter === filters.chapter)) && (filters.scope === "book" || q.chapter === filters.chapter);
+    if (filters.scope === "book") return ["chapter", "book"].includes(q.scopeLevel) && q.book === filters.book && q.contexts.every(c => c.book === filters.book);
+    return q.scopeLevel === "chapter" && q.book === filters.book && q.chapter === filters.chapter && q.contexts.every(c => c.book === filters.book && c.chapter === filters.chapter);
   });
 }
 export function shuffleQuiz<T>(values: readonly T[], random = Math.random) { const a = [...values]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 export function selectQuizQuestions(bank: QuizBank, pool: QuizQuestion[], attempts: QuizAttempt[], count: number, random = Math.random) {
-  const stats = quizStats(bank, attempts), rest = shuffleQuiz(pool, random), selected: QuizQuestion[] = [], books = new Map<string, number>();
-  while (rest.length && selected.length < count) {
-    rest.sort((a, b) => (books.get(a.book) ?? 0) - (books.get(b.book) ?? 0) || Number(!!stats.get(a.objective)?.learned && !stats.get(a.objective)?.due) - Number(!!stats.get(b.objective)?.learned && !stats.get(b.objective)?.due));
-    const q = rest.shift()!;
-    if (selected.some(p => p.objective === q.objective || p.conflicts.includes(q.id) || q.conflicts.includes(p.id))) continue;
+  const stats = quizStats(bank, attempts), selected: QuizQuestion[] = [], books = new Map<string, number>();
+  const candidates = shuffleQuiz(pool, random).map(q => {
+    const progress = stats.get(q.objective);
+    return { q, learnedNotDue: Number(!!progress?.learned && !progress.due), repeatedForm: Number(progress?.attempts.at(-1)?.qid === q.id) };
+  });
+  const objectives = new Map(bank.questions.map(q => [q.id, q.objective]));
+  const conflicts = new Map<string, Set<string>>();
+  for (const q of bank.questions) {
+    const group = conflicts.get(q.objective) ?? new Set<string>();
+    conflicts.set(q.objective, group);
+    for (const id of q.conflicts) {
+      const other = objectives.get(id)!;
+      group.add(other);
+      const reverse = conflicts.get(other) ?? new Set<string>();
+      reverse.add(q.objective); conflicts.set(other, reverse);
+    }
+  }
+  const excluded = new Set<string>();
+  // Preserve shuffled tie order without repeatedly sorting the entire large bank.
+  while (selected.length < count) {
+    let best: typeof candidates[number] | undefined;
+    let bestBookCount = Infinity;
+    for (const candidate of candidates) {
+      if (excluded.has(candidate.q.objective)) continue;
+      const bookCount = books.get(candidate.q.book) ?? 0;
+      if (!best || bookCount < bestBookCount || bookCount === bestBookCount && (candidate.learnedNotDue < best.learnedNotDue || candidate.learnedNotDue === best.learnedNotDue && candidate.repeatedForm < best.repeatedForm)) {
+        best = candidate; bestBookCount = bookCount;
+      }
+    }
+    if (!best) break;
+    const q = best.q;
     selected.push(q); books.set(q.book, (books.get(q.book) ?? 0) + 1);
+    excluded.add(q.objective);
+    for (const other of conflicts.get(q.objective) ?? []) excluded.add(other);
   }
   return selected;
 }
 export function createQuizSession(bank: QuizBank, questions: QuizQuestion[], label: string, mode: QuizSession["mode"], owner: string, now = Date.now()): QuizSession {
   if (!questions.length) throw new Error("No questions match these filters.");
+  if (quizObjectives(questions).length !== questions.length) throw new Error("A quiz can assess each objective only once.");
   return { id: createId(), bank: bank.version, label, mode, index: 0, done: false, created: now, updated: now, owner, leaseUntil: now + 60_000,
     entries: questions.map(q => {
       let answer: QuizAnswer = "";
@@ -67,7 +109,7 @@ export function validQuizAnswer(q: QuizQuestion, answer: unknown): answer is Qui
   return answer.every(a => a === "" || q.choices.includes(a));
 }
 export function hasQuizAnswer(q: QuizQuestion, answer: QuizAnswer) { return validQuizAnswer(q, answer) && (Array.isArray(answer) ? answer.every(Boolean) : !!answer.trim()); }
-function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, attempts: QuizAttempt[], now: number) {
+function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, attempts: QuizAttempt[], now: number, historicalPoints?: number) {
   const id = `${session.id}:${entry.id}`;
   if (attempts.some(a => a.id === id)) return;
   const q = bank.questions.find(q => q.id === entry.id)!;
@@ -75,10 +117,28 @@ function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, a
   const correct = !entry.skipped && gradeQuizAnswer(q, entry.answer);
   let points = 0;
   if (correct && !entry.assisted) {
-    if (!stats.learned) points = { Easy: 10, Medium: 20, Hard: 30 }[q.difficulty];
+    if (!stats.learned) {
+      points = { Easy: 10, Medium: 20, Hard: 30 }[q.difficulty];
+      // Older/offline releases may have awarded a former difficulty's value.
+      // Preserve it only for the first qualifying reward in the merged history.
+      if (historicalPoints !== undefined && q.previousLearningPoints?.includes(historicalPoints)) points = historicalPoints;
+    }
     else if (stats.due && !stats.attempts.some(a => a.points === 5 && new Date(a.time).toDateString() === new Date(now).toDateString())) points = 5;
   }
   attempts.push({ id, session: session.id, qid: q.id, objective: q.objective, version: q.version, answer: structuredClone(entry.answer), correct, assisted: entry.assisted, skipped: entry.skipped, time: now, points });
+}
+// Replay validated evidence without trusting duplicate rewards or changing saved sessions.
+export function rebuildQuizAttempts(bank: QuizBank, snapshot: QuizSnapshot) {
+  const sessions = new Map(snapshot.sessions.map(session => [session.id, session]));
+  const attempts: QuizAttempt[] = [];
+  for (const attempt of [...snapshot.attempts].sort((a, b) => a.time - b.time || a.id.localeCompare(b.id))) {
+    const session = sessions.get(attempt.session)!;
+    const entry = session.entries.find(entry => entry.id === attempt.qid)!;
+    const question = bank.questions.find(question => question.id === entry.id)!;
+    if (!entry.skipped && !hasQuizAnswer(question, entry.answer)) throw new Error("Incomplete submitted answer in quiz history.");
+    creditAttempt(bank, session, entry, attempts, attempt.time, attempt.points);
+  }
+  return attempts;
 }
 export function applyQuizAction(bank: QuizBank, original: QuizSession, originalAttempts: QuizAttempt[], action: QuizAction, now = Date.now()) {
   const session = structuredClone(original), attempts = [...originalAttempts];

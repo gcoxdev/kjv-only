@@ -18,6 +18,7 @@
     "build:study-enrichment": "node --experimental-strip-types scripts/build-study-enrichment.ts",
     "build:map-photos": "node scripts/fetch-map-photos.mjs",
     "build:maps": "node --experimental-strip-types scripts/build-map-json.mjs",
+    "build:quiz-maps": "node scripts/build-quiz-maps.mjs",
     "build:strongs": "node scripts/build-strongs-compact.mjs",
     "build:topics": "node scripts/build-topic-scriptures.mjs",
     "build:topics-index": "node scripts/build-topics-index.mjs",

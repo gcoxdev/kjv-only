@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import type { QuizSnapshot } from "../src/lib/quiz/types";
+import type { QuizBank, QuizQuestion, QuizSnapshot } from "../src/lib/quiz/types";
 
 async function quizPanel(page: Page, width = 1280) {
   await page.setViewportSize({ width, height: 900 });
@@ -21,16 +21,26 @@ async function readData(page: Page): Promise<QuizSnapshot> {
     };
   }));
 }
+async function importPracticeSession(page: Page, quiz: ReturnType<Page['getByRole']>, bank: QuizBank, questions: QuizQuestion[], id: string) {
+  const time=Date.now();
+  const fixture:QuizSnapshot={sessions:[{id,bank:bank.version,label:'Reviewed exercise verification',mode:'practice',index:0,done:false,created:time,updated:time,owner:null,leaseUntil:0,
+    entries:questions.map(q=>{
+      const initial=['family','match'].includes(q.kind)?q.slots!.map(()=>''):['order','timeline'].includes(q.kind)?[...(q.answer as string[])].reverse():'';
+      return {id:q.id,version:q.version,answer:structuredClone(initial),initial,choices:q.choices,submitted:false,assisted:false,skipped:false,help:'none'};
+    })}],attempts:[]};
+  const backup={type:'kjv-only-quiz',schema:1,bank:bank.version,exported:new Date(time).toISOString(),...fixture};
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles({name:`${id}.json`,mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});
+  await page.getByRole('button',{name:'Confirm',exact:true}).click();
+  await expect.poll(async()=> (await readData(page)).sessions.some(s=>s.id===id)).toBe(true);
+  await quiz.getByRole('button',{name:'Start',exact:true}).click();
+  await quiz.getByRole('button',{name:'Continue',exact:true}).click();
+}
 async function openJaredFamilyExercise(page: Page, quiz: ReturnType<Page['getByRole']>) {
-  await quiz.getByRole('button',{name:'Family tree',exact:true}).click();
-  const session=(await readData(page)).sessions.find(s=>!s.done)!;
-  const index=session.entries.findIndex(entry=>entry.id==='genealogy-tree');
-  expect(index, 'The family example includes the Genesis 5 reference fixture').toBeGreaterThanOrEqual(0);
-  // Exercises are shuffled; reference-specific checks need this particular passage.
-  for(let i=0;i<index;i++) {
-    await quiz.getByRole('button',{name:'Skip',exact:true}).click();
-    await quiz.getByRole('button',{name:'Next',exact:true}).click();
-  }
+  const bank:QuizBank=await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  // Reference display tests use this passage, regardless of which other family
+  // exercises the normal session selector would choose or exclude for overlap.
+  await importPracticeSession(page,quiz,bank,[bank.questions.find(q=>q.id==='genealogy-tree')!],'jared-reference');
 }
 async function solveCurrent(page: Page, quiz: ReturnType<Page['getByRole']>) {
   const data = await readData(page), session = data.sessions.find(s => !s.done)!;
@@ -105,8 +115,12 @@ test('takeover makes the other view read-only and importing twice is idempotent'
   const second=await context.newPage();const other=await quizPanel(second);
   await other.getByRole('button',{name:'Continue',exact:true}).click();await second.getByRole('button',{name:'Confirm',exact:true}).click();await expect(quiz.getByText('This session is open in another view. Your answers are protected.')).toBeVisible();
   await expect(quiz.getByRole('button', {name:'Submit answer',exact:true})).toBeDisabled();
-  await solveCurrent(second,other);await other.getByRole('button',{name:'Finish quiz',exact:true}).click();
-  const result=await readData(second);expect(result.attempts).toHaveLength(1);
+  const count=(await readData(second)).sessions.find(s=>!s.done)!.entries.length;
+  for(let i=0;i<count;i++) {
+    await solveCurrent(second,other);
+    await other.getByRole('button',{name:i===count-1?'Finish quiz':'Next',exact:true}).click();
+  }
+  const result=await readData(second);expect(result.attempts).toHaveLength(count);
   await other.getByRole('button', {name:'Progress',exact:true}).click();
   const downloadPromise=second.waitForEvent('download');
   await other.getByRole('button', {name:'Export progress',exact:true}).click();
@@ -118,7 +132,7 @@ test('takeover makes the other view read-only and importing twice is idempotent'
   for(let i=0;i<2;i++) {
     await other.getByLabel('Import quiz backup', {exact:true}).setInputFiles(backupPath!);
     await second.getByRole('button', {name:'Confirm',exact:true}).click();
-    await expect.poll(async()=> (await readData(second)).attempts.length).toBe(1);
+    await expect.poll(async()=> (await readData(second)).attempts.length).toBe(count);
   }
   const imported=await readData(second);
   expect(imported.attempts[0].points).toBe(result.attempts[0].points);
@@ -143,10 +157,10 @@ test('large-bank browsing pages results, searches all questions, and opens chapt
   const results = quiz.getByRole('list', {name:'Question results'});
   const pages = quiz.getByRole('navigation', {name:'Question pages'});
   await expect(results.getByRole('listitem')).toHaveCount(25);
-  await expect(pages).toContainText('Questions 1–25 of 8357');
+  await expect(pages).toContainText('Questions 1–25 of 8971');
   await expect(pages.getByRole('button', {name:'Previous', exact:true})).toBeDisabled();
   await pages.getByRole('button', {name:'Next', exact:true}).click();
-  await expect(pages).toContainText('Questions 26–50 of 8357');
+  await expect(pages).toContainText('Questions 26–50 of 8971');
   await expect(results.getByRole('listitem')).toHaveCount(25);
 
   // An objective near the end of the bank must be searchable from any page.
@@ -162,7 +176,7 @@ test('large-bank browsing pages results, searches all questions, and opens chapt
   await expect(pages).toContainText('No questions match your search.');
   await expect(pages.getByRole('button', {name:'Next', exact:true})).toBeDisabled();
   await search.fill('');
-  await expect(pages).toContainText('Questions 1–25 of 8357');
+  await expect(pages).toContainText('Questions 1–25 of 8971');
 
   await quiz.getByRole('button', {name:'Progress', exact:true}).click();
   const chapters = quiz.locator('[data-slot="card"]').filter({hasText:'Chapter objectives'});
@@ -268,7 +282,7 @@ for (const sample of [
   { book: 'Zechariah', chapter: '14', count: 8, prefix: '38-14-' },
 ]) test(`${sample.book} expanded chapter coverage is selectable and uses shared KJV evidence`,async({page})=>{
   const quiz=await quizPanel(page);
-  await expect(quiz).toContainText('8357 objectives');
+  await expect(quiz).toContainText('8965 objectives');
   await quiz.getByRole('combobox',{name:'Book',exact:true}).click();
   await page.getByRole('option',{name:sample.book,exact:true}).click();
   await quiz.getByRole('combobox',{name:'Chapter',exact:true}).click();
@@ -315,4 +329,280 @@ for (const sample of [
   await page.reload();
   await expect(quiz.getByRole('button',{name:'Start quiz',exact:true})).toBeVisible();
   expect((await readData(page)).attempts).toEqual(finished.attempts);
+});
+
+test('broader connections respect scope and keep progress outside chapter objectives', async ({page}) => {
+  const quiz = await quizPanel(page, 390);
+  await quiz.getByRole('combobox', {name:'Scope', exact:true}).click();
+  await page.getByRole('option', {name:'Whole Bible', exact:true}).click();
+  await quiz.getByRole('combobox', {name:'Question set', exact:true}).click();
+  await page.getByRole('option', {name:'Broader connections', exact:true}).click();
+  await quiz.getByRole('combobox', {name:'Skill', exact:true}).click();
+  await page.getByRole('option', {name:'Bible structure', exact:true}).click();
+  await expect(quiz.getByText('Up to 5 questions.', {exact:false})).toBeVisible();
+  await quiz.getByRole('button', {name:'Start quiz', exact:true}).click();
+  const selected = (await readData(page)).sessions.find(s => !s.done)!;
+  expect(selected.label).toBe("Whole Bible · connections sample");
+  // The Gospel openings and ordering exercises share evidence. Five candidates
+  // therefore produce four questions without disclosing each other's answers.
+  const selectedIds = selected.entries.map(e => e.id);
+  expect(selectedIds).toHaveLength(4);
+  expect(selectedIds).toEqual(expect.arrayContaining(['bible-order','law-order','connections-numbers-camps-and-offering-groups']));
+  expect(selectedIds.filter(id => ['connections-nt-gospel-openings','gospel-order'].includes(id))).toHaveLength(1);
+  for (let i = 0; i < 4; i++) {
+    await solveCurrent(page, quiz);
+    await quiz.getByRole('button', {name:i === 3 ? 'Finish quiz' : 'Next', exact:true}).click();
+  }
+  await quiz.getByRole('button', {name:'Progress', exact:true}).click();
+  const broader = quiz.locator('[data-slot="card"]').filter({has:page.getByText('Broader connections', {exact:true})});
+  await broader.locator('summary').click();
+  await expect(broader.locator('li')).toHaveCount(414);
+  await expect(broader.locator('li').filter({hasText:'Learned'})).toHaveCount(4);
+  const chapters = quiz.locator('[data-slot="card"]').filter({has:page.getByText('Chapter objectives', {exact:true})});
+  await chapters.locator('summary').filter({hasText:/^Genesis 1$/}).click();
+  await expect(chapters.getByText('Arrange the first five books in their KJV order.', {exact:false})).toHaveCount(0);
+  await quiz.getByRole('button', {name:'Start', exact:true}).click();
+  await quiz.getByRole('combobox', {name:'Scope', exact:true}).click();
+  await page.getByRole('option', {name:'New Testament', exact:true}).click();
+  await quiz.getByRole('combobox', {name:'Difficulty', exact:true}).click();
+  await page.getByRole('option', {name:'Medium', exact:true}).click();
+  await expect(quiz.getByText('Up to 1 question.', {exact:false})).toBeVisible();
+  await quiz.getByRole('button', {name:'Start quiz', exact:true}).click();
+  expect((await readData(page)).sessions.find(s => !s.done)!.entries.map(e => e.id)).toEqual(['connections-nt-gospel-openings']);
+  await solveCurrent(page, quiz);
+  await expect(quiz.getByRole('region', {name:'Answer feedback'})).toContainText('Correct');
+  await quiz.getByRole('button', {name:'Finish quiz', exact:true}).click();
+  await quiz.getByRole('button', {name:'Start another quiz', exact:true}).click();
+  await quiz.getByRole('combobox', {name:'Difficulty', exact:true}).click();
+  await page.getByRole('option', {name:'Mixed difficulty', exact:true}).click();
+  await quiz.getByRole('combobox', {name:'Scope', exact:true}).click();
+  await page.getByRole('option', {name:'Book', exact:true}).click();
+  await expect(quiz.getByRole('button', {name:'Start quiz', exact:true})).toBeDisabled();
+  await quiz.getByRole('combobox', {name:'Scope', exact:true}).click();
+  await page.getByRole('option', {name:'Chapter', exact:true}).click();
+  await expect(quiz.getByRole('combobox', {name:'Question set', exact:true})).toHaveCount(0);
+  await quiz.getByRole('combobox', {name:'Skill', exact:true}).click();
+  await page.getByRole('option', {name:'All skills', exact:true}).click();
+  await expect(quiz.getByRole('button', {name:'Start quiz', exact:true})).toBeEnabled();
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+});
+
+for (const sample of [
+  { book: 'Ruth', skill: 'Event sequence', id: 'connections-ruth' },
+  { book: 'John', skill: 'Vocabulary', id: 'connections-explained-terms' },
+  { book: 'Revelation', skill: 'Passage comprehension', id: 'connections-revelation-promises' },
+  { book: 'Habakkuk', skill: 'Passage comprehension', id: 'connections-habakkuk-responses' },
+  { book: 'Philemon', skill: 'People and family', id: 'connections-philemon-people' },
+]) test(`reviewed book connection works and resumes on mobile: ${sample.book}`, async ({page}) => {
+  const quiz = await quizPanel(page, 390);
+  const bank:QuizBank=await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const question=bank.questions.find(q=>q.id===sample.id)!;
+  expect(question.book).toBe(sample.book);
+  expect(question.scopeLevel).toBe('book');
+  // Exercise rendering/resume uses a fixed reviewed question. Filtering and
+  // overlap-aware selection are covered separately as each book's pool grows.
+  await importPracticeSession(page,quiz,bank,[question],`book-${sample.id}`);
+  expect((await readData(page)).sessions.find(s => !s.done)!.entries.map(e => e.id)).toEqual([sample.id]);
+  await solveCurrent(page, quiz);
+  await expect(quiz.getByRole('region', {name:'Answer feedback'})).toContainText('Correct');
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  const saved = await readData(page);
+  expect(saved.attempts).toHaveLength(1);
+  await page.reload();
+  await quiz.getByRole('button', {name:'Continue', exact:true}).click();
+  if (await page.getByRole('dialog').isVisible()) await page.getByRole('button', {name:'Confirm', exact:true}).click();
+  await expect(quiz.getByRole('region', {name:'Answer feedback'})).toContainText('Correct');
+  await quiz.getByRole('button', {name:'Finish quiz', exact:true}).click();
+  await expect(quiz.getByText('Session complete', {exact:true})).toBeVisible();
+  expect((await readData(page)).attempts).toEqual(saved.attempts);
+});
+
+test('each family tree displays its own starting ancestor on mobile', async ({page}) => {
+  const quiz = await quizPanel(page,390);
+  const bank:QuizBank=await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  await importPracticeSession(page,quiz,bank,bank.questions.filter(q=>q.kind==='family'),'all-family-roots');
+  const session = (await readData(page)).sessions.find(s => !s.done)!;
+  const roots: Record<string,string> = {'08-4-8':'Boaz','connections-levi-priestly-line':'Levi','genealogy-tree':'Jared','connections-adam-seth-line':'Adam','connections-cain-descendant-line':'Cain','connections-shem-descendant-line':'Shem','connections-abraham-judah-line':'Abraham','connections-david-judah-kings-line':'David'};
+  expect(session.entries.map(e => e.id).sort()).toEqual(Object.keys(roots).sort());
+  for (let i=0;i<session.entries.length;i++) {
+    const id = session.entries[i].id;
+    await expect(quiz.locator('[data-slot=quiz-family-root]')).toHaveText(roots[id]);
+    if (id === 'connections-levi-priestly-line') await expect(quiz.getByRole('combobox')).toHaveCount(5);
+    await solveCurrent(page,quiz);
+    await expect(quiz.getByRole('region',{name:'Answer feedback'})).toContainText('Correct');
+    await quiz.getByRole('button',{name:i===session.entries.length-1?'Finish quiz':'Next',exact:true}).click();
+  }
+  expect((await readData(page)).attempts.every(a => a.correct)).toBe(true);
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+});
+
+test('alternate recall preserves existing credit, deduplicates progress, and survives backup import', async ({page}) => {
+  const quiz = await quizPanel(page, 390);
+  const bank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const q = bank.questions.find((q: {id: string}) => q.id === '08-1-4');
+  const time = Date.now() - 2 * 86_400_000;
+  const original: QuizSnapshot = {
+    sessions: [{id:'old-ruth-session',bank:bank.version,label:'Existing Ruth practice',mode:'practice',index:0,done:true,created:time,updated:time,owner:null,leaseUntil:0,
+      entries:[{id:q.id,version:q.version,answer:q.answer,initial:'',choices:q.choices,submitted:true,assisted:false,skipped:false,help:'none'}]}],
+    attempts:[{id:`old-ruth-session:${q.id}`,session:'old-ruth-session',qid:q.id,objective:q.objective,version:q.version,answer:q.answer,correct:true,assisted:false,skipped:false,time,points:10}],
+  };
+  await page.evaluate(data => new Promise<void>((resolve,reject) => {
+    const request = indexedDB.open('kjv-only-quiz-v1',1);
+    request.onsuccess = () => {
+      const db = request.result, tx = db.transaction(['sessions','attempts'],'readwrite');
+      for (const s of data.sessions) tx.objectStore('sessions').put(s);
+      for (const a of data.attempts) tx.objectStore('attempts').put(a);
+      tx.oncomplete = () => { db.close(); resolve(); }; tx.onabort = () => reject(tx.error);
+    };
+    request.onerror = () => reject(request.error);
+  }), original);
+  await page.reload();
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await expect(quiz).toContainText('8965 available objectives');
+  await quiz.getByRole('button',{name:'Practice due items',exact:true}).click();
+  expect((await readData(page)).sessions.find(s => !s.done)!.entries.map(e => e.id)).toEqual(['08-1-4-recall']);
+  await solveCurrent(page,quiz);
+  await expect(quiz.getByRole('region',{name:'Answer feedback'})).toContainText('Correct');
+  await quiz.getByRole('button',{name:'Finish quiz',exact:true}).click();
+  const result = await readData(page);
+  expect(result.attempts.map(a => a.points).sort((a,b) => a-b)).toEqual([5,10]);
+  expect(new Set(result.attempts.map(a => a.objective)).size).toBe(1);
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  const skills = quiz.locator('[data-slot=card]').filter({hasText:'Skills and difficulty'});
+  await expect(skills).toContainText('Passage comprehension: 1 learned');
+  const download = page.waitForEvent('download');
+  await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
+  const path = await (await download).path();
+  await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm',exact:true}).click();
+  await expect.poll(async () => (await readData(page)).attempts.length).toBe(0);
+  for (let i=0;i<2;i++) {
+    await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
+    await page.getByRole('button',{name:'Confirm',exact:true}).click();
+    await expect.poll(async () => (await readData(page)).attempts.length).toBe(2);
+  }
+  expect((await readData(page)).attempts.reduce((sum,a) => sum+a.points,0)).toBe(15);
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+});
+
+test('difficulty corrections retain old backup rewards and resume an older session', async ({page}) => {
+  const quiz = await quizPanel(page,390);
+  const bank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const oldQuestion = bank.questions.find((q: {id:string}) => q.id === '03-19-5');
+  const pendingQuestion = bank.questions.find((q: {id:string}) => q.id === '66-21-7');
+  expect(oldQuestion.difficulty).toBe('Easy');
+  expect(pendingQuestion.difficulty).toBe('Easy');
+  const time = Date.now() - 2 * 86_400_000;
+  const original: QuizSnapshot = {
+    sessions: [
+      {id:'old-hard-completed',bank:bank.version,label:'Previously completed Hard question',mode:'practice',index:0,done:true,created:time,updated:time,owner:null,leaseUntil:0,
+        entries:[{id:oldQuestion.id,version:1,answer:oldQuestion.answer,initial:'',choices:oldQuestion.choices,submitted:true,assisted:false,skipped:false,help:'none'}]},
+      {id:'old-hard-pending',bank:bank.version,label:'Previously started Hard question',mode:'practice',index:0,done:false,created:time,updated:time,owner:null,leaseUntil:0,
+        entries:[{id:pendingQuestion.id,version:1,answer:'',initial:'',choices:pendingQuestion.choices,submitted:false,assisted:false,skipped:false,help:'none'}]},
+    ],
+    attempts:[{id:`old-hard-completed:${oldQuestion.id}`,session:'old-hard-completed',qid:oldQuestion.id,objective:oldQuestion.objective,version:1,answer:oldQuestion.answer,correct:true,assisted:false,skipped:false,time,points:30}],
+  };
+  const backup = {type:'kjv-only-quiz',schema:1,bank:bank.version,exported:new Date(time).toISOString(),...original};
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  for (let i=0;i<2;i++) {
+    await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles({name:'old-hard-progress.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});
+    await page.getByRole('button',{name:'Confirm',exact:true}).click();
+    await expect.poll(async () => (await readData(page)).attempts.map(a => a.points)).toEqual([30]);
+  }
+  await quiz.getByRole('button',{name:'Start',exact:true}).click();
+  await quiz.getByRole('button',{name:'Continue',exact:true}).click();
+  await expect(quiz.getByText('Easy',{exact:true})).toBeVisible();
+  await solveCurrent(page,quiz);
+  await quiz.getByRole('button',{name:'Finish quiz',exact:true}).click();
+  const completed = await readData(page);
+  expect(completed.attempts.find(a => a.qid === oldQuestion.id)?.points).toBe(30);
+  expect(completed.attempts.find(a => a.qid === pendingQuestion.id)?.points).toBe(10);
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  const download = page.waitForEvent('download');
+  await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
+  const path = await (await download).path();
+  await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm',exact:true}).click();
+  await expect.poll(async () => (await readData(page)).attempts.length).toBe(0);
+  for (let i=0;i<2;i++) {
+    await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
+    await page.getByRole('button',{name:'Confirm',exact:true}).click();
+    await expect.poll(async () => (await readData(page)).attempts.reduce((sum,a) => sum+a.points,0)).toBe(40);
+  }
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+});
+
+for (const width of [390,1280]) test(`regional quiz maps work with keyboard and equivalent answers offline at ${width}px`, async ({page,context}) => {
+  test.setTimeout(180_000);
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+  const quiz = await quizPanel(page,width);
+  const bank:QuizBank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const maps = bank.questions.filter(q=>q.kind==='map');
+  expect(maps).toHaveLength(12);
+  // Import a deterministic unfinished session to exercise every real map, including
+  // related maps that the normal selector intentionally separates across sessions.
+  await importPracticeSession(page,quiz,bank,maps,'all-map-frames');
+  await context.setOffline(true);
+  const seen=new Set<string>();
+  for (let i=0;i<maps.length;i++) {
+    const q=maps[i], answerIndex=q.choices.indexOf(String(q.answer));
+    const svg=quiz.locator('svg[role=group]');
+    await expect(svg).toBeVisible();
+    const marker=svg.getByRole('button',{name:q.mapLabels![answerIndex],exact:true});
+    const choice=quiz.getByRole('button',{name:`${q.answer}. ${q.mapLabels![answerIndex].slice(4)}`,exact:true});
+    await expect(marker).toHaveAttribute('aria-pressed','false');
+    await expect(quiz.getByRole('button',{name:'Submit answer',exact:true})).toBeDisabled();
+    const region=q.mapRegion??'north-aegean';
+    if (!seen.has(region)) {
+      seen.add(region);
+      await svg.screenshot({path:test.info().outputPath(`map-${region}-${width}.png`)});
+      const box=(await svg.boundingBox())!;
+      const boxes=await svg.locator('[role=button]').evaluateAll(elements=>elements.map(el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};}));
+      for(const r of boxes) {
+        expect(r.width).toBeGreaterThanOrEqual(24);
+        expect(r.left).toBeGreaterThanOrEqual(box.x);
+        expect(r.right).toBeLessThanOrEqual(box.x+box.width);
+        expect(r.top).toBeGreaterThanOrEqual(box.y);
+        expect(r.bottom).toBeLessThanOrEqual(box.y+box.height);
+      }
+      const scan=await new AxeBuilder({page}).include('[aria-label="Bible quiz"]').analyze();
+      expect(scan.violations.filter(v=>['serious','critical'].includes(v.impact??''))).toEqual([]);
+    }
+    if (i%2===0) {await marker.focus();await page.keyboard.press(i%4===0?'Enter':'Space');}
+    else await choice.click();
+    await expect(marker).toHaveAttribute('aria-pressed','true');
+    await expect(choice).toHaveAttribute('aria-pressed','true');
+    await expect(quiz.getByRole('button',{name:'Submit answer',exact:true})).toBeEnabled();
+    await quiz.getByRole('button',{name:'Submit answer',exact:true}).click();
+    await expect(quiz.getByRole('region',{name:'Answer feedback'})).toContainText('Correct');
+    await expect(marker).toHaveAttribute('aria-disabled','true');
+    await expect(marker).toHaveAttribute('tabindex','-1');
+    expect(await quiz.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
+    await quiz.getByRole('button',{name:i===maps.length-1?'Finish quiz':'Next',exact:true}).click();
+  }
+  expect(seen.size).toBe(6);
+  const result=await readData(page);
+  expect(result.attempts).toHaveLength(maps.length);
+  expect(result.attempts.every(a=>a.correct&&!a.assisted)).toBe(true);
+  expect(errors).toEqual([]);
+  await context.setOffline(false);
+});
+
+test('Genesis book family practice includes the growing cross-chapter pool',async({page})=>{
+  const quiz=await quizPanel(page,390);
+  for (const [label,option] of [['Scope','Book'],['Book','Genesis'],['Question set','Broader connections'],['Skill','People and family']]) {
+    await quiz.getByRole('combobox',{name:label,exact:true}).click();
+    await page.getByRole('option',{name:option,exact:true}).click();
+  }
+  await expect(quiz).toContainText('Up to 2 questions');
+  await quiz.getByRole('button',{name:'Start quiz',exact:true}).click();
+  const session=(await readData(page)).sessions.find(s=>!s.done)!;
+  expect(session.entries.length).toBeGreaterThan(0);
+  expect(session.entries.every(e=>['connections-genesis-wives','connections-abraham-judah-line'].includes(e.id))).toBe(true);
+  for(let i=0;i<session.entries.length;i++) {
+    await solveCurrent(page,quiz);
+    await expect(quiz.getByRole('region',{name:'Answer feedback'})).toContainText('Correct');
+    await quiz.getByRole('button',{name:i===session.entries.length-1?'Finish quiz':'Next',exact:true}).click();
+  }
+  expect(await quiz.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
 });
