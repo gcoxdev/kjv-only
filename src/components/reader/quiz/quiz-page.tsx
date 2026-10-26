@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeftIcon, DownloadIcon, GraduationCapIcon, UploadIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,9 +24,10 @@ import { useReadChapters } from "@/hooks/use-read-chapters";
 import { cn } from "@/lib/utils";
 import type { QuizAction, QuizAnswer, QuizBackup, QuizBank, QuizEntry, QuizFilters, QuizQuestion, QuizReadingFlow, QuizReadingRequest, QuizSession, QuizSnapshot } from "@/lib/quiz/types";
 import { QuizAnswerControls, QuizEvidence, QuizSelect } from "./quiz-controls";
-import { QuizReview, QuizReviewDate } from "./quiz-review";
+import { QuizReview } from "./quiz-review";
 
 // Keep a failed-to-save draft available if Home unmounts this view. Never mix it into earned credit.
+const LazyQuizMastery = lazy(async () => ({ default: (await import("./quiz-mastery")).QuizMastery }));
 const drafts = new Map<string, QuizAnswer>();
 const QUESTION_PAGE_SIZE = 25;
 function download(value: unknown, name: string) { const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: "application/json" })); const a = document.createElement("a"); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
@@ -45,13 +46,6 @@ function Feedback({ q, entry, points }: { q: QuizQuestion; entry: QuizEntry; poi
     {Array.isArray(entry.answer) && Array.isArray(q.answer) ? <p className="text-xs text-muted-foreground">{entry.answer.filter((a, i) => a === q.answer[i]).length} of {q.answer.length} positions correct. Full correctness is required for this objective.</p> : null}
     <QuizEvidence question={q} />{entry.assisted ? <p className="text-xs text-muted-foreground">Assisted practice does not earn unassisted learning or mastery credit.</p> : null}
   </section>;
-}
-function ObjectiveGroup({ label, questions, stats }: { label: string; questions: QuizQuestion[]; stats: ReturnType<typeof quizStats> }) {
-  const [open, setOpen] = useState(false);
-  return <details onToggle={event => setOpen(event.currentTarget.open)}>
-    <summary className="cursor-pointer text-sm font-medium">{label}</summary>
-    {open ? <ul className="mt-2 flex flex-col gap-2">{questions.map(q => <li key={q.id} className="flex flex-col gap-1 text-xs"><p><strong>{stats.get(q.objective)?.status}</strong> — {q.prompt}</p><p className="text-muted-foreground"><QuizReviewDate progress={stats.get(q.objective)} /></p></li>)}</ul> : null}
-  </details>;
 }
 function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, readingRequest, readingChapters, onFinishReading }: QuizPageProps & { bank: QuizBank }) {
   const [owner] = useState(createId), [snapshot, setSnapshot] = useState<QuizSnapshot | null>(null), [error, setError] = useState<string | null>(null), [pending, setPending] = useState(0);
@@ -107,17 +101,6 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
   const stats = useMemo(() => quizStats(bank, snapshot?.attempts ?? [], reviewNow), [bank, snapshot, reviewNow]);
   const questions = useMemo(() => new Map(bank.questions.map(q => [q.id, q])), [bank]);
   const objectives = useMemo(() => quizObjectives(bank.questions), [bank]);
-  const chapterQuestions = useMemo(() => {
-    const grouped = new Map<string, QuizQuestion[]>();
-    for (const q of objectives) {
-      if (q.scopeLevel !== "chapter") continue;
-      const key = `${q.book}:${q.chapter}`;
-      const group = grouped.get(key);
-      if (group) group.push(q); else grouped.set(key, [q]);
-    }
-    return grouped;
-  }, [objectives]);
-  const broaderQuestions = useMemo(() => objectives.filter(q => q.scopeLevel !== "chapter"), [objectives]);
   const matchingQuestions = useMemo(() => {
     const query = search.trim().toLowerCase();
     return bank.questions.filter(q => `${q.prompt} ${q.book} ${q.id}`.toLowerCase().includes(query));
@@ -238,8 +221,10 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
           start(bank.questions.filter(q => current.get(q.objective)?.[key]), key === "due" ? "Practice due items" : "Review mistakes", "practice");
         }} />
         <Card><CardHeader><CardTitle>Skills and difficulty</CardTitle></CardHeader><CardContent className="flex flex-col gap-3">{[...Object.entries(QUIZ_SKILLS), ...["Easy", "Medium", "Hard"].map(v => [v,v])].map(([key,label]) => { const group = objectives.filter(q => q.skill === key || q.difficulty === key); return <div key={key}><p className="text-sm">{label}: {group.filter(q => stats.get(q.objective)?.learned).length} learned · {group.filter(q => stats.get(q.objective)?.mastered).length}/{group.length} mastered</p><Progress aria-label={`${label} mastery`} value={100 * group.filter(q => stats.get(q.objective)?.mastered).length / group.length} /></div>; })}</CardContent></Card>
-        <Card><CardHeader><CardTitle>Chapter objectives</CardTitle><CardDescription>Initial sets in every chapter; individual sets do not test every detail.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3">{bank.featured.map(c => <ObjectiveGroup key={`${c.book}:${c.chapter}`} label={`${c.book} ${c.chapter}`} questions={chapterQuestions.get(`${c.book}:${c.chapter}`) ?? []} stats={stats} />)}</CardContent></Card>
-        {broaderQuestions.length ? <Card><CardHeader><CardTitle>Broader connections</CardTitle><CardDescription>Book, testament, and whole-Bible objectives are tracked separately from individual chapter sets. Alternate question forms share one objective and its rewards.</CardDescription></CardHeader><CardContent><ObjectiveGroup label={`${broaderQuestions.length} broader objectives`} questions={broaderQuestions} stats={stats} /></CardContent></Card> : null}
+        <Suspense fallback={<p role="status">Loading mastery progress…</p>}><LazyQuizMastery bank={bank} attempts={snapshot.attempts} stats={stats} pending={pending > 0} onPractice={(selected, label) => {
+          const wanted = new Set(selected.map(q => q.objective));
+          start(bank.questions.filter(q => wanted.has(q.objective)), label, "practice");
+        }} /></Suspense>
         <div className="flex flex-wrap gap-2"><Button size="sm" variant="outline" onClick={() => void exportData()}><DownloadIcon data-icon="inline-start" />Export progress</Button><Button size="sm" variant="outline" onClick={() => inputRef.current?.click()} disabled={pending > 0}><UploadIcon data-icon="inline-start" />Import progress</Button><Button size="sm" variant="ghost" disabled={pending > 0} onClick={confirmReset}>Reset quiz progress</Button></div><input ref={inputRef} hidden type="file" accept=".json,application/json" aria-label="Import quiz backup" onChange={e => { void importFile(e.target.files?.[0]); e.target.value = ""; }} />
         <p className="text-xs text-muted-foreground">Stored on this device/browser. Export a backup before clearing browser data or moving devices. First learning earns 10/20/30 points by difficulty; correct due reviews earn 5 points at most once per objective per day.</p>
       </> : null}

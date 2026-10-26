@@ -353,6 +353,11 @@ const HELP_SECTIONS: HelpSection[] = [
         keywords: ["quiz", "after reading", "mark read", "milestone", "sequence", "skip", "resume"],
       },
       {
+        label: "Mastery progress and completion badges",
+        body: "Quiz → Progress → Mastery explorer expands from testament to book to chapter. Each scope includes its chapter objectives and broader connections; objectives citing several chapters or books appear in the smallest broader scope containing those passages. Filter by skill or difficulty, then practice that selection or review its due items. These practice buttons use your chosen session length and may include unread chapters. Completion badges use every objective in a named release, regardless of display filters: Learned requires unassisted correct answers, and Mastered requires correct recall in separate sessions at least seven days apart for every objective. Book, testament, and Bible badges also require complete chapter coverage and broader objectives. Later questions do not remove a badge from an earlier release. Later mistakes prompt review without removing earned badges. Awards restore from quiz-progress backups, and resetting quiz progress removes them. These measure the published quiz curriculum, not exhaustive knowledge of Scripture.",
+        keywords: ["quiz", "mastery", "badge", "completion", "release", "skill", "difficulty", "chapter", "book", "testament"],
+      },
+      {
         label: "How tool accordions behave",
         body:
           "Study tools use accordion sections, with Expand All and Collapse All controls. Clicking a word or verse can automatically open relevant sections and load matching entries; tools still allow their own manual searches.",

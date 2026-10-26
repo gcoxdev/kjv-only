@@ -231,14 +231,17 @@ test('large-bank browsing pages results, searches all questions, and opens chapt
   await expect(pages).toContainText('Questions 1–25 of 8971');
 
   await quiz.getByRole('button', {name:'Progress', exact:true}).click();
-  const chapters = quiz.locator('[data-slot="card"]').filter({hasText:'Chapter objectives'});
-  await expect(chapters.locator('ul li')).toHaveCount(0);
-  const chapter = chapters.locator('details').filter({has: page.locator('summary', {hasText:/^Revelation 21$/})});
-  await chapter.locator('summary').click();
+  const explorer = quiz.locator('[aria-label="Mastery explorer"]');
+  await expect(explorer.locator('ul li')).toHaveCount(0);
+  await explorer.locator('[data-mastery-scope="NT"] > summary').click();
+  await explorer.locator('[data-mastery-scope="book:65"] > summary').click();
+  const chapter = explorer.locator('[data-mastery-scope="chapter:65:21"]');
+  await chapter.locator(':scope > summary').click();
+  await chapter.locator('summary').filter({hasText:/^Objectives/}).click();
   await expect(chapter.locator('li')).toHaveCount(10);
   await expect(chapter).toContainText('What does the great voice from heaven announce');
-  await chapter.locator('summary').click();
-  await expect(chapters.locator('ul li')).toHaveCount(0);
+  await chapter.locator(':scope > summary').click();
+  await expect(explorer.locator('ul li')).toHaveCount(0);
 });
 
 for (const example of ['Ordering', 'Timeline', 'Short answer']) test(`${example} controls grade and persist every selected exercise`, async ({page})=>{
@@ -406,13 +409,22 @@ test('broader connections respect scope and keep progress outside chapter object
     await quiz.getByRole('button', {name:i === 3 ? 'Finish quiz' : 'Next', exact:true}).click();
   }
   await quiz.getByRole('button', {name:'Progress', exact:true}).click();
-  const broader = quiz.locator('[data-slot="card"]').filter({has:page.getByText('Broader connections', {exact:true})});
-  await broader.locator('summary').click();
-  await expect(broader.locator('li')).toHaveCount(414);
-  await expect(broader.locator('li').filter({hasText:'Learned'})).toHaveCount(4);
-  const chapters = quiz.locator('[data-slot="card"]').filter({has:page.getByText('Chapter objectives', {exact:true})});
-  await chapters.locator('summary').filter({hasText:/^Genesis 1$/}).click();
-  await expect(chapters.getByText('Arrange the first five books in their KJV order.', {exact:false})).toHaveCount(0);
+  const explorer = quiz.locator('[aria-label="Mastery explorer"]');
+  await explorer.locator('summary').filter({hasText:/^Whole Bible broader connections/}).click();
+  await expect(explorer.locator('li')).toHaveCount(22);
+  await expect(explorer.locator('li').filter({hasText:'Learned'})).toHaveCount(1);
+  await explorer.locator('[data-mastery-scope="OT"] > summary').click();
+  await explorer.locator('summary').filter({hasText:/^Old Testament broader connections/}).click();
+  await explorer.locator('[data-mastery-scope="NT"] > summary').click();
+  await explorer.locator('summary').filter({hasText:/^New Testament broader connections/}).click();
+  await explorer.locator('[data-mastery-scope="book:3"] > summary').click();
+  await explorer.locator('summary').filter({hasText:/^Numbers broader connections/}).click();
+  await expect(explorer.locator('li').filter({hasText:'Learned'})).toHaveCount(4);
+  await explorer.locator('[data-mastery-scope="book:0"] > summary').click();
+  const chapter = explorer.locator('[data-mastery-scope="chapter:0:1"]');
+  await chapter.locator(':scope > summary').click();
+  await chapter.locator('summary').filter({hasText:/^Objectives/}).click();
+  await expect(chapter.getByText('Arrange the first five books in their KJV order.', {exact:false})).toHaveCount(0);
   await quiz.getByRole('button', {name:'Start', exact:true}).click();
   await quiz.getByRole('combobox', {name:'Scope', exact:true}).click();
   await page.getByRole('option', {name:'New Testament', exact:true}).click();
