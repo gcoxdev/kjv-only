@@ -22,6 +22,17 @@ export function parseQuizBank(value: unknown): QuizBank {
     if (q.scopeLevel === "book" && (!q.refs.length || !q.contexts.length || q.refs.some(r => r.book !== q.book) || q.contexts.some(c => c.book !== q.book) || q.refs.some(r => !contexts.some(c => c.book === r.book && c.chapter === r.chapter)))) throw new Error("Invalid book-wide quiz context.");
     if (q.kind === "choice" || q.kind === "map") { if (typeof q.answer !== "string" || !q.choices.includes(q.answer)) throw new Error("Invalid quiz choices."); }
     else if (!strings(q.answer) || !q.answer.length) throw new Error("Invalid quiz answer.");
+    if (q.previousChoices !== undefined) {
+      const choiceCount = q.choices.length, answer = q.answer;
+      if (q.kind !== "choice" || typeof answer !== "string" || !Array.isArray(q.previousChoices) || !q.previousChoices.every(choices => strings(choices) && choices.length === choiceCount && new Set(choices).size === choices.length && choices.every(c => c.trim() && c.length <= 500) && choices.includes(answer))) throw new Error("Invalid quiz choice history.");
+    }
+    if (q.previousChoiceEditions !== undefined) {
+      const choiceCount = q.choices.length;
+      const validEdition = (edition: unknown) => record(edition) && strings(edition.choices) && edition.choices.length === choiceCount && new Set(edition.choices).size === choiceCount && edition.choices.every(c => c.trim() && c.length <= 500) && typeof edition.answer === "string" && edition.answer !== q.answer && edition.choices.includes(edition.answer) && typeof edition.correction === "string" && !!edition.correction.trim();
+      if (q.kind !== "choice" || !Array.isArray(q.previousChoiceEditions) || !q.previousChoiceEditions.every(validEdition)) throw new Error("Invalid quiz answer history.");
+      const sets = [q.choices, ...(q.previousChoices as string[][] | undefined ?? []), ...q.previousChoiceEditions.map(edition => (edition as { choices: string[] }).choices)];
+      if (new Set(sets.map(choices => JSON.stringify([...choices].sort()))).size !== sets.length) throw new Error("Ambiguous quiz answer history.");
+    }
     if (["family", "match"].includes(String(q.kind)) && (!strings(q.slots) || !strings(q.answer) || q.slots.length !== q.answer.length || !q.answer.every(a => (q.choices as string[]).includes(a)))) throw new Error("Invalid quiz placement.");
     if (q.kind === "map") {
       const choices = q.choices;

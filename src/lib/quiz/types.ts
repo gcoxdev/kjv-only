@@ -12,6 +12,12 @@ export type QuizQuestion = {
   refs: QuizReference[]; contexts: { book: string; chapter: number }[]; choices: string[];
   explanation: string; conflicts: string[]; slots?: string[]; evidence?: string; measure?: string;
   previousLearningPoints?: number[];
+  // Complete former option sets, only for distractor edits with an unchanged answer.
+  // Existing sessions keep their original options; new sessions use choices.
+  previousChoices?: string[][];
+  // Explicit older answer keys, identified by their complete displayed option set.
+  // Preserve credit for a corrected wording of the same learning objective.
+  previousChoiceEditions?: { choices: string[]; answer: string; correction: string }[];
   practiceSet?: "memory" | "book-order";
   places?: { name: string; lon: number; lat: number; sourceId: string }[]; mapLabels?: string[]; mapRegion?: QuizMapRegion;
 };

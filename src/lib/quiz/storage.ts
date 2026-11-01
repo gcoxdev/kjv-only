@@ -1,4 +1,4 @@
-import { applyQuizAction, DAY, gradeQuizAnswer, rebuildQuizAttempts, validQuizAnswer } from "./engine";
+import { applyQuizAction, DAY, gradeQuizEntry, rebuildQuizAttempts, validQuizAnswer, validQuizEntryAnswer } from "./engine";
 import { record, strings } from "./data";
 import { enqueueReadingQuiz, nextReadingQuizStep, prepareReadingQuizStep, skipReadingQuizStep, validReadingFlows } from "./reading";
 import type { QuizAction, QuizAttempt, QuizBackup, QuizBank, QuizPracticeOptions, QuizReadingFlow, QuizReadingRequest, QuizSession, QuizSnapshot } from "./types";
@@ -71,7 +71,7 @@ export function validSnapshot(value: unknown, bank: QuizBank): value is QuizSnap
     return new Set(s.entries.map(e => record(e) ? questions.get(String(e.id))?.objective : null)).size === s.entries.length && s.entries.every(e => {
       if (!record(e) || typeof e.id !== "string") return false;
       const q = questions.get(e.id);
-      return !!q && e.version === q.version && validQuizAnswer(q, e.answer) && validQuizAnswer(q, e.initial) && strings(e.choices) && e.choices.length === q.choices.length && new Set(e.choices).size === q.choices.length && e.choices.every(c => q.choices.includes(c)) && typeof e.submitted === "boolean" && typeof e.assisted === "boolean" && typeof e.skipped === "boolean" && ["none", "passage", "answer"].includes(String(e.help)) && (!s.done || e.submitted);
+      return !!q && e.version === q.version && strings(e.choices) && validQuizEntryAnswer(q, e.choices, e.answer) && validQuizEntryAnswer(q, e.choices, e.initial) && typeof e.submitted === "boolean" && typeof e.assisted === "boolean" && typeof e.skipped === "boolean" && ["none", "passage", "answer"].includes(String(e.help)) && (!s.done || e.submitted);
     });
   })) return false;
   if (new Set(value.sessions.map(s => s.id)).size !== value.sessions.length || new Set(value.attempts.map(a => record(a) ? a.id : null)).size !== value.attempts.length) return false;
@@ -82,7 +82,7 @@ export function validSnapshot(value: unknown, bank: QuizBank): value is QuizSnap
     const q = questions.get(a.qid), s = sessions.get(a.session), e = s?.entries.find(e => e.id === a.qid);
     // Leave room for the longest review interval within JavaScript's Date range.
     if (typeof a.time !== "number" || !Number.isFinite(a.time) || a.time <= 0 || a.time > 8_640_000_000_000_000 - 30 * DAY) return false;
-    return !!q && !!s && !!e?.submitted && (s.mode === "practice" || s.done) && a.id === `${s.id}:${q.id}` && a.objective === q.objective && a.version === q.version && validQuizAnswer(q, a.answer) && JSON.stringify(a.answer) === JSON.stringify(e.answer) && a.assisted === e.assisted && a.skipped === e.skipped && a.correct === (!e.skipped && gradeQuizAnswer(q, e.answer)) && typeof a.time === "number" && Number.isFinite(a.time) && a.time > 0 && (a.reviewScheduleVersion === undefined || a.reviewScheduleVersion === 2) && typeof a.points === "number" && [0, 5, 10, 20, 30].includes(a.points);
+    return !!q && !!s && !!e?.submitted && (s.mode === "practice" || s.done) && a.id === `${s.id}:${q.id}` && a.objective === q.objective && a.version === q.version && validQuizAnswer(q, a.answer) && JSON.stringify(a.answer) === JSON.stringify(e.answer) && a.assisted === e.assisted && a.skipped === e.skipped && a.correct === gradeQuizEntry(q, e) && typeof a.time === "number" && Number.isFinite(a.time) && a.time > 0 && (a.reviewScheduleVersion === undefined || a.reviewScheduleVersion === 2) && typeof a.points === "number" && [0, 5, 10, 20, 30].includes(a.points);
   });
 }
 export function parseQuizBackup(value: unknown, bank: QuizBank): QuizBackup {
@@ -98,7 +98,7 @@ export function parseQuizBackup(value: unknown, bank: QuizBank): QuizBackup {
       const entry = entries.get(draft.key);
       if (!entry || entry.submitted) continue;
       const q = bank.questions.find(q => q.id === entry.id)!;
-      if (!validQuizAnswer(q, draft.answer)) throw new Error("Invalid draft answer. No progress was changed.");
+      if (!validQuizEntryAnswer(q, entry.choices, draft.answer)) throw new Error("Invalid draft answer. No progress was changed.");
       entry.answer = structuredClone(draft.answer);
     }
   }

@@ -549,6 +549,87 @@ test('alternate recall preserves existing credit, deduplicates progress, and sur
   expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
 });
 
+test('revised distractors preserve old choices, wrong answers and earned credit', async ({page}) => {
+  const quiz = await quizPanel(page,390);
+  const bank: QuizBank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const questions = ['03-19-7','05-29-4'].map(id => bank.questions.find(q => q.id === id)!);
+  const oldQuestions = questions.map(q => ({...q, choices:q.previousChoices![0]}));
+  await importPracticeSession(page,quiz,bank,oldQuestions,'before-choice-revision');
+  const oldWrong = oldQuestions[0].choices.find(choice => choice !== oldQuestions[0].answer)!;
+  await quiz.getByRole('button',{name:`B. ${oldWrong}`,exact:true}).click();
+  await quiz.getByRole('button',{name:'Submit answer',exact:true}).click();
+  await quiz.getByRole('button',{name:'Next',exact:true}).click();
+  await solveCurrent(page,quiz);
+  await quiz.getByRole('button',{name:'Finish quiz',exact:true}).click();
+  const completed = await readData(page);
+  expect(completed.attempts.find(a=>a.qid===questions[0].id)).toMatchObject({answer:oldWrong,correct:false,points:0});
+  expect(completed.attempts.find(a=>a.qid===questions[1].id)).toMatchObject({correct:true,points:{Easy:10,Medium:20,Hard:30}[questions[1].difficulty]});
+  await page.reload();
+  await expect(quiz.getByRole('button',{name:'Start quiz',exact:true})).toBeVisible();
+  expect(await readData(page)).toEqual(completed);
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  const download = page.waitForEvent('download');
+  await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
+  const path = await (await download).path();
+  await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm',exact:true}).click();
+  await expect.poll(async()=>(await readData(page)).attempts.length).toBe(0);
+  for(let i=0;i<2;i++) {
+    await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
+    await page.getByRole('button',{name:'Confirm',exact:true}).click();
+    await expect.poll(async()=>(await readData(page)).attempts).toEqual(completed.attempts);
+  }
+  await quiz.getByRole('button',{name:'Start',exact:true}).click();
+  await importPracticeSession(page,quiz,bank,[questions[0]],'after-choice-revision');
+  await expect(quiz.getByRole('button',{name:`B. ${questions[0].choices[1]}`,exact:true})).toBeVisible();
+  await expect(quiz.getByRole('button',{name:`B. ${oldWrong}`,exact:true})).toHaveCount(0);
+});
+
+test('corrected answer preserves old credit and displays the correction', async ({page}) => {
+  const quiz = await quizPanel(page,390);
+  const bank: QuizBank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const q = bank.questions.find(q => q.id === '24-20-2')!;
+  const edition = q.previousChoiceEditions![0];
+  const oldQ = {...q,choices:edition.choices,answer:edition.answer};
+  await importPracticeSession(page,quiz,bank,[oldQ],'before-answer-correction');
+  await quiz.getByRole('button',{name:`A. ${edition.answer}`,exact:true}).click();
+  await quiz.getByRole('button',{name:'Submit answer',exact:true}).click();
+  const feedback = quiz.getByRole('region',{name:'Answer feedback'});
+  await expect(feedback).toContainText('Credit preserved');
+  await expect(feedback).toContainText(`Corrected answer: ${q.answer}`);
+  await expect(feedback).toContainText(edition.correction);
+  await quiz.getByRole('button',{name:'Finish quiz',exact:true}).click();
+  await expect(quiz.getByText('1 / 1 correct',{exact:true})).toBeVisible();
+  const saved = await readData(page);
+  expect(saved.attempts[0]).toMatchObject({answer:edition.answer,correct:true,points:20});
+  await page.reload();
+  await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  const download = page.waitForEvent('download');
+  await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
+  const path = await (await download).path();
+  await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm',exact:true}).click();
+  await expect.poll(async()=>(await readData(page)).attempts.length).toBe(0);
+  for(let i=0;i<2;i++) {
+    await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
+    await page.getByRole('button',{name:'Confirm',exact:true}).click();
+    await expect.poll(async()=>(await readData(page)).attempts).toEqual(saved.attempts);
+  }
+  await quiz.getByRole('button',{name:'Start',exact:true}).click();
+  await importPracticeSession(page,quiz,bank,[q],'after-answer-correction');
+  await expect(quiz.getByRole('button',{name:`A. ${edition.answer}`,exact:true})).toHaveCount(0);
+  await solveCurrent(page,quiz);
+  await expect(feedback).not.toContainText('Credit preserved');
+  await quiz.getByRole('button',{name:'Finish quiz',exact:true}).click();
+  expect((await readData(page)).attempts.map(a=>a.points).sort()).toEqual([0,20]);
+  await quiz.getByRole('button',{name:'Start another quiz',exact:true}).click();
+  await importPracticeSession(page,quiz,bank,[oldQ],'old-answer-hint');
+  await quiz.getByRole('button',{name:'Reveal answer',exact:true}).click();
+  await expect(quiz.getByText(`Assisted practice · Original saved answer: ${edition.answer}`,{exact:true})).toBeVisible();
+  await expect(quiz.getByText(`This saved answer has been corrected: ${q.answer}. ${edition.correction}`,{exact:true})).toBeVisible();
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+});
+
 test('difficulty corrections retain old backup rewards and resume an older session', async ({page}) => {
   const quiz = await quizPanel(page,390);
   const bank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();

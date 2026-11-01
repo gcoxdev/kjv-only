@@ -33,6 +33,7 @@
     "audit": "npm audit --audit-level=high",
     "check:deps": "npm ls lexical @lexical/code @lexical/link @lexical/list @lexical/react @lexical/rich-text @lexical/selection @lexical/table @lexical/utils yjs",
     "check:dist": "node scripts/check-dist.mjs",
+    "check:quiz-quality": "node scripts/quiz-quality.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "build:timeline-links": "python3 scripts/extract-timeline-headings.py && node --experimental-strip-types scripts/build-timeline-connections.mjs"
   },

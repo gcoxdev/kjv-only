@@ -29,6 +29,19 @@ export function gradeQuizAnswer(q: QuizQuestion, answer: QuizAnswer) {
   return answer === q.answer;
 }
 export function quizAnswerLabel(q: QuizQuestion) { return q.kind === "text" || q.kind === "memory" ? q.answer[0] : Array.isArray(q.answer) ? q.answer.join(["match"].includes(q.kind) ? "; " : " → ") : q.answer; }
+function sameQuizChoices(a: readonly string[], b: readonly string[]) {
+  return a.length === b.length && new Set(b).size === b.length && b.every(c => a.includes(c));
+}
+export function quizPreviousChoiceEdition(q: QuizQuestion, choices: readonly string[]) {
+  return q.kind === "choice" ? q.previousChoiceEditions?.find(edition => sameQuizChoices(edition.choices, choices)) : undefined;
+}
+// Current answers stay strict; only an explicitly retained session edition uses
+// its former key. The complete set is the edition identity, independent of shuffle.
+export function gradeQuizEntry(q: QuizQuestion, entry: Pick<QuizEntry, "choices" | "answer" | "skipped">) {
+  if (entry.skipped || !validQuizEntryAnswer(q, entry.choices, entry.answer)) return false;
+  const edition = quizPreviousChoiceEdition(q, entry.choices);
+  return edition ? entry.answer === edition.answer : gradeQuizAnswer(q, entry.answer);
+}
 // A reviewed alternate form assesses the same objective and earns the same credit.
 export function quizObjectives(questions: readonly QuizQuestion[]) {
   const seen = new Set<string>();
@@ -107,10 +120,18 @@ export function createQuizSession(bank: QuizBank, questions: QuizQuestion[], lab
     }) };
 }
 export function validQuizAnswer(q: QuizQuestion, answer: unknown): answer is QuizAnswer {
-  if (!isArrangement(q)) return typeof answer === "string" && answer.length <= 500 && (q.kind === "text" || q.kind === "memory" || answer === "" || q.choices.includes(answer));
+  if (!isArrangement(q)) return typeof answer === "string" && answer.length <= 500 && (q.kind === "text" || q.kind === "memory" || answer === "" || q.choices.includes(answer) || (q.kind === "choice" && (!!q.previousChoices?.some(choices => choices.includes(answer)) || !!q.previousChoiceEditions?.some(edition => edition.choices.includes(answer)))));
   if (!Array.isArray(answer) || !Array.isArray(q.answer) || answer.length !== q.answer.length || !answer.every(a => typeof a === "string")) return false;
   if (q.kind === "order" || q.kind === "timeline") return new Set(answer).size === answer.length && answer.every(a => q.answer.includes(a));
   return answer.every(a => a === "" || q.choices.includes(a));
+}
+export function validQuizChoices(q: QuizQuestion, choices: string[]) {
+  const sets = q.kind === "choice" ? [q.choices, ...(q.previousChoices ?? []), ...(q.previousChoiceEditions?.map(edition => edition.choices) ?? [])] : [q.choices];
+  return sets.some(set => sameQuizChoices(set, choices));
+}
+export function validQuizEntryAnswer(q: QuizQuestion, choices: string[], answer: unknown): answer is QuizAnswer {
+  // An answer must belong to the exact option set displayed in this session.
+  return validQuizChoices(q, choices) && validQuizAnswer(q, answer) && (q.kind !== "choice" || answer === "" || choices.includes(answer as string));
 }
 export function hasQuizAnswer(q: QuizQuestion, answer: QuizAnswer) { return validQuizAnswer(q, answer) && (Array.isArray(answer) ? answer.every(Boolean) : !!answer.trim()); }
 function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, attempts: QuizAttempt[], now: number, historical?: QuizAttempt) {
@@ -118,7 +139,7 @@ function creditAttempt(bank: QuizBank, session: QuizSession, entry: QuizEntry, a
   if (attempts.some(a => a.id === id)) return;
   const q = bank.questions.find(q => q.id === entry.id)!;
   const stats = quizStats(bank, attempts, now).get(q.objective)!;
-  const correct = !entry.skipped && gradeQuizAnswer(q, entry.answer);
+  const correct = gradeQuizEntry(q, entry);
   let points = 0;
   if (correct && !entry.assisted) {
     if (!stats.learned) {
@@ -162,7 +183,7 @@ export function applyQuizAction(bank: QuizBank, original: QuizSession, originalA
       if (session.mode !== "practice") throw new Error("Hints are unavailable during an assessment.");
       entry.assisted = true; entry.help = action.help;
     } else {
-      if (!validQuizAnswer(q, action.answer)) throw new Error("Invalid answer arrangement.");
+      if (!validQuizEntryAnswer(q, entry.choices, action.answer)) throw new Error("Invalid answer arrangement.");
       if (action.type === "submit" && !action.skip && !hasQuizAnswer(q, action.answer)) throw new Error("Answer every part or skip this question.");
       entry.answer = structuredClone(action.answer);
       if (action.type === "submit") {

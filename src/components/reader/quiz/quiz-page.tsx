@@ -14,7 +14,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { loadQuizBank } from "@/lib/quiz/data";
 import { BIBLE_BOOKS } from "@/lib/bible-books";
 import { createId } from "@/lib/reader-layout";
-import { createQuizSession, filterQuizQuestions, gradeQuizAnswer, hasQuizAnswer, QUIZ_KINDS, QUIZ_SKILLS, quizAnswerLabel, quizObjectives, quizScopeLabel, quizStats, selectQuizQuestions } from "@/lib/quiz/engine";
+import { createQuizSession, filterQuizQuestions, gradeQuizEntry, quizPreviousChoiceEdition, hasQuizAnswer, QUIZ_KINDS, QUIZ_SKILLS, quizAnswerLabel, quizObjectives, quizScopeLabel, quizStats, selectQuizQuestions } from "@/lib/quiz/engine";
 import { addQuizSession, claimQuizSession, exportQuizData, importQuizBackup, parseQuizBackup, readQuizSnapshot, releaseQuizSession, renewQuizSession, resetQuizData, subscribeQuiz, updateQuizSession } from "@/lib/quiz/storage";
 import { useQuizOptions } from "@/hooks/use-quiz-options";
 import { useQuizRewards } from "@/hooks/use-quiz-rewards";
@@ -44,9 +44,10 @@ export function QuizPage(props: QuizPageProps) {
   return <QuizWorkspace bank={bank} {...props} />;
 }
 function Feedback({ q, entry, points }: { q: QuizQuestion; entry: QuizEntry; points: number }) {
-  const correct = !entry.skipped && gradeQuizAnswer(q, entry.answer);
-  return <section aria-label="Answer feedback" className="flex flex-col gap-3 rounded-lg border bg-muted/40 p-3"><h3 className={cn("font-medium", correct ? "text-success" : "text-foreground")}>{entry.skipped ? "Skipped" : correct ? "Correct" : "Review the answer"}{entry.assisted ? " · Assisted" : ""}{points > 0 ? ` · +${points} points` : ""}</h3>
-    <p className="text-sm"><strong>Answer:</strong> {quizAnswerLabel(q)}</p><p className="text-sm">{q.explanation}</p>
+  const correct = gradeQuizEntry(q, entry), edition = quizPreviousChoiceEdition(q, entry.choices);
+  return <section aria-label="Answer feedback" className="flex flex-col gap-3 rounded-lg border bg-muted/40 p-3"><h3 className={cn("font-medium", correct ? "text-success" : "text-foreground")}>{entry.skipped ? "Skipped" : correct ? edition ? "Credit preserved" : "Correct" : "Review the answer"}{entry.assisted ? " · Assisted" : ""}{points > 0 ? ` · +${points} points` : ""}</h3>
+    {edition ? <p className="text-sm">Question corrected: {edition.correction} This saved quiz keeps its original grading and earned progress.</p> : null}
+    <p className="text-sm"><strong>{edition ? "Corrected answer:" : "Answer:"}</strong> {quizAnswerLabel(q)}</p><p className="text-sm">{q.explanation}</p>
     {Array.isArray(entry.answer) && Array.isArray(q.answer) ? <p className="text-xs text-muted-foreground">{entry.answer.filter((a, i) => a === q.answer[i]).length} of {q.answer.length} positions correct. Full correctness is required for this objective.</p> : null}
     <QuizEvidence question={q} />{entry.assisted ? <p className="text-xs text-muted-foreground">Assisted practice does not earn unassisted learning or mastery credit.</p> : null}
   </section>;
@@ -118,6 +119,7 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
   const pool = useMemo(() => filterQuizQuestions(bank, filters, readChapters), [bank, filters, readChapters]);
   const sessionQuestionCount = Math.min(Number(length), quizObjectives(pool).length);
   const session = snapshot?.sessions.find(s => s.id === sessionId), entry = session?.entries[session.index], question = entry ? questions.get(entry.id) : undefined;
+  const previousEdition = question && entry ? quizPreviousChoiceEdition(question, entry.choices) : undefined;
   const draftKey = session && entry ? `${session.id}:${entry.id}` : "";
   // draftVersion deliberately subscribes this view to local input changes between durable writes.
   void draftVersion;
@@ -216,14 +218,14 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
         <div className="flex flex-wrap items-center justify-between gap-2"><Button size="sm" variant="ghost" onClick={saveAndLeave} disabled={pending > 0}><ArrowLeftIcon data-icon="inline-start" />Save & leave</Button><Badge variant="outline">{session.mode}</Badge></div>
         {session.done ? <>
           {rewardPreferences.celebrations && celebration?.reward.sessionId === session.id ? <Suspense fallback={null}><LazyQuizCelebration key={session.id} {...celebration} /></Suspense> : null}
-          <Card><CardHeader><CardTitle>Session complete</CardTitle><CardDescription>{session.label}</CardDescription></CardHeader><CardContent className="pb-4"><p className="text-2xl font-semibold">{session.entries.filter(e => !e.skipped && gradeQuizAnswer(questions.get(e.id)!, e.answer)).length} / {session.entries.length} correct</p><p className="text-sm text-muted-foreground">{session.entries.filter(e => e.assisted).length} assisted · +{snapshot!.attempts.filter(a => a.session === session.id).reduce((n, a) => n + a.points, 0)} points</p></CardContent><CardFooter><Button onClick={saveAndLeave}>Start another quiz</Button></CardFooter></Card>
+          <Card><CardHeader><CardTitle>Session complete</CardTitle><CardDescription>{session.label}</CardDescription></CardHeader><CardContent className="pb-4"><p className="text-2xl font-semibold">{session.entries.filter(e => gradeQuizEntry(questions.get(e.id)!, e)).length} / {session.entries.length} correct</p><p className="text-sm text-muted-foreground">{session.entries.filter(e => e.assisted).length} assisted · +{snapshot!.attempts.filter(a => a.session === session.id).reduce((n, a) => n + a.points, 0)} points</p></CardContent><CardFooter><Button onClick={saveAndLeave}>Start another quiz</Button></CardFooter></Card>
           {session.entries.map(e => <Card key={e.id}><CardHeader><CardTitle>{questions.get(e.id)!.prompt}</CardTitle><CardDescription>Your answer: {e.skipped ? "Skipped" : Array.isArray(e.answer) ? e.answer.join(" → ") : e.answer}</CardDescription></CardHeader><CardContent><Feedback q={questions.get(e.id)!} entry={e} points={snapshot!.attempts.find(a => a.id === `${session.id}:${e.id}`)?.points ?? 0} /></CardContent></Card>)}
         </> : <>
           <p className="text-sm">{session.label} · Question {session.index + 1} of {session.entries.length}</p><Progress value={100 * session.entries.filter(e => e.submitted).length / session.entries.length} aria-label="Quiz completion" />
           {locked ? <div role="status" className="flex flex-col gap-2 rounded-lg border p-3"><p>This session is open in another view. Your answers are protected.</p><Button variant="outline" onClick={() => resume(session)}>Take over</Button></div> : null}
           <Card><CardHeader><div className="flex flex-wrap gap-2"><Badge>{QUIZ_SKILLS[question.skill]}</Badge><Badge variant="secondary">{question.difficulty}</Badge><Badge variant="outline">{QUIZ_KINDS[question.kind]}</Badge></div><CardTitle><h3 ref={questionRef} tabIndex={-1} className="text-lg leading-relaxed">{question.prompt}</h3></CardTitle></CardHeader><CardContent className="flex flex-col gap-4 pb-4">
             <QuizAnswerControls key={entry.id} question={question} entry={entry} answer={answer} disabled={entry.submitted || locked} onChange={changeAnswer} />
-            {entry.help !== "none" && !entry.submitted ? <div className="flex flex-col gap-2 rounded-lg border bg-muted/40 p-3"><p className="text-sm">Assisted practice{entry.help === "answer" ? ` · ${quizAnswerLabel(question)}` : " · Read the cited passage for help."}</p><QuizEvidence question={question} /></div> : null}
+            {entry.help !== "none" && !entry.submitted ? <div className="flex flex-col gap-2 rounded-lg border bg-muted/40 p-3"><p className="text-sm">Assisted practice{entry.help === "answer" ? ` · ${previousEdition ? "Original saved answer: " : ""}${previousEdition?.answer ?? quizAnswerLabel(question)}` : " · Read the cited passage for help."}</p>{entry.help === "answer" && previousEdition ? <p className="text-sm">This saved answer has been corrected: {quizAnswerLabel(question)}. {previousEdition.correction}</p> : null}<QuizEvidence question={question} /></div> : null}
             {entry.submitted && session.mode === "practice" ? <Feedback q={question} entry={entry} points={snapshot!.attempts.find(a => a.id === `${session.id}:${entry.id}`)?.points ?? 0} /> : entry.submitted ? <p role="status" className="text-sm">Answer saved. Feedback appears after finishing the assessment.</p> : null}
           </CardContent><CardFooter className="flex flex-wrap gap-2">
             {session.mode === "practice" && !entry.submitted ? <><Button size="sm" variant="ghost" disabled={locked || pending > 0} onClick={() => mutate({ type: "help", qid: entry.id, help: "passage" })}>Read passage / hint</Button><Button size="sm" variant="ghost" disabled={locked || pending > 0} onClick={() => mutate({ type: "help", qid: entry.id, help: "answer" })}>Reveal answer</Button></> : null}
