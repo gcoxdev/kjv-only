@@ -86,6 +86,7 @@ for (const width of [390, 1280]) {
     expect((await data(page)).attempts[0]).toMatchObject({ qid: 'book-order-bible', correct: true, points: 30 });
     await quiz.getByRole('button', { name: 'Start another quiz' }).click();
     await quiz.getByRole('button', { name: 'Progress', exact: true }).click();
+    await quiz.getByRole('tab', {name:'Mastery', exact:true}).click();
     const mastery = quiz.getByLabel('Mastery explorer', { exact: true });
     await mastery.getByRole('combobox', { name: 'Mastery exercise set' }).click();
     await page.getByRole('option', { name: 'Optional book ordering', exact: true }).click();

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "15-1-6",
+    "fingerprint": "32bb6fd9a22b8415d9711bfc2c64746fece432d4609d3930f51c546278206add",
+    "flags": [
+      "answer-length-over-1.5x"
+    ],
+    "rationale": "Ezra 1:7 explicitly attributes the earlier removal of the vessels to Nebuchadnezzar; Cyrus is returning them. The other options are concise names of other kings. The correct proper name is naturally longer; padding names would not improve the question.",
+    "evidence": "Ezra 1:7"
+  },
+  {
+    "id": "58-5-4",
+    "fingerprint": "6f64e1a0eebfb792cd419c5468cafcb2ee005ed377abaf83937acf116b8366a3",
+    "flags": [
+      "answer-length-over-1.5x"
+    ],
+    "rationale": "Hebrews 5:6 and 5:10 explicitly name the order of Melchisedec. Aaron, Zadok, and Eleazar are concise competing priestly names. The flag reflects the length of the proper name; adding titles or unrelated detail would introduce padding and different grammatical forms.",
+    "evidence": "Hebrews 5:6–10"
+  },
+  {
+    "id": "46-13-8",
+    "fingerprint": "1cb30443886aeb380f4bc088deb5516325a0802059830e8d31ec8ce177c3f53c",
+    "flags": [
+      "answer-in-prompt"
+    ],
+    "rationale": "1 Corinthians 13:13 names faith, hope, charity and explicitly says the greatest is charity. Naming all compared virtues in the prompt does not identify the greatest; the question still requires the comparison. The false not-compared option is contradicted by the verse.",
+    "evidence": "1 Corinthians 13:13"
+  }
+]

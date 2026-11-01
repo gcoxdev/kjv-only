@@ -1,6 +1,7 @@
+import { QuizHelp } from "./quiz-help";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { DAY, quizScopeLabel, type quizStats } from "@/lib/quiz/engine";
 import type { QuizQuestion } from "@/lib/quiz/types";
 
@@ -33,24 +34,22 @@ export function QuizReview({ objectives, stats, now, pending, onReview }: {
   }, [objectives, stats, now]);
 
   return <Card>
-    <CardHeader><CardTitle>Review schedule</CardTitle><CardDescription>Review needs are separate from earned mastery.</CardDescription></CardHeader>
+    <CardHeader className="pb-3"><CardTitle>Review schedule</CardTitle><QuizHelp title="Review schedule"><p>After learning, review is due in 1 day. Successful due reviews in later sessions extend the interval to 7, then 30 days. Early practice does not delay it.</p><p>Missed, skipped, or assisted answers prompt another review. Successful recovery restarts the 1-day interval; earned mastery stays.</p><p>Review buttons use all attempted objectives and your chosen question count, regardless of Start filters.</p></QuizHelp></CardHeader>
     <CardContent className="flex flex-col gap-3 pb-4">
       <div className="grid grid-cols-3 gap-3">
         {[[summary.due, "Due now"], [summary.missed, "Missed or skipped"], [summary.upcoming, "Due in next 7 days"]].map(([count, label]) => <div key={label}><p className="text-2xl font-semibold">{count}</p><p className="text-xs text-muted-foreground">{label}</p></div>)}
       </div>
-      <p className="text-xs text-muted-foreground">After learning an objective, review is due in one day. Successful due reviews in later sessions extend the interval to seven, then thirty days. Early practice does not postpone review. A missed, skipped, or assisted answer prompts practice again; successful recovery restarts the one-day interval.</p>
       {summary.count ? <details>
         <summary className="cursor-pointer text-sm font-medium">Next reviews ({summary.next.length} of {summary.count})</summary>
         <ul className="mt-3 flex flex-col gap-3">{summary.next.map(({ question, progress }) => <li key={question.objective} className="flex flex-col gap-1 text-sm">
           <p className="font-medium">{quizScopeLabel(question)}</p><p>{question.prompt}</p>
           <p className="text-xs text-muted-foreground"><QuizReviewDate progress={progress} /></p>
         </li>)}</ul>
-      </details> : <p className="text-sm text-muted-foreground">Complete a quiz to start your review schedule.</p>}
+      </details> : <p className="text-sm text-muted-foreground">Complete a quiz to schedule reviews.</p>}
       {!summary.due && summary.count > 0 ? <p className="text-sm">You’re caught up on scheduled reviews.</p> : null}
     </CardContent>
-    <CardFooter className="flex flex-col items-start gap-2">
+    <CardFooter>
       <div className="flex flex-wrap gap-2"><Button size="sm" variant="outline" disabled={pending || !summary.missed} onClick={() => onReview("missed")}>Review mistakes</Button><Button size="sm" variant="outline" disabled={pending || !summary.due} onClick={() => onReview("due")}>Practice due items</Button></div>
-      <p className="text-xs text-muted-foreground">Review buttons use all your attempted objectives and the session length chosen on Start, regardless of its scope filters.</p>
     </CardFooter>
   </Card>;
 }

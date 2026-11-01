@@ -16,6 +16,39 @@ const now = 1_790_000_000_000;
 const backup = (snapshot: QuizSnapshot) => ({ type: "kjv-only-quiz", schema: 1, bank: bank.version, exported: new Date(now).toISOString(), ...snapshot });
 
 describe("corrected quiz answers and historical editions", () => {
+  it("preserves grades and credit for every published answer-wording edition", () => {
+    const corrected = fullBank.questions.filter(question => question.previousChoiceEditions?.length);
+    expect(corrected.map(question => question.id)).toEqual(expect.arrayContaining(["24-20-2", "14-31-5", "21-5-5"]));
+    for (const question of corrected) for (const prior of question.previousChoiceEditions!) {
+      const currentBank = { ...fullBank, questions: [question] };
+      const priorQuestion = { ...question, answer: prior.answer, choices: prior.choices, previousChoices: undefined, previousChoiceEditions: undefined };
+      const priorBank = { ...currentBank, questions: [priorQuestion] };
+      expect(gradeQuizAnswer(question, prior.answer)).toBe(false);
+      expect(gradeQuizAnswer(question, question.answer)).toBe(true);
+      for (const mode of ["practice", "assessment"] as const) for (const answer of prior.choices) {
+        const session = createQuizSession(priorBank, [priorQuestion], "Published wording", mode, "owner", now);
+        const draft = applyQuizAction(priorBank, session, [], { type: "answer", qid: question.id, answer }, now);
+        const action = { type: "submit" as const, qid: question.id, answer };
+        const expected = applyQuizAction(priorBank, draft.session, [], action, now);
+        const actual = applyQuizAction(currentBank, draft.session, [], action, now);
+        expect(actual).toEqual(expected);
+        const done = applyQuizAction(currentBank, actual.session, actual.attempts, { type: "finish" }, now);
+        const restored = parseQuizBackup(backup({ sessions: [done.session], attempts: done.attempts }), currentBank);
+        expect(rebuildQuizAttempts(currentBank, restored)).toEqual(done.attempts);
+        expect(parseQuizBackup(restored, currentBank)).toEqual(restored);
+        expect(gradeQuizEntry(question, done.session.entries[0])).toBe(answer === prior.answer);
+        if (answer === prior.answer) {
+          const fresh = createQuizSession(currentBank, [question], "Current wording", mode, "owner", now + 7 * DAY);
+          const repeated = applyQuizAction(currentBank, fresh, done.attempts, { type: "submit", qid: question.id, answer: question.answer }, now + 7 * DAY);
+          // Assessments award their credit on completion, not on submission.
+          const completed = applyQuizAction(currentBank, repeated.session, repeated.attempts, { type: "finish" }, now + 7 * DAY);
+          expect(completed.attempts.at(-1)?.points, `${question.id} ${mode}`).toBe(5);
+          expect(quizStats(currentBank, completed.attempts, now + 7 * DAY).get(question.objective)).toMatchObject({ learned: true, mastered: true });
+        }
+      }
+    }
+  });
+
   it("separates household captivity from the named Babylonian death sentence", () => {
     expect(q.answer).toBe("Terror, friends slain before his eyes, captivity for him and his household, and his own death and burial in Babylon");
     expect(q.explanation).toContain("it does not explicitly extend that statement to every member of his household");

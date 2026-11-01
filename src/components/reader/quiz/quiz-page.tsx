@@ -1,3 +1,4 @@
+import { QuizHelp } from "./quiz-help";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeftIcon, DownloadIcon, GraduationCapIcon, UploadIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,9 +9,9 @@ import { Switch } from "@/components/ui/switch";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { loadQuizBank } from "@/lib/quiz/data";
 import { BIBLE_BOOKS } from "@/lib/bible-books";
 import { createId } from "@/lib/reader-layout";
@@ -30,6 +31,7 @@ import { QuizReview } from "./quiz-review";
 
 // Keep a failed-to-save draft available if Home unmounts this view. Never mix it into earned credit.
 const LazyQuizMastery = lazy(async () => ({ default: (await import("./quiz-mastery")).QuizMastery }));
+const LazyQuizCompletionBadges = lazy(async () => ({ default: (await import("./quiz-mastery")).QuizCompletionBadges }));
 const LazyQuizRewards = lazy(async () => ({ default: (await import("./quiz-rewards")).QuizRewards }));
 const LazyQuizCelebration = lazy(async () => ({ default: (await import("./quiz-rewards")).QuizCelebration }));
 const drafts = new Map<string, QuizAnswer>();
@@ -117,6 +119,10 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
   const questionStart = currentQuestionPage * QUESTION_PAGE_SIZE;
   const visibleQuestions = matchingQuestions.slice(questionStart, questionStart + QUESTION_PAGE_SIZE);
   const pool = useMemo(() => filterQuizQuestions(bank, filters, readChapters), [bank, filters, readChapters]);
+  const formatOptions = useMemo(() => {
+    const kinds = new Set(bank.questions.filter(q => !q.practiceSet).map(q => q.kind));
+    return [{ value: "all", label: "All formats" }, ...Object.entries(QUIZ_KINDS).filter(([kind]) => kinds.has(kind as QuizQuestion["kind"])).map(([value, label]) => ({ value, label }))];
+  }, [bank]);
   const sessionQuestionCount = Math.min(Number(length), quizObjectives(pool).length);
   const session = snapshot?.sessions.find(s => s.id === sessionId), entry = session?.entries[session.index], question = entry ? questions.get(entry.id) : undefined;
   const previousEdition = question && entry ? quizPreviousChoiceEdition(question, entry.choices) : undefined;
@@ -193,25 +199,23 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
         onDismiss={() => run(() => dismissReadingQuiz(bank, flow.id), () => { setReadingFlowId(null); saveAndLeave(); onFinishReading?.(); })} />) : null}
       {readingCards.length > readingCardLimit ? <Button size="sm" variant="outline" onClick={() => setReadingCardLimit(n => n + 5)}>Show more reading sequences ({readingCards.length - readingCardLimit})</Button> : null}
       {snapshot && view === "setup" ? <>
-        <p className="text-sm text-muted-foreground">Practice a passage, learn unfamiliar words, and explore connections. This pack samples {bank.featured.length} chapters plus selected vocabulary. Choose a broader scope to practice chapter questions together or focus on dedicated broader connections.</p>
-        {pendingSessions.length ? <Card><CardHeader><CardTitle>Continue a quiz</CardTitle><CardDescription>Your existing quizzes stay saved. Continue one below.{readingCards.length ? " You can also start a reading quiz above." : ""} Opening the same session elsewhere preserves answers and shared credit.</CardDescription></CardHeader><CardContent className="flex flex-col gap-2">{pendingSessions.map(s => <div key={s.id} className="flex flex-wrap items-center justify-between gap-2"><div><p className="text-sm">{s.label}</p><p className="text-xs text-muted-foreground">{s.entries.filter(e => e.submitted).length}/{s.entries.length} submitted · {s.mode}</p></div><Button size="sm" variant="outline" disabled={pending > 0} onClick={() => resume(s)}>Continue</Button></div>)}</CardContent></Card> : null}
-        <Card><CardHeader><CardTitle>Start a quiz</CardTitle><CardDescription>Untimed. Answers lead back to the KJV.</CardDescription></CardHeader><CardContent className="pb-4"><FieldGroup className="grid @lg:grid-cols-2">
+        {pendingSessions.length ? <Card><CardHeader className="pb-3"><CardTitle>Continue a quiz</CardTitle></CardHeader><CardContent className="flex flex-col gap-2">{pendingSessions.map(s => <div key={s.id} className="flex flex-wrap items-center justify-between gap-2"><div><p className="text-sm">{s.label}</p><p className="text-xs text-muted-foreground">{s.entries.filter(e => e.submitted).length}/{s.entries.length} submitted · {s.mode}</p></div><Button size="sm" variant="outline" disabled={pending > 0} onClick={() => resume(s)}>Continue</Button></div>)}</CardContent></Card> : null}
+        <Card><CardHeader className="pb-3"><CardTitle>Start a quiz</CardTitle><QuizHelp title="Quiz setup"><p>Skill selects what you study; question format selects how you answer. All filters apply together.</p><p>Broader connections includes questions linking chapters or books. Quizzes are untimed and save automatically.</p></QuizHelp></CardHeader><CardContent className="pb-4"><FieldGroup className="grid @lg:grid-cols-2">
           <QuizSelect label="Scope" value={filters.scope} items={[{ value: "chapter", label: "Chapter" }, { value: "book", label: "Book" }, { value: "OT", label: "Old Testament" }, { value: "NT", label: "New Testament" }, { value: "bible", label: "Whole Bible" }]} onChange={value => filterUpdate({ scope: value as QuizFilters["scope"] })} />
-          <QuizSelect label="Skill" value={filters.skill} items={[{ value: "all", label: "All skills" }, ...Object.entries(QUIZ_SKILLS).map(([value, label]) => ({ value, label }))]} onChange={value => filterUpdate({ skill: value as QuizFilters["skill"] })} />
           {["chapter", "book"].includes(filters.scope) ? <QuizSelect label="Book" value={filters.book} items={bank.books.map(item)} onChange={book => filterUpdate({ book, chapter: 1 })} /> : null}
           {filters.scope === "chapter" ? <QuizSelect label="Chapter" value={String(filters.chapter)} items={Array.from({ length: BIBLE_BOOKS[bank.books.indexOf(filters.book)]?.chapterCount ?? 1 }, (_, i) => item(String(i + 1)))} onChange={value => filterUpdate({ chapter: Number(value) })} /> : null}
           {filters.scope !== "chapter" ? <QuizSelect label="Question set" value={filters.content ?? "all"} items={[{ value: "all", label: "All available questions" }, { value: "connections", label: "Broader connections" }]} onChange={value => filterUpdate({ content: value as QuizFilters["content"] })} /> : null}
+          <QuizSelect label="Skill" value={filters.skill} items={[{ value: "all", label: "All skills" }, ...Object.entries(QUIZ_SKILLS).map(([value, label]) => ({ value, label }))]} onChange={value => filterUpdate({ skill: value as QuizFilters["skill"] })} />
+          <QuizSelect label="Question format" value={filters.format ?? "all"} items={formatOptions} onChange={value => filterUpdate({ format: value as QuizFilters["format"] })} />
           <QuizSelect label="Difficulty" value={filters.difficulty} items={[{ value: "all", label: "Mixed difficulty" }, ...["Easy", "Medium", "Hard"].map(item)]} onChange={value => filterUpdate({ difficulty: value as QuizFilters["difficulty"] })} />
           <QuizSelect label="Questions" value={length} items={[5, 10, 20, 30].map(n => item(String(n)))} onChange={setLength} />
           <QuizSelect label="Mode" value={mode} items={[{ value: "practice", label: "Practice · immediate feedback" }, { value: "assessment", label: "Assessment · feedback at end" }]} onChange={value => setMode(value as QuizSession["mode"])} />
           <Field orientation="horizontal"><FieldLabel htmlFor={`${owner}-read`}>Only chapters marked read</FieldLabel><Switch id={`${owner}-read`} checked={filters.readOnly} onCheckedChange={readOnly => filterUpdate({ readOnly })} /></Field>
-        </FieldGroup></CardContent><CardFooter className="flex flex-wrap justify-between gap-3"><p className="text-xs text-muted-foreground">{pool.length ? `Up to ${sessionQuestionCount} question${sessionQuestionCount === 1 ? "" : "s"}. Overlapping exercises are kept apart.` : "No questions match yet. Try another chapter, a broader scope, or different filters."}</p><Button disabled={!pool.length || pending > 0} onClick={() => start()}>Start quiz</Button></CardFooter></Card>
-        <div className="grid grid-cols-2 gap-2 @lg:grid-cols-3">{([['Vocabulary','Vocabulary'],['order','Ordering'],['timeline','Timeline'],['family','Family tree'],['map','Map'],['text','Short answer']] as const).map(([value,label]) => <Button key={value} variant="outline" size="sm" disabled={pending > 0} onClick={() => start(bank.questions.filter(q => !q.practiceSet && (value === "Vocabulary" ? q.skill === value : q.kind === value)), `${label} · sample`, "practice")}>{label}</Button>)}</div>
-        <p className="text-xs text-muted-foreground">Example buttons use the whole question bank and Practice mode. Finish open sessions to browse answers in Questions. Saved progress is local to this device/browser.</p>
-        <Card><CardHeader><CardTitle>Optional challenges</CardTitle><CardDescription>Choose these separately from ordinary quizzes and quizzes after reading. They use Practice mode across the whole Bible, independently of the filters above.</CardDescription></CardHeader><CardContent className="flex flex-col gap-4 pb-4">
-          <div className="flex flex-col gap-2"><p className="text-sm">Verse memory starts with 12 selected verses. Use exact KJV wording; choose the session length above.</p><Button variant="outline" disabled={pending > 0} onClick={() => start(bank.questions.filter(q => q.practiceSet === "memory"), "Verse memory", "practice")}>Practice verse memory</Button></div>
-          <div className="flex flex-col gap-2"><p className="text-sm">Arrange a complete list in the app’s KJV table-of-contents order. Each list is one exercise.</p>{([['ot', 'Old Testament · 39 books'], ['nt', 'New Testament · 27 books'], ['bible', 'Whole Bible · 66 books']] as const).map(([scope, label]) => <Button key={scope} className="h-auto min-h-8 whitespace-normal" variant="outline" disabled={pending > 0} onClick={() => start(bank.questions.filter(q => q.id === `book-order-${scope}`), label, "practice")}>{label}</Button>)}</div>
-          <p className="text-xs text-muted-foreground">Results contribute to personal progress and review dates. These additions do not change the requirements of the October 26 coverage badges.</p>
+        </FieldGroup></CardContent><CardFooter className="flex flex-wrap justify-between gap-3"><p className="text-xs text-muted-foreground">{pool.length ? `Up to ${sessionQuestionCount} question${sessionQuestionCount === 1 ? "" : "s"}.` : "No questions match. Broaden your filters."}</p><Button disabled={!pool.length || pending > 0} onClick={() => start()}>Start quiz</Button></CardFooter></Card>
+        {pendingSessions.length ? <p className="text-xs text-muted-foreground">Finish open quizzes to browse Questions.</p> : null}
+        <Card><CardHeader className="pb-3"><CardTitle>Optional challenges</CardTitle><CardDescription>Whole-Bible practice · ignores filters above.</CardDescription><QuizHelp title="Optional challenges"><p>Verse memory uses exact KJV words, ignoring capitalization, punctuation, and extra spaces. It uses your selected question count.</p><p>Book ordering follows KJV book order, not historical chronology. Each complete list is one exercise.</p><p>These challenges count toward progress and reviews without changing existing badge requirements.</p></QuizHelp></CardHeader><CardContent className="flex flex-col gap-4 pb-4">
+          <div className="flex flex-col gap-2"><Button variant="outline" disabled={pending > 0} onClick={() => start(bank.questions.filter(q => q.practiceSet === "memory"), "Verse memory", "practice")}>Practice verse memory</Button></div>
+          <div className="flex flex-col gap-2"><p className="text-sm">Put the books in order.</p>{([['ot', 'Old Testament · 39 books'], ['nt', 'New Testament · 27 books'], ['bible', 'Whole Bible · 66 books']] as const).map(([scope, label]) => <Button key={scope} className="h-auto min-h-8 whitespace-normal" variant="outline" disabled={pending > 0} onClick={() => start(bank.questions.filter(q => q.id === `book-order-${scope}`), label, "practice")}>{label}</Button>)}</div>
         </CardContent></Card>
       </> : null}
       {view === "quiz" && session && entry && question ? <>
@@ -233,22 +237,38 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
           </CardFooter></Card><p role="status" className="text-xs text-muted-foreground">{pending > 0 ? "Saving…" : error ? "Some changes may be unsaved." : "Progress saved"} · {question.id}</p>
         </>}
       </> : null}
-      {view === "progress" && snapshot ? <>
-        <Card><CardHeader><CardTitle>Your learning progress</CardTitle><CardDescription>{objectives.length} available objectives · Reading progress is separate.</CardDescription></CardHeader><CardContent className="flex flex-col gap-3 pb-4"><div className="grid grid-cols-3 gap-3">{[[total.learned, "Learned"], [total.mastered, "Mastered"], [total.points, "Points"]].map(([n,label]) => <div key={label}><p className="text-2xl font-semibold">{n}</p><p className="text-xs text-muted-foreground">{label}</p></div>)}</div><Progress value={100 * total.mastered / objectives.length} aria-label="Available objectives mastered" /><p className="text-xs text-muted-foreground">Learned: one correct unassisted answer. Mastered: correct recall in separate sessions at least seven days apart. Later mistakes prompt review without removing earned mastery.</p>{milestone ? <Badge variant="secondary">Milestone: {milestone} objectives learned</Badge> : <p className="text-xs text-muted-foreground">Learn five objectives to earn your first milestone.</p>}</CardContent></Card>
+      {view === "progress" && snapshot ? <Tabs defaultValue="overview" className="min-w-0 gap-4">
+        <TabsList aria-label="Quiz progress sections" className="grid w-full min-w-0 grid-cols-2 group-data-horizontal/tabs:h-auto @min-[20rem]:grid-cols-4">
+          <TabsTrigger value="overview" className="h-7 min-w-0 after:hidden">Overview</TabsTrigger>
+          <TabsTrigger value="mastery" className="h-7 min-w-0 after:hidden">Mastery</TabsTrigger>
+          <TabsTrigger value="rewards" className="h-7 min-w-0 after:hidden">Rewards</TabsTrigger>
+          <TabsTrigger value="backup" className="h-7 min-w-0 after:hidden">Backup</TabsTrigger>
+        </TabsList>
+        <TabsContent value="overview" className="flex min-w-0 flex-col gap-4">
+        <Card><CardHeader className="pb-3"><CardTitle>Your learning progress</CardTitle><CardDescription>{objectives.length} available objectives</CardDescription><QuizHelp title="Learning progress"><p>Learned: one correct answer without help. Mastered: correct recall without help in separate sessions at least seven days apart.</p><p>Later mistakes prompt review without removing mastery. Quiz progress is separate from reading progress.</p></QuizHelp></CardHeader><CardContent className="flex flex-col gap-3 pb-4"><div className="grid grid-cols-3 gap-3">{[[total.learned, "Learned"], [total.mastered, "Mastered"], [total.points, "Points"]].map(([n,label]) => <div key={label}><p className="text-2xl font-semibold">{n}</p><p className="text-xs text-muted-foreground">{label}</p></div>)}</div><Progress value={100 * total.mastered / objectives.length} aria-label="Available objectives mastered" />{milestone ? <Badge variant="secondary">Milestone: {milestone} objectives learned</Badge> : <p className="text-xs text-muted-foreground">First milestone: 5 learned.</p>}</CardContent></Card>
         <QuizReview objectives={objectives} stats={stats} now={reviewNow} pending={pending > 0} onReview={key => {
           // Recheck at click time: the visible schedule refreshes once a minute.
           const current = quizStats(bank, snapshot.attempts);
           start(bank.questions.filter(q => current.get(q.objective)?.[key]), key === "due" ? "Practice due items" : "Review mistakes", "practice");
         }} />
-        <Suspense fallback={<p role="status">Loading practice rewards…</p>}><LazyQuizRewards bank={bank} attempts={snapshot.attempts} stats={stats} now={reviewNow} /></Suspense>
-        <Card><CardHeader><CardTitle>Skills and difficulty</CardTitle></CardHeader><CardContent className="flex flex-col gap-3">{[...Object.entries(QUIZ_SKILLS), ...["Easy", "Medium", "Hard"].map(v => [v,v])].map(([key,label]) => { const group = objectives.filter(q => q.skill === key || q.difficulty === key); return <div key={key}><p className="text-sm">{label}: {group.filter(q => stats.get(q.objective)?.learned).length} learned · {group.filter(q => stats.get(q.objective)?.mastered).length}/{group.length} mastered</p><Progress aria-label={`${label} mastery`} value={100 * group.filter(q => stats.get(q.objective)?.mastered).length / group.length} /></div>; })}</CardContent></Card>
-        <Suspense fallback={<p role="status">Loading mastery progress…</p>}><LazyQuizMastery bank={bank} attempts={snapshot.attempts} stats={stats} pending={pending > 0} onPractice={(selected, label) => {
+        <Suspense fallback={<p role="status">Loading completion badges…</p>}><LazyQuizCompletionBadges bank={bank} attempts={snapshot.attempts} /></Suspense>
+        </TabsContent>
+        <TabsContent value="mastery" className="flex min-w-0 flex-col gap-4">
+        <Card><CardHeader className="pb-3"><CardTitle>Skills and difficulty</CardTitle></CardHeader><CardContent className="flex flex-col gap-3">{[...Object.entries(QUIZ_SKILLS), ...["Easy", "Medium", "Hard"].map(v => [v,v])].map(([key,label]) => { const group = objectives.filter(q => q.skill === key || q.difficulty === key); return <div key={key}><p className="text-sm">{label}: {group.filter(q => stats.get(q.objective)?.learned).length} learned · {group.filter(q => stats.get(q.objective)?.mastered).length}/{group.length} mastered</p><Progress aria-label={`${label} mastery`} value={100 * group.filter(q => stats.get(q.objective)?.mastered).length / group.length} /></div>; })}</CardContent></Card>
+        <Suspense fallback={<p role="status">Loading mastery progress…</p>}><LazyQuizMastery bank={bank} stats={stats} pending={pending > 0} onPractice={(selected, label) => {
           const wanted = new Set(selected.map(q => q.objective));
           start(bank.questions.filter(q => wanted.has(q.objective)), label, "practice");
         }} /></Suspense>
+        </TabsContent>
+        <TabsContent value="rewards" className="flex min-w-0 flex-col gap-4">
+        <Suspense fallback={<p role="status">Loading practice rewards…</p>}><LazyQuizRewards bank={bank} attempts={snapshot.attempts} stats={stats} now={reviewNow} /></Suspense>
+        </TabsContent>
+        <TabsContent value="backup" className="min-w-0">
+          <Card><CardHeader className="pb-3"><CardTitle>Manage quiz progress</CardTitle><CardDescription>Saved in this browser. Export before clearing data or switching devices.</CardDescription></CardHeader><CardContent className="flex flex-col gap-4 pb-4">
         <div className="flex flex-wrap gap-2"><Button size="sm" variant="outline" onClick={() => void exportData()}><DownloadIcon data-icon="inline-start" />Export progress</Button><Button size="sm" variant="outline" onClick={() => inputRef.current?.click()} disabled={pending > 0}><UploadIcon data-icon="inline-start" />Import progress</Button><Button size="sm" variant="ghost" disabled={pending > 0} onClick={confirmReset}>Reset quiz progress</Button></div><input ref={inputRef} hidden type="file" accept=".json,application/json" aria-label="Import quiz backup" onChange={e => { void importFile(e.target.files?.[0]); e.target.value = ""; }} />
-        <p className="text-xs text-muted-foreground">Stored on this device/browser. Export a backup before clearing browser data or moving devices. First learning earns 10/20/30 points by difficulty; correct due reviews earn 5 points at most once per objective per day.</p>
-      </> : null}
+          </CardContent></Card>
+        </TabsContent>
+      </Tabs> : null}
       {view === "questions" && !pendingSessions.length ? <>
         <Field><FieldLabel htmlFor={`${owner}-question-search`}>Search questions</FieldLabel><Input id={`${owner}-question-search`} value={search} onChange={e => { setSearch(e.target.value); setQuestionPage(0); }} placeholder="Try ephah, creation, or Acts" /></Field>
         <nav aria-label="Question pages" className="flex flex-wrap items-center justify-between gap-2">
@@ -260,7 +280,6 @@ function QuizWorkspace({ bank, initialBook = "Genesis", initialChapter = 1, read
         </nav>
         <div role="list" aria-label="Question results" className="flex flex-col gap-4">{visibleQuestions.map(q => <Card key={q.id} role="listitem"><CardHeader><CardDescription>{quizScopeLabel(q)} · {q.difficulty} · {QUIZ_KINDS[q.kind]}</CardDescription><CardTitle>{q.prompt}</CardTitle></CardHeader><CardContent><details><summary className="cursor-pointer text-sm">Answer and evidence</summary><div className="mt-3 flex flex-col gap-3"><p className="text-sm font-medium">{quizAnswerLabel(q)}</p><p className="text-sm">{q.explanation}</p><QuizEvidence question={q} /><p className="text-xs text-muted-foreground">Question ID: {q.id}</p></div></details></CardContent></Card>)}</div>
       </> : null}
-      <Separator /><p className="text-xs text-muted-foreground">Bible quiz · KJV-based questions and cited passages. Vocabulary includes uncommon biblical terms, not only archaic English. Maps and modern unit estimates use the sources on Credits.</p>
       <Dialog open={!!confirmAction} onOpenChange={open => { if (!open) setConfirmAction(null); }}><DialogContent><DialogHeader><DialogTitle>{confirmAction?.title}</DialogTitle><DialogDescription>{confirmAction?.description}</DialogDescription></DialogHeader><DialogFooter><Button size="sm" variant="outline" onClick={() => setConfirmAction(null)}>Cancel</Button><Button size="sm" onClick={() => { const action = confirmAction; setConfirmAction(null); action?.run(); }}>Confirm</Button></DialogFooter></DialogContent></Dialog>
     </div>
   </section>;

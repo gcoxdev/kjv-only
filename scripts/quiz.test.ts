@@ -244,6 +244,21 @@ describe("quiz selection and recovery", () => {
     expect(filterQuizQuestions(bank, f, new Set(["2:18"])).some(q => q.id === "ephah")).toBe(false);
     expect(filterQuizQuestions(bank, f, new Set(["2:18", "8:16"])).some(q => q.id === "ephah")).toBe(true);
   });
+  it("combines question format with scope, skill, difficulty and read chapters", () => {
+    const creation = bank.questions.find(q => q.id === "creation-order")!;
+    const settings: QuizFilters = { ...filters, format: "order", skill: creation.skill, difficulty: creation.difficulty, readOnly: true };
+    const read = new Set(["0:0"]);
+    const selected = filterQuizQuestions(bank, settings, read);
+    expect(selected).toContain(creation);
+    expect(selected.every(q => q.kind === "order" && q.skill === creation.skill && q.difficulty === creation.difficulty && q.contexts.every(c => c.book === "Genesis" && c.chapter === 1))).toBe(true);
+    expect(filterQuizQuestions(bank, settings, new Set())).toEqual([]);
+    expect(filterQuizQuestions(bank, { ...settings, book: "Exodus" }, read)).toEqual([]);
+    expect(filterQuizQuestions(bank, { ...settings, skill: "Geography" }, read)).not.toContain(creation);
+    expect(filterQuizQuestions(bank, { ...settings, difficulty: creation.difficulty === "Easy" ? "Hard" : "Easy" }, read)).not.toContain(creation);
+    expect(filterQuizQuestions(bank, { ...settings, format: "choice" }, read)).not.toContain(creation);
+    expect(filterQuizQuestions(bank, { ...filters, format: "all" }, read)).toEqual(filterQuizQuestions(bank, filters, read));
+    expect(filterQuizQuestions(bank, { ...filters, scope: "bible", format: "memory" }, read)).toEqual([]);
+  });
   it("keeps new semantic overlaps apart even when their cited verses differ", () => {
     const pairs = [
       ["connections-joseph", "connections-egypt-accounts"],

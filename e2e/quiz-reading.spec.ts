@@ -115,11 +115,13 @@ test('Revelation sequence supports completion, skip, resume, and idempotent back
   const before=await saved(page);
   expect(before.readingFlows![0].steps.map(s=>s.skipped)).toEqual([false,'reader','reader',false]);
   await home.getByRole('button',{name:'Progress',exact:true}).click();
+  await home.getByRole('tab', {name:'Backup', exact:true}).click();
   const download=page.waitForEvent('download');await home.getByRole('button',{name:'Export progress',exact:true}).click();
   const path=await(await download).path();
   await home.getByRole('button',{name:'Reset quiz progress',exact:true}).click();await page.getByRole('button',{name:'Confirm',exact:true}).click();
   await expect.poll(async()=>(await saved(page)).sessions.length).toBe(0);
   for(let i=0;i<2;i++) {
+    await home.getByRole('tab', {name:'Backup', exact:true}).click();
     await home.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
     await page.getByRole('button',{name:'Confirm',exact:true}).click();
     await expect.poll(async()=>(await saved(page)).readingFlows?.length).toBe(1);

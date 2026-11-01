@@ -22,7 +22,7 @@ export type QuizQuestion = {
   places?: { name: string; lon: number; lat: number; sourceId: string }[]; mapLabels?: string[]; mapRegion?: QuizMapRegion;
 };
 export type QuizBank = { version: string; books: string[]; featured: { book: string; chapter: number }[]; questions: QuizQuestion[] };
-export type QuizFilters = { scope: "chapter" | "book" | "OT" | "NT" | "bible"; book: string; chapter: number; skill: QuizSkill | "all"; difficulty: QuizDifficulty | "all"; readOnly: boolean; content?: "all" | "connections" };
+export type QuizFilters = { scope: "chapter" | "book" | "OT" | "NT" | "bible"; book: string; chapter: number; skill: QuizSkill | "all"; format?: QuizKind | "all"; difficulty: QuizDifficulty | "all"; readOnly: boolean; content?: "all" | "connections" };
 export type QuizEntry = { id: string; version: number; answer: QuizAnswer; initial: QuizAnswer; choices: string[]; submitted: boolean; assisted: boolean; skipped: boolean; help: "none" | "passage" | "answer" };
 export type QuizSession = {
   id: string; bank: string; label: string; mode: "practice" | "assessment"; index: number;

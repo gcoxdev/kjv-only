@@ -21,6 +21,70 @@ async function readData(page: Page): Promise<QuizSnapshot> {
     };
   }));
 }
+
+for (const width of [320, 390, 1280]) test(`progress sub-tabs show one section at a time at ${width}px`, async ({page}) => {
+  const quiz = await quizPanel(page, width);
+  const setupHelp = quiz.getByRole('button', {name:'About quiz setup', exact:true});
+  if (width === 1280) await setupHelp.hover();
+  else await setupHelp.click();
+  const setupPopup = page.getByRole('dialog', {name:'Quiz setup', exact:true});
+  await expect(setupPopup).toContainText('Skill selects what you study');
+  expect(await setupPopup.evaluate(el => {
+    const rect = el.getBoundingClientRect();
+    return rect.left >= 0 && rect.right <= window.innerWidth && el.scrollWidth <= el.clientWidth;
+  })).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(setupPopup).not.toBeVisible();
+  await quiz.getByRole('button', {name:'Progress', exact:true}).click();
+  const tabs = quiz.getByRole('tablist', {name:'Quiz progress sections'});
+  await expect(tabs.getByRole('tab')).toHaveCount(4);
+  expect(await tabs.evaluate(el => el.scrollWidth <= el.clientWidth && el.scrollHeight <= el.clientHeight)).toBe(true);
+  await expect(tabs.getByRole('tab', {name:'Overview', exact:true})).toHaveAttribute('aria-selected', 'true');
+  await expect(quiz.getByText('Your learning progress', {exact:true})).toBeVisible();
+  await expect(quiz.getByText('Review schedule', {exact:true})).toBeVisible();
+  await expect(quiz.getByLabel('Completion badges', {exact:true})).toBeVisible();
+  const learningHelp = quiz.getByRole('button', {name:'About learning progress', exact:true});
+  await learningHelp.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog', {name:'Learning progress', exact:true})).toContainText('at least seven days apart');
+  await page.keyboard.press('Escape');
+  await expect(learningHelp).toBeFocused();
+  await expect(quiz.getByRole('button', {name:'Export progress', exact:true})).not.toBeVisible();
+  await tabs.getByRole('tab', {name:'Overview', exact:true}).focus();
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('Enter');
+  await expect(quiz.getByLabel('Mastery explorer', {exact:true})).toBeVisible();
+  await expect(quiz.getByText('Skills and difficulty', {exact:true})).toBeVisible();
+  await expect(quiz.getByLabel('Completion badges', {exact:true})).not.toBeVisible();
+  await expect(quiz.getByText('Your learning progress', {exact:true})).not.toBeVisible();
+  await tabs.getByRole('tab', {name:'Rewards', exact:true}).click();
+  await expect(quiz.getByLabel('Practice rewards', {exact:true})).toBeVisible();
+  await expect(quiz.getByLabel('Mastery explorer', {exact:true})).not.toBeVisible();
+  await tabs.getByRole('tab', {name:'Backup', exact:true}).click();
+  for (const name of ['Export progress', 'Import progress', 'Reset quiz progress']) {
+    await expect(quiz.getByRole('button', {name, exact:true})).toBeVisible();
+  }
+  await expect(quiz.getByRole('tabpanel')).toHaveCount(1);
+  expect(await quiz.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  await tabs.getByRole('tab', {name:'Overview', exact:true}).click();
+  const scan = await new AxeBuilder({page}).include('[aria-label="Bible quiz"]').analyze();
+  expect(scan.violations.filter(v => ['serious', 'critical'].includes(v.impact ?? ''))).toEqual([]);
+});
+
+test.describe('quiz help on touch', () => {
+  test.use({hasTouch:true});
+  test('opens with a tap and dismisses outside', async ({page}) => {
+    const quiz = await quizPanel(page, 390);
+    await quiz.getByRole('button', {name:'About quiz setup', exact:true}).tap();
+    const popup = page.getByRole('dialog', {name:'Quiz setup', exact:true});
+    await expect(popup).toBeVisible();
+    const scan = await new AxeBuilder({page}).include('[data-slot="popover-content"]').analyze();
+    expect(scan.violations.filter(v => ['serious', 'critical'].includes(v.impact ?? ''))).toEqual([]);
+    await quiz.getByRole('heading', {name:'Quiz', exact:true}).tap();
+    await expect(popup).not.toBeVisible();
+  });
+});
+
 async function importPracticeSession(page: Page, quiz: ReturnType<Page['getByRole']>, bank: QuizBank, questions: QuizQuestion[], id: string) {
   const time=Date.now();
   const fixture:QuizSnapshot={sessions:[{id,bank:bank.version,label:'Reviewed exercise verification',mode:'practice',index:0,done:false,created:time,updated:time,owner:null,leaseUntil:0,
@@ -30,6 +94,7 @@ async function importPracticeSession(page: Page, quiz: ReturnType<Page['getByRol
     })}],attempts:[]};
   const backup={type:'kjv-only-quiz',schema:1,bank:bank.version,exported:new Date(time).toISOString(),...fixture};
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
   await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles({name:`${id}.json`,mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});
   await page.getByRole('button',{name:'Confirm',exact:true}).click();
   await expect.poll(async()=> (await readData(page)).sessions.some(s=>s.id===id)).toBe(true);
@@ -82,8 +147,10 @@ for (const width of [390, 1280]) test(`review schedule updates across time and s
     fixture.attempts.push({id:`${id}:${q.id}`,session:id,qid:q.id,objective:q.objective,version:q.version,answer,correct:i===0,assisted:false,skipped:false,time:timestamp,points:i===0?({Easy:10,Medium:20,Hard:30}[q.difficulty]):0});
   }
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
   await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles({name:'schedule.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({type:'kjv-only-quiz',schema:1,bank:bank.version,...fixture}))});
   await page.getByRole('button',{name:'Confirm',exact:true}).click();
+  await quiz.getByRole('tab', {name:'Overview', exact:true}).click();
   const card = quiz.locator('[data-slot=card]').filter({has:page.getByText('Review schedule',{exact:true})});
   const count = (label:string) => card.getByText(label,{exact:true}).locator('..');
   await expect(count('Due now')).toHaveText('1Due now');
@@ -143,7 +210,11 @@ for(const width of [390,1280]) test(`sidebar quiz, interactive controls, evidenc
   await sidebar.getByRole('button',{name:'Quiz',exact:true}).click();
   const quiz=sidebar.getByRole('region',{name:'Bible quiz',exact:true});
   await expect(quiz.getByRole('button',{name:'Start quiz',exact:true})).toBeVisible();
-  await quiz.getByRole('button',{name:'Family tree',exact:true}).click();
+  for (const [label, option] of [['Scope', 'Whole Bible'], ['Question format', 'Family tree']]) {
+    await quiz.getByRole('combobox', {name:label, exact:true}).click();
+    await page.getByRole('option', {name:option, exact:true}).click();
+  }
+  await quiz.getByRole('button',{name:'Start quiz',exact:true}).click();
   const count=(await readData(page)).sessions.find(s=>!s.done)!.entries.length;
   for(let i=0;i<count;i++) {
     const question=await solveCurrent(page,quiz);
@@ -175,6 +246,7 @@ test('takeover makes the other view read-only and importing twice is idempotent'
   const result=await readData(second);expect(result.attempts).toHaveLength(count);
   await other.getByRole('button', {name:'Progress',exact:true}).click();
   const downloadPromise=second.waitForEvent('download');
+  await other.getByRole('tab', {name:'Backup', exact:true}).click();
   await other.getByRole('button', {name:'Export progress',exact:true}).click();
   const backupPath=await (await downloadPromise).path();
   expect(backupPath).toBeTruthy();
@@ -182,6 +254,7 @@ test('takeover makes the other view read-only and importing twice is idempotent'
   await second.getByRole('button', {name:'Confirm',exact:true}).click();
   await expect.poll(async()=> (await readData(second)).attempts.length).toBe(0);
   for(let i=0;i<2;i++) {
+    await other.getByRole('tab', {name:'Backup', exact:true}).click();
     await other.getByLabel('Import quiz backup', {exact:true}).setInputFiles(backupPath!);
     await second.getByRole('button', {name:'Confirm',exact:true}).click();
     await expect.poll(async()=> (await readData(second)).attempts.length).toBe(count);
@@ -231,6 +304,7 @@ test('large-bank browsing pages results, searches all questions, and opens chapt
   await expect(pages).toContainText('Questions 1–25 of 8986');
 
   await quiz.getByRole('button', {name:'Progress', exact:true}).click();
+  await quiz.getByRole('tab', {name:'Mastery', exact:true}).click();
   const explorer = quiz.locator('[aria-label="Mastery explorer"]');
   await expect(explorer.locator('ul li')).toHaveCount(0);
   await explorer.locator('[data-mastery-scope="NT"] > summary').click();
@@ -246,7 +320,11 @@ test('large-bank browsing pages results, searches all questions, and opens chapt
 
 for (const example of ['Ordering', 'Timeline', 'Short answer']) test(`${example} controls grade and persist every selected exercise`, async ({page})=>{
   const quiz=await quizPanel(page,390);
-  await quiz.getByRole('button',{name:example,exact:true}).click();
+  for (const [label, option] of [['Scope', 'Whole Bible'], ['Question format', example]]) {
+    await quiz.getByRole('combobox', {name:label, exact:true}).click();
+    await page.getByRole('option', {name:option, exact:true}).click();
+  }
+  await quiz.getByRole('button',{name:'Start quiz',exact:true}).click();
   const count=(await readData(page)).sessions[0].entries.length;
   for(let i=0;i<count;i++) {
     await solveCurrent(page,quiz);
@@ -255,6 +333,28 @@ for (const example of ['Ordering', 'Timeline', 'Short answer']) test(`${example}
   }
   await expect(quiz.getByText('Session complete',{exact:true})).toBeVisible();
   expect((await readData(page)).attempts.every(a=>a.correct)).toBe(true);
+});
+
+test('question format respects chapter, skill and assessment settings on mobile', async ({page}) => {
+  const quiz = await quizPanel(page, 390);
+  const bank: QuizBank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
+  const creation = bank.questions.find(q => q.id === 'creation-order')!;
+  for (const [label, option] of [['Skill', 'Event sequence'], ['Question format', 'Ordering'], ['Difficulty', creation.difficulty], ['Mode', 'Assessment · feedback at end']]) {
+    await quiz.getByRole('combobox', {name:label, exact:true}).click();
+    await page.getByRole('option', {name:option, exact:true}).click();
+  }
+  await quiz.getByRole('switch', {name:'Only chapters marked read', exact:true}).click();
+  await expect(quiz.getByRole('button', {name:'Start quiz', exact:true})).toBeDisabled();
+  await quiz.getByRole('switch', {name:'Only chapters marked read', exact:true}).click();
+  await quiz.getByRole('button', {name:'Start quiz', exact:true}).click();
+  await expect(quiz.getByRole('button', {name:'Submit answer', exact:true})).toBeVisible();
+  const session = (await readData(page)).sessions.find(s => !s.done)!;
+  expect(session.mode).toBe('assessment');
+  expect(session.entries.length).toBeGreaterThan(0);
+  for (const entry of session.entries) {
+    const q = bank.questions.find(q => q.id === entry.id)!;
+    expect(q).toMatchObject({kind:'order', skill:'Sequence', difficulty:creation.difficulty, book:'Genesis', chapter:1, scopeLevel:'chapter'});
+  }
 });
 
 test('damaged progress is preserved for export and can be reset explicitly',async({page})=>{
@@ -409,6 +509,7 @@ test('broader connections respect scope and keep progress outside chapter object
     await quiz.getByRole('button', {name:i === 3 ? 'Finish quiz' : 'Next', exact:true}).click();
   }
   await quiz.getByRole('button', {name:'Progress', exact:true}).click();
+  await quiz.getByRole('tab', {name:'Mastery', exact:true}).click();
   const explorer = quiz.locator('[aria-label="Mastery explorer"]');
   await explorer.locator('summary').filter({hasText:/^Whole Bible broader connections/}).click();
   await expect(explorer.locator('li')).toHaveCount(22);
@@ -532,15 +633,18 @@ test('alternate recall preserves existing credit, deduplicates progress, and sur
   expect(result.attempts.map(a => a.points).sort((a,b) => a-b)).toEqual([5,10]);
   expect(new Set(result.attempts.map(a => a.objective)).size).toBe(1);
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
+  await quiz.getByRole('tab', {name:'Mastery', exact:true}).click();
   const skills = quiz.locator('[data-slot=card]').filter({hasText:'Skills and difficulty'});
   await expect(skills).toContainText('Passage comprehension: 1 learned');
   const download = page.waitForEvent('download');
+  await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
   await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
   const path = await (await download).path();
   await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
   await page.getByRole('button',{name:'Confirm',exact:true}).click();
   await expect.poll(async () => (await readData(page)).attempts.length).toBe(0);
   for (let i=0;i<2;i++) {
+    await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
     await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
     await page.getByRole('button',{name:'Confirm',exact:true}).click();
     await expect.poll(async () => (await readData(page)).attempts.length).toBe(2);
@@ -552,7 +656,8 @@ test('alternate recall preserves existing credit, deduplicates progress, and sur
 test('revised distractors preserve old choices, wrong answers and earned credit', async ({page}) => {
   const quiz = await quizPanel(page,390);
   const bank: QuizBank = await (await page.request.get('/data/quiz-pilot-v1.json')).json();
-  const questions = ['03-19-7','05-29-4'].map(id => bank.questions.find(q => q.id === id)!);
+  // Exercise both the final editorial pass and the earlier corrected options.
+  const questions = ['66-14-4','05-29-4'].map(id => bank.questions.find(q => q.id === id)!);
   const oldQuestions = questions.map(q => ({...q, choices:q.previousChoices![0]}));
   await importPracticeSession(page,quiz,bank,oldQuestions,'before-choice-revision');
   const oldWrong = oldQuestions[0].choices.find(choice => choice !== oldQuestions[0].answer)!;
@@ -569,12 +674,14 @@ test('revised distractors preserve old choices, wrong answers and earned credit'
   expect(await readData(page)).toEqual(completed);
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
   const download = page.waitForEvent('download');
+  await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
   await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
   const path = await (await download).path();
   await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
   await page.getByRole('button',{name:'Confirm',exact:true}).click();
   await expect.poll(async()=>(await readData(page)).attempts.length).toBe(0);
   for(let i=0;i<2;i++) {
+    await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
     await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
     await page.getByRole('button',{name:'Confirm',exact:true}).click();
     await expect.poll(async()=>(await readData(page)).attempts).toEqual(completed.attempts);
@@ -605,12 +712,14 @@ test('corrected answer preserves old credit and displays the correction', async 
   await page.reload();
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
   const download = page.waitForEvent('download');
+  await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
   await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
   const path = await (await download).path();
   await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
   await page.getByRole('button',{name:'Confirm',exact:true}).click();
   await expect.poll(async()=>(await readData(page)).attempts.length).toBe(0);
   for(let i=0;i<2;i++) {
+    await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
     await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
     await page.getByRole('button',{name:'Confirm',exact:true}).click();
     await expect.poll(async()=>(await readData(page)).attempts).toEqual(saved.attempts);
@@ -650,6 +759,7 @@ test('difficulty corrections retain old backup rewards and resume an older sessi
   const backup = {type:'kjv-only-quiz',schema:1,bank:bank.version,exported:new Date(time).toISOString(),...original};
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
   for (let i=0;i<2;i++) {
+    await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
     await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles({name:'old-hard-progress.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});
     await page.getByRole('button',{name:'Confirm',exact:true}).click();
     await expect.poll(async () => (await readData(page)).attempts.map(a => a.points)).toEqual([30]);
@@ -664,12 +774,14 @@ test('difficulty corrections retain old backup rewards and resume an older sessi
   expect(completed.attempts.find(a => a.qid === pendingQuestion.id)?.points).toBe(10);
   await quiz.getByRole('button',{name:'Progress',exact:true}).click();
   const download = page.waitForEvent('download');
+  await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
   await quiz.getByRole('button',{name:'Export progress',exact:true}).click();
   const path = await (await download).path();
   await quiz.getByRole('button',{name:'Reset quiz progress',exact:true}).click();
   await page.getByRole('button',{name:'Confirm',exact:true}).click();
   await expect.poll(async () => (await readData(page)).attempts.length).toBe(0);
   for (let i=0;i<2;i++) {
+    await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
     await quiz.getByLabel('Import quiz backup',{exact:true}).setInputFiles(path!);
     await page.getByRole('button',{name:'Confirm',exact:true}).click();
     await expect.poll(async () => (await readData(page)).attempts.reduce((sum,a) => sum+a.points,0)).toBe(40);

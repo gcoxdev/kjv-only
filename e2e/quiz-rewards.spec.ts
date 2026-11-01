@@ -29,15 +29,18 @@ for (const width of [390, 1280]) test(`quiz rewards are optional, restore and re
   await page.goto('/#tab=0&tabs=h&layout=Quiz:quiz');
   const quiz = page.getByRole('region', { name: 'Bible quiz', exact: true }).first();
   await quiz.getByRole('button', { name: 'Progress', exact: true }).click();
+  await quiz.getByRole('tab', {name:'Rewards', exact:true}).click();
   const rewards = quiz.getByLabel('Practice rewards', { exact: true });
   const streakSwitch = rewards.getByRole('switch', { name: 'Show quiz practice streak', exact: true });
   await expect(streakSwitch).not.toBeChecked();
   await expect(rewards.getByRole('switch', { name: 'Quiz completion celebrations', exact: true })).not.toBeChecked();
   await expect(rewards.getByRole('region', { name: 'Quiz practice streak' })).toHaveCount(0);
   const bank: QuizBank = await (await page.request.get('/data/quiz-pilot-v1.json')).json(), backup = fixture(bank, now);
+  await quiz.getByRole('tab', {name:'Backup', exact:true}).click();
   await quiz.getByLabel('Import quiz backup', { exact: true }).setInputFiles({ name: 'rewards.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(backup)) });
   await page.getByRole('button', { name: 'Confirm', exact: true }).click();
   await expect.poll(async () => (await saved(page)).attempts.length).toBe(8);
+  await quiz.getByRole('tab', {name:'Rewards', exact:true}).click();
   await streakSwitch.check();
   await rewards.getByRole('switch', { name: 'Quiz completion celebrations', exact: true }).check();
   await expect(rewards.getByRole('region', { name: 'Quiz practice streak' })).toContainText('3 days current · 3 best · 4 practiced');
@@ -56,6 +59,7 @@ for (const width of [390, 1280]) test(`quiz rewards are optional, restore and re
   await other.goto('/#tab=0&tabs=h&layout=Quiz:quiz');
   const otherQuiz = other.getByRole('region', { name: 'Bible quiz', exact: true }).first();
   await otherQuiz.getByRole('button', { name: 'Progress', exact: true }).click();
+  await otherQuiz.getByRole('tab', {name:'Rewards', exact:true}).click();
   await expect(otherQuiz.getByRole('switch', { name: 'Show quiz practice streak', exact: true })).toBeChecked();
   await otherQuiz.getByRole('switch', { name: 'Show quiz practice streak', exact: true }).uncheck();
   await expect(streakSwitch).not.toBeChecked();
@@ -71,6 +75,7 @@ for (const width of [390, 1280]) test(`quiz rewards are optional, restore and re
   const completed = await saved(page);
   await page.reload();
   await quiz.getByRole('button', { name: 'Progress', exact: true }).click();
+  await quiz.getByRole('tab', {name:'Rewards', exact:true}).click();
   await expect(rewards.getByRole('region', { name: 'Quiz practice streak' })).toContainText('4 days current · 4 best · 5 practiced');
   await expect(quiz.getByText(/Well done!/)).toHaveCount(0);
   await expect(page.locator('.confetti-piece')).toHaveCount(0);

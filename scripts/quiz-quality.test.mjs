@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { auditQuizChoices } from "./quiz-quality.mjs";
+import { auditQuizChoices, quizQualityFingerprint, reviewedQuizQuality } from "./quiz-quality.mjs";
 
 const question = (change = {}) => ({ id: "sample", book: "Genesis", chapter: 1, scopeLevel: "chapter", difficulty: "Easy", kind: "choice", answer: "Light", choices: ["Light", "Darkness", "Waters", "Earth"], prompt: "What is called Day?", ...change });
 describe("quiz authoring signals", () => {
@@ -26,14 +26,42 @@ describe("quiz authoring signals", () => {
     expect(result.summary.choices).toBe(0);
     expect(result.flagged).toEqual([]);
   });
+  it("keeps approved flags visible and invalidates changed wording or evidence", () => {
+    const q = question({ prompt: "Which is greatest among faith, hope, and charity?", answer: "Charity", choices: ["Charity", "Faith", "Hope", "They are not compared"], refs: [{ label: "1 Corinthians 13:13" }] });
+    const review = { id: q.id, fingerprint: quizQualityFingerprint(q), flags: ["answer-in-prompt"], rationale: "Names all three compared virtues without identifying the greatest.", evidence: "1 Corinthians 13:13" };
+    const approved = reviewedQuizQuality([q], [review]);
+    expect(approved.summary.answerInPrompt).toBe(1);
+    expect(approved.flagged).toHaveLength(1);
+    expect(approved.reviewed).toHaveLength(1);
+    expect(approved.needsReview).toEqual([]);
+    expect(approved.invalidReviews).toEqual([]);
+    expect(reviewedQuizQuality([{ ...q, choices: [...q.choices].reverse(), previousChoices: [["A", "B", "C", "D"]] }], [review]).needsReview).toEqual([]);
+    for (const change of [{ prompt: "Charity is greatest. What is greatest?" }, { choices: ["Charity", "Only faith", "Only hope", "Nothing"] }, { refs: [{ label: "Another passage" }] }, { explanation: "A changed explanation" }]) {
+      const result = reviewedQuizQuality([{ ...q, ...change }], [review]);
+      expect(result.invalidReviews).toEqual([q.id]);
+      expect(result.needsReview).toHaveLength(1);
+    }
+    expect(reviewedQuizQuality([q, { ...q, id: "new-question" }], [review]).needsReview.map(row => row.id)).toEqual(["new-question"]);
+    expect(reviewedQuizQuality([q], [{ ...review, flags: ["absolutes-in-every-distractor"] }]).invalidReviews).toEqual([q.id]);
+    expect(() => reviewedQuizQuality([q], [review, review])).toThrow(/duplicate/);
+    expect(() => reviewedQuizQuality([q], [{ ...review, rationale: "" }])).toThrow(/Invalid/);
+  });
   it("does not worsen the current bank's aggregate cue counts", () => {
     const bank = JSON.parse(readFileSync("public/data/quiz-pilot-v1.json", "utf8"));
     const { summary, flagged } = auditQuizChoices(bank.questions);
-    // Reviewed 2026-10-31 starting point, NOT a quality target or an item-level
-    // approval. Tighten these ceilings as editorial batches land. Any increase
-    // requires review; never pad wording merely to pass this guard.
-    const ceilings = { uniqueLongest: 5033, uniqueShortest: 1281, lengthOver1_5: 1279, lengthOver1_8: 0, distractorsWithAbsolutes: 6603, allDistractorsAbsolute: 371, answerInPrompt: 1 };
+    // Reviewed 2026-10-31 closeout, NOT a quality target or item-level approval.
+    // Natural alternatives reduced longest answers from 5,033 to 3,686; shortest
+    // answers rose from 1,281 to 1,433. Track both without padding to meet a quota.
+    // Any increase requires review; the following test also checks individual flags.
+    const ceilings = { uniqueLongest: 3686, uniqueShortest: 1433, lengthOver1_5: 2, lengthOver1_8: 0, distractorsWithAbsolutes: 4453, allDistractorsAbsolute: 0, answerInPrompt: 1 };
     for (const [key, ceiling] of Object.entries(ceilings)) expect(summary[key], key).toBeLessThanOrEqual(ceiling);
     for (const id of ["43-15-1", "04-31-9", "05-29-4", "40-4-5"]) expect(flagged.some(q => q.id === id), `${id} should no longer trigger these signals`).toBe(false);
+  });
+  it("requires a current documented review for every remaining editorial signal", () => {
+    const bank = JSON.parse(readFileSync("public/data/quiz-pilot-v1.json", "utf8"));
+    const reviews = JSON.parse(readFileSync("scripts/quiz-quality-reviews.json", "utf8"));
+    const report = reviewedQuizQuality(bank.questions, reviews);
+    expect(report.invalidReviews, "Changed wording or evidence needs a fresh review").toEqual([]);
+    expect(report.needsReview.map(row => ({ id: row.id, flags: row.flags })), "Review new signals; do not merely add exceptions to pass CI").toEqual([]);
   });
 });

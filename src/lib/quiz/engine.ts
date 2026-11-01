@@ -60,6 +60,7 @@ export function quizStats(bank: QuizBank, attempts: QuizAttempt[], now = Date.no
 export function filterQuizQuestions(bank: QuizBank, filters: QuizFilters, readChapters: ReadonlySet<string>) {
   return bank.questions.filter(q => {
     if (q.practiceSet) return false;
+    if (filters.format && filters.format !== "all" && q.kind !== filters.format) return false;
     if (filters.skill !== "all" && q.skill !== filters.skill || filters.difficulty !== "all" && q.difficulty !== filters.difficulty) return false;
     if (filters.scope !== "chapter" && filters.content === "connections" && q.scopeLevel === "chapter") return false;
     if (filters.readOnly && (q.contexts.length === 0 || q.contexts.some(c => !readChapters.has(`${bank.books.indexOf(c.book)}:${c.chapter - 1}`)))) return false;
