@@ -234,7 +234,12 @@ for(const width of [390,1280]) test(`sidebar quiz, interactive controls, evidenc
 });
 
 test('takeover makes the other view read-only and importing twice is idempotent',async({page,context})=>{
-  const quiz=await quizPanel(page);await quiz.getByRole('button',{name:'Map',exact:true}).click();
+  const quiz=await quizPanel(page);
+  for (const [label, option] of [['Scope', 'Whole Bible'], ['Question format', 'Map']]) {
+    await quiz.getByRole('combobox', {name:label, exact:true}).click();
+    await page.getByRole('option', {name:option, exact:true}).click();
+  }
+  await quiz.getByRole('button', {name:'Start quiz', exact:true}).click();
   const second=await context.newPage();const other=await quizPanel(second);
   await other.getByRole('button',{name:'Continue',exact:true}).click();await second.getByRole('button',{name:'Confirm',exact:true}).click();await expect(quiz.getByText('This session is open in another view. Your answers are protected.')).toBeVisible();
   await expect(quiz.getByRole('button', {name:'Submit answer',exact:true})).toBeDisabled();

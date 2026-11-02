@@ -47,6 +47,10 @@ updates:
           - minor
           - patch
     ignore:
+      # jsdom 30 requires Node >=22.22.2; retain support for older Nixpacks Node 22.
+      - dependency-name: jsdom
+        versions:
+          - ">=30 <31"
       - dependency-name: typescript
         update-types:
           - version-update:semver-major
