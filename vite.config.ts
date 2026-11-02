@@ -326,6 +326,7 @@ export default defineConfig({
           if (
             id.includes("/node_modules/@base-ui/") ||
             id.includes("/node_modules/lucide-react/") ||
+            id.includes("/node_modules/react-resizable-panels/") ||
             id.includes("/node_modules/cmdk/") ||
             id.includes("/node_modules/sonner/")
           ) {
